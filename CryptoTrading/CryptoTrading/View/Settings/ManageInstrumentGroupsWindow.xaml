@@ -1,0 +1,76 @@
+﻿<srcTickQuantLib:TQXceedChildWindow x:Class="CryptoTrading.InstrumentGroupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xtk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:tq="clr-namespace:CryptoTrading"
+        xmlns:srcTickQuantLib="clr-namespace:CryptoTrading.TQLib"
+        x:Name="InstrumentGroupWin" Height="400" Width="750" Loaded="InstrumentGroupWin_Loaded" Closed="InstrumentGroupWin_Closed">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="150*"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="210"></ColumnDefinition>
+            <ColumnDefinition Width="164"></ColumnDefinition>
+            <ColumnDefinition Width="22"/>
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="161"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Name="lblOptionalInstrumentGroup" Grid.Row="0" Content="自选合约组" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,8,0,8" Height="34" Width="100"></Label>
+        <Label Name="lblTips" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" Foreground="Red" Content="快捷键格式为Control/Alt/Shift+大写字母。" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Left" Height="28" Margin="0,11" Width="286"></Label>
+
+        <DataGrid Name="gridOptionalInstrumentGroup" Grid.Row="1" Grid.ColumnSpan="5" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False"
+                  AlternatingRowBackground="Gray" AlternationCount="2" CanUserAddRows="False"
+                  RowEditEnding="gridOptionalInstrumentGroup_RowEditEnding" Margin="0,0,-144,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="合约组名" Width="150"   FontSize="14" IsReadOnly="False" Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></DataGridTextColumn>
+                <!--<DataGridTextColumn Header="切换快捷键" Width="150" FontSize="14" IsReadOnly="False" Binding="{Binding CmdKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />-->
+                <DataGridTemplateColumn Header="快捷代码">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <tq:BareTextBox x:Name="txtCmdKey" Text="{Binding CmdKey,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="70"></tq:BareTextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            <!--行表头的颜色-->
+            <DataGrid.RowHeaderStyle>
+                <Style TargetType="DataGridRowHeader">
+                    <Setter Property="Width" Value="20"/>
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="White" Offset="0"/>
+                                <!--这里用到了两种颜色  也可以多层  这样就可以产生一种渐变的效果或立体感-->
+                                <GradientStop Color="SkyBlue" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.RowHeaderStyle>
+            <!--给整个表头添加颜色开始-->
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="White" Offset="0"/>
+                                <GradientStop Color="LightBlue" Offset="0.5"/>
+                                <GradientStop Color="White" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="FontSize" Value="16" />
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <!--给整个表头添加颜色结束-->
+
+        </DataGrid>
+        <Button Name="btnAdd" Grid.Row="2" Grid.Column="0" Height="30" Content="增加"  FontSize="16" VerticalAlignment="Center" Click="btnAdd_Click" Margin="36,10,37,10" />
+        <Button Name="btnDel" Grid.Row="2" Grid.Column="1" Width="80" Height="30" Content="删除"  FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" Click="btnDel_Click" Margin="53,10,32,10" ></Button>
+        <Button Name="btnSave" Grid.Row="2" Grid.Column="4" Width="80" Height="30" Content="保存" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" Click="btnSave_Click" Margin="43,10,39,10"></Button>
+    </Grid>
+</srcTickQuantLib:TQXceedChildWindow>

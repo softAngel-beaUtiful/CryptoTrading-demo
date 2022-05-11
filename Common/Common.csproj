@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Common\**" />
+    <EmbeddedResource Remove="Common\**" />
+    <None Remove="Common\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="ExchangeSharp.csproj" />
+    <None Include="Trady.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JWT" Version="8.1.3" />
+    <PackageReference Include="MySql.Data" Version="8.0.23" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExchangeSharp-master\src\ExchangeSharp\ExchangeSharp.csproj" />
+    <ProjectReference Include="..\Trady-master\Trady.Analysis\Trady.Analysis.csproj" />
+    <ProjectReference Include="..\Trady-master\Trady.Core\Trady.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Trady.Core">
+      <HintPath>..\Trady-master\Trady.Core\bin\Release\netstandard2.0\Trady.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

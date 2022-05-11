@@ -1,0 +1,317 @@
+﻿<Config>
+    <Investor ID="81332957" BrokerName="瑞龙期货" BrokerConfig="rlqh_real.xml" BrokerServer="电信网络" LastLoginTime="20160620164343" />
+    <Mail Name="TickQuantService@163.com" Password="2016@SZ" />
+    <DefaultQuant>1</DefaultQuant>
+    <DefaultOrderOption>1</DefaultOrderOption>
+    <DefaultUILayout>Professional</DefaultUILayout>
+    <DefaultInstrumentIDGroup>DefaultGroup</DefaultInstrumentIDGroup>
+    <ConfirmOrder>false</ConfirmOrder>
+    <TradingDay>20180124</TradingDay>
+    <RequestID>0</RequestID>
+    <UsePreSettlementPrice>true</UsePreSettlementPrice>
+    <AccountDataGridColumns>
+        <item Title="ExchangeName" Display="True" Name="ExchangeID" Sort="1" />
+        <item Title="UserID" Display="True" Name="InvestorID" Sort="2" />
+        <item Title="CoinID" Display="True" Name="DigitalCurrencyID" Sort="3" />
+        <item Title="Equity" Display="True" Name="Equity" Sort="4" />
+        <item Title="EquityBTC" Display="True" Name="BalanceBtc" Sort="5" />
+        <item Title="Unrealized" Display="True" Name="PositionProfit" Sort="6" />
+        <item Title="UsedMargin" Display="True" Name="UsedMargin" Sort="7" />
+        <item Title="Realized" Display="True" Name="CloseProfit" Sort="8" />
+        <item Title="Fees" Display="False" Name="Commission" Sort="9" />
+        <item Title="LockedMargin" Display="True" Name="FrozenMargin" Sort="10" />
+        <item Title="AvailableMargin" Display="True" Name="Available" Sort="11" />
+        <item Title="RiskRate" Display="True" Name="Risk" Sort="12" />
+        <item Title="LockedFees" Display="False" Name="FrozenCommission" Sort="13" />
+    </AccountDataGridColumns>
+    <InstrumentDataGridColumns>
+        <item Title="Symbol" Display="True" Name="Name" Sort="1" />
+        <item Title="SymbolID" Display="True" Name="ContractId" Sort="2" />
+        <item Title="InstrumentID" Display="True" Name="InstrumentID" Sort="3" />
+        <item Title="ExchangeID" Display="True" Name="ExchangeID" Sort="4" />
+        <item Title="PriceTick" Display="True" Name="PriceTick" Sort="5" />
+        <item Title="ProductClass" Display="True" Name="ProductClass" Sort="6" />
+        <item Title="DeliveryDate" Display="False" Name="DeliveryDate" Sort="7" />
+        <item Title="LifePhase" Display="True" Name="InstLifePhase" Sort="8" />
+        <item Title="Expired" Display="True" Name="IsTrading" Sort="9" />
+        <item Title="ContractValue" Display="True" Name="ContractValue" Sort="10" />
+        <item Title="DeliveryPrice" Display="True" Name="DeliveryPrice" Sort="11" />
+        <item Title="CombinationType" Display="True" Name="CombinationType" Sort="12" />
+    </InstrumentDataGridColumns>
+    <MarketDataGridColumns>
+        <item Title="Exchange" Display="True" Name="ExchangeID" Sort="1" />
+        <item Title="symbol" Display="True" Name="InstrumentID" Sort="2" />
+        <item Title="Name" Display="True" Name="BaseName" Sort="3" />
+        <item Title="Last" Display="True" Name="LastPrice" Sort="4" />
+        <item Title="Change" Display="False" Name="Change" Sort="5" />
+        <item Title="BidSize5" Display="False" Name="BidSize5" Sort="6" />
+        <item Title="BidPrice5" Display="False" Name="BidPrice5" Sort="7" />
+        <item Title="BidSize4" Display="False" Name="BidSize4" Sort="8" />
+        <item Title="BidPrice4" Display="False" Name="BidPrice4" Sort="9" />
+        <item Title="BidSize3" Display="False" Name="BidSize3" Sort="10" />
+        <item Title="BidPrice3" Display="False" Name="BidPrice3" Sort="11" />
+        <item Title="BidSize2" Display="False" Name="BidSize2" Sort="12" />
+        <item Title="BidPrice2" Display="False" Name="BidPrice2" Sort="13" />
+        <item Title="BidSize1" Display="True" Name="BidSize1" Sort="14" />
+        <item Title="BidPrice1" Display="True" Name="BidPrice1" Sort="15" />
+        <item Title="AskPrice1" Display="True" Name="AskPrice1" Sort="16" />
+        <item Title="AskSize1" Display="True" Name="AskSize1" Sort="17" />
+        <item Title="AskPrice2" Display="False" Name="AskPrice2" Sort="18" />
+        <item Title="AskSize2" Display="False" Name="AskSize2" Sort="19" />
+        <item Title="AskPrice3" Display="False" Name="AskPrice3" Sort="20" />
+        <item Title="AskSize3" Display="False" Name="AskSize3" Sort="21" />
+        <item Title="AskPrice4" Display="False" Name="AskPrice4" Sort="22" />
+        <item Title="AskSize4" Display="False" Name="AskSize4" Sort="23" />
+        <item Title="AskPrice5" Display="False" Name="AskPrice5" Sort="24" />
+        <item Title="AskPrice5" Display="False" Name="AskSize5" Sort="25" />
+        <item Title="Highest" Display="False" Name="HighestPrice" Sort="26" />
+        <item Title="Lowest" Display="False" Name="LowestPrice" Sort="27" />
+        <item Title="Volume" Display="False" Name="Volume" Sort="28" />
+        <item Title="ContractID" Display="False" Name="ContractId" Sort="29" />
+        <item Title="OpenInterest" Display="False" Name="OpenInterest" Sort="30" />
+        <item Title="UpdateTime" Display="True" Name="UpdateTime" Sort="31" />
+        <item Title="LimitHigh" Display="False" Name="LimitHigh" Sort="32" />
+        <item Title="LimitLow" Display="False" Name="LimitLow" Sort="33" />
+        <item Title="Custom" Display="False" Name="IsCombo" Sort="34" />
+    </MarketDataGridColumns>
+    <TodayOrdersGridColumns>
+        <item Title="" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="Direction" Display="True" Name="Direction" Sort="2" />
+        <item Title="Hedge" Display="False" Name="Hedge" Sort="3" />
+        <item Title="Open/Close" Display="True" Name="Offset" Sort="4" />
+        <item Title="Exchange" Display="True" Name="ExchangeID" Sort="5" />
+        <item Title="ComboFlag" Display="False" Name="CombOffsetFlag" Sort="6" />
+        <item Title="OrderPrice" Display="True" Name="OrderPrice" Sort="7" />
+        <item Title="OrderSize" Display="True" Name="OrderSize" Sort="8" />
+        <item Title="ContigentCondition" Display="False" Name="ContingentCondition" Sort="9" />
+        <item Title="OrderPriceType" Display="False" Name="OrderPriceType" Sort="10" />
+        <item Title="StopPrice" Display="False" Name="StopPrice" Sort="11" />
+        <item Title="OrderSubmitStatus" Display="False" Name="OrderSubmitStatus" Sort="12" />
+        <item Title="OrderStatus" Display="True" Name="OrderStatus" Sort="13" />
+        <item Title="OrderPriceType" Display="True" Name="OrderPriceType" Sort="14" />
+        <item Title="StatusMsg" Display="False" Name="StatusMsg" Sort="15" />
+        <item Title="QuantFilled" Display="True" Name="QuantFilled" Sort="16" />
+        <item Title="QuantUnfilled" Display="True" Name="QuantUnfilled" Sort="17" />
+        <item Title="CreateTime" Display="True" Name="CreateTime" Sort="18" />
+        <item Title="UpdateTime" Display="True" Name="UpdateTime" Sort="19" />
+        <item Title="InvestorID" Display="True" Name="InvestorID" Sort="20" />
+        <item Title="OrderID" Display="True" Name="OrderID" Sort="21" />
+    </TodayOrdersGridColumns>
+    <SettledOrdersGridColumns>
+        <item Title="" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="Direction" Display="True" Name="Direction" Sort="2" />
+        <item Title="Hedge" Display="False" Name="Hedge" Sort="3" />
+        <item Title="Open/Close" Display="True" Name="Offset" Sort="4" />
+        <item Title="Exchange" Display="True" Name="ExchangeID" Sort="5" />
+        <item Title="ComboFlag" Display="False" Name="CombOffsetFlag" Sort="6" />
+        <item Title="OrderPrice" Display="True" Name="OrderPrice" Sort="7" />
+        <item Title="OrderSize" Display="True" Name="OrderSize" Sort="8" />
+        <item Title="ContigentCondition" Display="False" Name="ContingentCondition" Sort="9" />
+        <item Title="OrderPriceType" Display="False" Name="OrderPriceType" Sort="10" />
+        <item Title="StopPrice" Display="False" Name="StopPrice" Sort="11" />
+        <item Title="OrderSubmitStatus" Display="False" Name="OrderSubmitStatus" Sort="12" />
+        <item Title="OrderStatus" Display="True" Name="OrderStatus" Sort="13" />
+        <item Title="OrderPriceType" Display="True" Name="OrderPriceType" Sort="14" />
+        <item Title="StatusMsg" Display="False" Name="StatusMsg" Sort="15" />
+        <item Title="QuantFilled" Display="True" Name="QuantFilled" Sort="16" />
+        <item Title="QuantUnfilled" Display="True" Name="QuantUnfilled" Sort="17" />
+        <item Title="CreateTime" Display="True" Name="CreateTime" Sort="18" />
+        <item Title="UpdateTime" Display="True" Name="UpdateTime" Sort="19" />
+        <item Title="InvestorID" Display="True" Name="InvestorID" Sort="20" />
+        <item Title="OrderID" Display="True" Name="OrderID" Sort="21" />
+    </SettledOrdersGridColumns>
+    <ComplexOrdersGridColumns>
+        <item Title="" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="Direction" Display="True" Name="Direction" Sort="2" />
+        <item Title="Hedge" Display="False" Name="Hedge" Sort="3" />
+        <item Title="Open/Close" Display="True" Name="Offset" Sort="4" />
+        <item Title="Exchange" Display="True" Name="ExchangeID" Sort="5" />
+        <item Title="ComboFlag" Display="False" Name="CombOffsetFlag" Sort="6" />
+        <item Title="OrderPrice" Display="True" Name="OrderPrice" Sort="7" />
+        <item Title="OrderSize" Display="True" Name="OrderSize" Sort="8" />
+        <item Title="ContigentCondition" Display="False" Name="ContingentCondition" Sort="9" />
+        <item Title="OrderPriceType" Display="False" Name="OrderPriceType" Sort="10" />
+        <item Title="StopPrice" Display="False" Name="StopPrice" Sort="11" />
+        <item Title="OrderSubmitStatus" Display="False" Name="OrderSubmitStatus" Sort="12" />
+        <item Title="OrderStatus" Display="True" Name="OrderStatus" Sort="13" />
+        <item Title="OrderPriceType" Display="True" Name="OrderPriceType" Sort="14" />
+        <item Title="StatusMsg" Display="False" Name="StatusMsg" Sort="15" />
+        <item Title="QuantFilled" Display="True" Name="QuantFilled" Sort="16" />
+        <item Title="QuantUnfilled" Display="True" Name="QuantUnfilled" Sort="17" />
+        <item Title="CreateTime" Display="True" Name="CreateTime" Sort="18" />
+        <item Title="UpdateTime" Display="True" Name="UpdateTime" Sort="19" />
+        <item Title="InvestorID" Display="True" Name="InvestorID" Sort="20" />
+        <item Title="OrderID" Display="True" Name="OrderID" Sort="21" />
+    </ComplexOrdersGridColumns>
+    <UnsettledOrdersGridColumns>
+        <item Title="" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="Direction" Display="True" Name="Direction" Sort="2" />
+        <item Title="Hedge" Display="False" Name="Hedge" Sort="3" />
+        <item Title="Open/Close" Display="True" Name="Offset" Sort="4" />
+        <item Title="Exchange" Display="True" Name="ExchangeID" Sort="5" />
+        <item Title="ComboFlag" Display="False" Name="CombOffsetFlag" Sort="6" />
+        <item Title="OrderPrice" Display="True" Name="OrderPrice" Sort="7" />
+        <item Title="OrderSize" Display="True" Name="OrderSize" Sort="8" />
+        <item Title="ContigentCondition" Display="False" Name="ContingentCondition" Sort="9" />
+        <item Title="OrderPriceType" Display="False" Name="OrderPriceType" Sort="10" />
+        <item Title="StopPrice" Display="False" Name="StopPrice" Sort="11" />
+        <item Title="OrderSubmitStatus" Display="False" Name="OrderSubmitStatus" Sort="12" />
+        <item Title="OrderStatus" Display="True" Name="OrderStatus" Sort="13" />
+        <item Title="OrderPriceType" Display="True" Name="OrderPriceType" Sort="14" />
+        <item Title="StatusMsg" Display="False" Name="StatusMsg" Sort="15" />
+        <item Title="QuantFilled" Display="True" Name="QuantFilled" Sort="16" />
+        <item Title="QuantUnfilled" Display="True" Name="QuantUnfilled" Sort="17" />
+        <item Title="CreateTime" Display="True" Name="CreateTime" Sort="18" />
+        <item Title="UpdateTime" Display="True" Name="UpdateTime" Sort="19" />
+        <item Title="InvestorID" Display="True" Name="InvestorID" Sort="20" />
+        <item Title="OrderID" Display="True" Name="OrderID" Sort="21" />
+    </UnsettledOrdersGridColumns>
+    <CanceledOrdersGridColumns>
+        <item Title="" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="Direction" Display="True" Name="Direction" Sort="2" />
+        <item Title="Hedge" Display="False" Name="Hedge" Sort="3" />
+        <item Title="Open/Close" Display="True" Name="Offset" Sort="4" />
+        <item Title="Exchange" Display="True" Name="ExchangeID" Sort="5" />
+        <item Title="ComboFlag" Display="False" Name="CombOffsetFlag" Sort="6" />
+        <item Title="OrderPrice" Display="True" Name="OrderPrice" Sort="7" />
+        <item Title="OrderSize" Display="True" Name="OrderSize" Sort="8" />
+        <item Title="ContigentCondition" Display="False" Name="ContingentCondition" Sort="9" />
+        <item Title="OrderPriceType" Display="False" Name="OrderPriceType" Sort="10" />
+        <item Title="StopPrice" Display="False" Name="StopPrice" Sort="11" />
+        <item Title="OrderSubmitStatus" Display="False" Name="OrderSubmitStatus" Sort="12" />
+        <item Title="OrderStatus" Display="True" Name="OrderStatus" Sort="13" />
+        <item Title="OrderPriceType" Display="True" Name="OrderPriceType" Sort="14" />
+        <item Title="StatusMsg" Display="False" Name="StatusMsg" Sort="15" />
+        <item Title="QuantFilled" Display="True" Name="QuantFilled" Sort="16" />
+        <item Title="QuantUnfilled" Display="True" Name="QuantUnfilled" Sort="17" />
+        <item Title="CreateTime" Display="True" Name="CreateTime" Sort="18" />
+        <item Title="UpdateTime" Display="True" Name="UpdateTime" Sort="19" />
+        <item Title="InvestorID" Display="True" Name="InvestorID" Sort="20" />
+        <item Title="OrderID" Display="True" Name="OrderID" Sort="21" />
+    </CanceledOrdersGridColumns>
+    <ManualPositionGridColumns />
+    <StrategyPositionGridColumns />
+    <PositionSummaryGridColumns>
+        <item Title="InstrumentID" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="InvestID" Display="True" Name="InvestorID" Sort="2" />
+        <item Title="ExchangeID" Display="True" Name="ExchangeID" Sort="3" />
+        <item Title="LeverRate" Display="True" Name="LeverRate" Sort="4" />
+        <item Title="LongPosition" Display="True" Name="LongPosition" Sort="5" />
+        <item Title="LongAvailable" Display="True" Name="LongAvailable" Sort="6" />
+        <item Title="LongRealized" Display="True" Name="LongRealProfit" Sort="7" />
+        <item Title="LongUnrealized" Display="False" Name="LongUnrealProfit" Sort="8" />
+        <item Title="LongAvg" Display="True" Name="LongAvg" Sort="9" />
+        <item Title="ShortPosition" Display="True" Name="ShortPosition" Sort="10" />
+        <item Title="ShortAvailable" Display="True" Name="ShortAvailable" Sort="11" />
+        <item Title="ShortRealized" Display="True" Name="ShortRealProfit" Sort="12" />
+        <item Title="ShortUnrealized" Display="False" Name="ShortUnrealProfit" Sort="13" />
+        <item Title="ShortAvg" Display="True" Name="ShortAvg" Sort="14" />
+        <item Title="CreateDate" Display="True" Name="CreateDate" Sort="15" />
+        <item Title="ForcePrice" Display="False" Name="ForcePrice" Sort="16" />
+        <item Title="ProductType" Display="False" Name="ContractType" Sort="17" />
+    </PositionSummaryGridColumns>
+    <PositionDetailsGridColumns>
+        <item Title="InstrumentID" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="ExchangeID" Display="False" Name="BrokerID" Sort="2" />
+        <item Title="InvestorID" Display="False" Name="InvestorID" Sort="3" />
+        <item Title="Direction" Display="True" Name="Direction" Sort="4" />
+        <item Title="Hedge" Display="False" Name="HedgeFlag" Sort="5" />
+        <item Title="MarginRateByVolume" Display="False" Name="MarginRateByVolume" Sort="6" />
+        <item Title="OpenDate" Display="True" Name="OpenDate" Sort="7" />
+        <item Title="TradeID" Display="True" Name="TradeID" Sort="8" />
+        <item Title="OpenPrice" Display="True" Name="OpenPrice" Sort="9" />
+        <item Title="Volume" Display="True" Name="Volume" Sort="10" />
+        <item Title="TradingDay" Display="True" Name="TradingDay" Sort="11" />
+        <item Title="SettlementID" Display="False" Name="SettlementID" Sort="12" />
+        <item Title="TradeType" Display="False" Name="TradeType" Sort="13" />
+        <item Title="CombInstrumentID" Display="False" Name="CombInstrumentID" Sort="14" />
+        <item Title="Margin" Display="True" Name="Margin" Sort="16" />
+        <item Title="ExchMargin" Display="False" Name="ExchMargin" Sort="17" />
+        <item Title="CloseAmount" Display="True" Name="CloseAmount" Sort="20" />
+        <item Title="PositionType" Display="True" Name="PositionType" Sort="21" />
+        <item Title="SettlementPrice" Display="False" Name="SettlementPrice" Sort="23" />
+    </PositionDetailsGridColumns>
+    <ComboPositionGridColumns />
+    <TradeDetailsGridColumns>
+        <item Title="InstrumentID" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="InvestorID" Display="True" Name="InvestorID" Sort="2" />
+        <item Title="Offset" Display="True" Name="Offset" Sort="3" />
+        <item Title="Direction" Display="True" Name="Direction" Sort="4" />
+        <item Title="OrderPrice" Display="True" Name="OrderPrice" Sort="5" />
+        <item Title="AvgPrice" Display="True" Name="AvgPrice" Sort="6" />
+        <item Title="OrderQuant" Display="True" Name="Quant" Sort="7" />
+        <item Title="QuantFilled" Display="True" Name="QuantTraded" Sort="8" />
+        <item Title="OrderStatus" Display="True" Name="OrderStatus" Sort="9" />
+        <item Title="UpdateTime" Display="True" Name="UpdateTime" Sort="10" />
+        <item Title="OrderTime" Display="True" Name="OrderTime" Sort="11" />
+        <item Title="ExchangeID" Display="True" Name="ExchangeID" Sort="12" />
+        <item Title="TradeID" Display="True" Name="TradeID" Sort="13" />
+        <item Title="Fees" Display="True" Name="Commission" Sort="14" />
+    </TradeDetailsGridColumns>
+    <TradeSummaryGridColumns>
+        <item Title="SymbolName" Display="False" Name="InstrumentName" Sort="1" />
+        <item Title="InstrumentID" Display="True" Name="InstrumentID" Sort="2" />
+        <item Title="Direction" Display="True" Name="Direction" Sort="3" />
+        <item Title="Volume" Display="True" Name="Volume" Sort="4" />
+        <item Title="Offset" Display="True" Name="Offset" Sort="5" />
+        <item Title="InvestorID" Display="True" Name="InvestorID" Sort="6" />
+        <item Title="AvgPrice" Display="True" Name="AvgPrice" Sort="7" />
+        <item Title="TradingDay" Display="True" Name="TradingDay" Sort="8" />
+        <item Title="Fees" Display="False" Name="Commission" Sort="9" />
+        <item Title="UserID" Display="True" Name="UserID" Sort="10" />
+        <item Title="ExchangeID" Display="True" Name="ExchangeID" Sort="11" />
+    </TradeSummaryGridColumns>
+    <AccountregisterDataGridColumns />
+    <TransferSerialDataGridColumns />
+    <DefaultQuant>
+        <item ID="3" InstrumentID="a1701" Quant="5" CmdKey="Control+Z" />
+        <item ID="4" InstrumentID="rb1610" Quant="2" CmdKey="Control+A" />
+    </DefaultQuant>
+    <SelectedInstrumentIDGroup>
+        <Group ID="1" Name="DefaultGroup">
+            <item InstrumentID="btc_quarter" ExchangeID="OkexFutures" PriceTick="0.01" ContractValue="100" Name="BitCoin" DeliveryPrice="0" />
+            <item InstrumentID="btc_biquarter" ExchangeID="OkexFutures" PriceTick="0.01" ContractValue="100" Name="BitCoin" DeliveryPrice="0" />
+            <item InstrumentID="btc_next_week" ExchangeID="OkexFutures" PriceTick="0.01" ContractValue="100" Name="BitCoin" DeliveryPrice="0" />
+            <item InstrumentID="btc_this_week" ExchangeID="OkexFutures" PriceTick="0.01" ContractValue="100" Name="BitCoin" DeliveryPrice="0" />
+            <item InstrumentID="XBTUSD" ExchangeID="BitMex" PriceTick="0.5" ContractValue="1" Name="XBTUSD" DeliveryPrice="0" />
+            <item InstrumentID="eth_quarter" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="Ethereum" DeliveryPrice="0" />
+            <item InstrumentID="eth_biquarter" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="Ethereum" DeliveryPrice="0" />
+            <item InstrumentID="eth_next_week" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="Ethereum" DeliveryPrice="0" />
+            <item InstrumentID="eth_this_week" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="Ethereum" DeliveryPrice="0" />
+            <item InstrumentID="eos_quarter" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="EOS" DeliveryPrice="0" />
+            <item InstrumentID="eos_this_week" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="EOS" DeliveryPrice="0" />
+            <item InstrumentID="1*btc_quarter-1*btc_this_week" ExchangeID="OkexFutures" PriceTick="0" ContractValue="0" DeliveryPrice="0" />
+            <item InstrumentID="1*btc_quarter-100*XBTUSD" ExchangeID="OkexFutures" PriceTick="0" ContractValue="0" Name="ok-bmquarter-usd" DeliveryPrice="0" />
+            <item InstrumentID="1*btc_biquarter-1*btc_usd_swap" ExchangeID="OkexFutures" PriceTick="1" ContractValue="0" Name="NextQuarterPerpArb" DeliveryPrice="0" />
+            <item InstrumentID="1*btc_quarter-1*btc_next_week" ExchangeID="OkexFutures" PriceTick="0" ContractValue="0" DeliveryPrice="0" />
+            <item InstrumentID="1*btc_this_week-100*XBTUSD" ExchangeID="OkexFutures" PriceTick="0" ContractValue="0" Name="MoveForwar-dok-bm" DeliveryPrice="0" />
+            <item InstrumentID="1*btc_quarter-100*XBTH22" ExchangeID="OkexFutures" PriceTick="0" ContractValue="0" DeliveryPrice="0" />
+            <item InstrumentID="1*eth_next_week-1*eth_this_week" ExchangeID="OkexFutures" PriceTick="0" ContractValue="0" DeliveryPrice="0" />
+            <item InstrumentID="1*eth_quarter-1*eth_this_week" ExchangeID="OkexFutures" PriceTick="0" ContractValue="0" DeliveryPrice="0" />
+            <item InstrumentID="1*eth_quarter-1*eth_next_week" ExchangeID="OkexFutures" PriceTick="0" ContractValue="0" DeliveryPrice="0" />
+            <item InstrumentID="1*eos_quarter-1*eos_next_week" ExchangeID="OkexFutures" PriceTick="0" ContractValue="0" Name="EOSQuarterNextWeekArb" DeliveryPrice="0" />
+            <item InstrumentID="1*eos_quarter-1*eos_this_week" ExchangeID="OkexFutures" PriceTick="0" ContractValue="0" Name="EOSQuarterThisWeekArb" DeliveryPrice="0" />
+            <item InstrumentID="XBTH22" ExchangeID="BitMex" PriceTick="0.5" ContractValue="1" Name="XBTH20" DeliveryPrice="0" />
+            <item InstrumentID="eos_usd_swap" ExchangeID="OkexSwap" PriceTick="0.001" ContractValue="10" Name="EOS" DeliveryPrice="0" />
+            <item InstrumentID="btc_usd_swap" ExchangeID="OkexSwap" PriceTick="0.01" ContractValue="100" Name="BitCoin" DeliveryPrice="0" />
+            <item InstrumentID="eth_usd_swap" ExchangeID="OkexSwap" PriceTick="0.01" ContractValue="100" Name="BitCoin" DeliveryPrice="0" />
+        </Group>
+    </SelectedInstrumentIDGroup>
+    <InstrumentNameDict>
+        <item ProductID="btc" ProductName="Bitcoin" />
+        <item ProductID="eth" ProductName="Ethereum" />
+        <item ProductID="eos" ProductName="EOS" />
+    </InstrumentNameDict>
+    <Color>
+        <GridBackground A="255" R="234" G="234" B="234" />
+        <GridForeground A="255" R="49" G="49" B="49" />
+        <ChangeUpForeground A="255" R="246" G="1" B="0" />
+        <ChangeDownForeground A="255" R="0" G="153" B="1" />
+        <ChangeStableForeground A="255" R="255" G="0" B="255" />
+    </Color>
+    <TradeCmdActions>
+        <item ID="1" CmdKey="Control+Shift+C" Action="Cancel" />
+        <item ID="2" CmdKey="Control+Shift+A" Action="CancelAll" />
+    </TradeCmdActions>
+    <LocalMaintainSet IsInitQryProduct="false" IsInitQryInstrument="false" IsInitQryMargin="false" IsInitQryCommission="false" />
+</Config>

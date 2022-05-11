@@ -1,0 +1,43 @@
+﻿<Window x:Class="WPFCoreTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFCoreTest"
+        mc:Ignorable="d"
+        Title="ExchangeSharpTester" Height="450" Width="1800" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+            <ComboBox Name="MyCombo" Width="140"></ComboBox>
+            <TextBox x:Name="symbol" Width="100"/>
+            <TextBlock Text="Priv" Width="40"/>
+            <TextBox Name="privateKey" Width="150"/>
+            <TextBlock Text="Pub" Width="40"/>
+            <TextBox Name="publicKey" Width="150"/>
+            <TextBlock Text="Pass"/>
+            <TextBox Name="Passphrase" Width="150"/>
+            <Button x:Name="Authorization" Content="Auth" Width="80" Click="click_auth"/>
+        </StackPanel>
+        <UniformGrid Grid.Row="1"  Columns="6" Rows="3">            
+            <Button Content="ENQ ALLTickers"  Width="90" Click="TickersButton_Click"/>
+            <Button Content="ENQ CURROrderBook"  Width="90" Click="Button_Click_1"/>           
+            <Button Content="sub CURRTicker" Width="120" Click="SubTicker_Click" />                                   
+            <Button Content="Sub CURROrderBook" Width="120" Click="SubOrderBook_Click" />
+            <Button Content="ENQ ACCOUNTSINFO" Width="120" Click="Click_Amounts"/>           
+            <Button Content="Enq COINSInfo" Click="click_accounts" Width="100"/>
+            <Button Content="sub UserDataWebSocket" Click="click_userdataws" Width="100"/>
+            <Button Content="Enq CompleteOrders" Click="Click_CompleteOrders" Width="130"/>
+            <Button Content="Enq OpenOrders" Click="Click_OpenOrders" Width="130"/>
+            <Button Content="Enq OpenPositions" Click="Click_OpenPosition" Width="130"/>
+            <Button Content="Enq CompletedOrders" Click="Getcompletedorders" Width="130"/>
+            
+            <Button Content="ClearTextBox" Click="Button_Click_CLEAR" Width="100"></Button>
+        </UniformGrid>
+        <TextBox x:Name="MyTextBox" Background="AliceBlue" Grid.Row="2" ></TextBox>       
+    </Grid>
+</Window>

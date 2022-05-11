@@ -1,0 +1,30 @@
+﻿<Window x:Class="CryptoTrading.RecentUserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CryptoTrading"
+        mc:Ignorable="d"
+        Title="最近登录列表" Height="250" Width="300" Loaded="Window_Loaded" Closed="Window_Closed">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DataGrid Name="dgRecentUsers" Grid.Row="0" IsReadOnly="True" CanUserAddRows="False" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="期货公司" Width="80" Binding="{Binding BrokerName,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >                    
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="网络线路" Width="80" Binding ="{Binding BrokerServer,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="资金账户" Width="80" Binding="{Binding ID,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Name="spOper" Grid.Row="1" Orientation="Horizontal">
+            <CheckBox Name="chkAutoSaveLoginRecord" Content="自动保存不同账户记录" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,5,0"></CheckBox>
+            <Button Name="btnDelete" Content="删除"  VerticalAlignment="Center" HorizontalAlignment="Left" Height="30" Width="60" Margin="5,0,5,0" Click="btnDelete_Click"></Button>
+            <Button Name="btnOK" Content="确定"  VerticalAlignment="Center" HorizontalAlignment="Left" Height="30" Width="60"   Margin="5,0,5,0" Click="btnOK_Click"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

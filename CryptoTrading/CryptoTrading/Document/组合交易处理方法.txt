@@ -1,0 +1,96 @@
+组合的持仓和交易
+新增手工交易持仓和策略持仓的显示界面，两者绑定同样的数据构造，区别在于通过Visibility的不同的绑定关系，形成互斥的不同显示结果
+区分两个DataGrid:PositionNormalGrid：用于手工交易持仓；StrategyPositionGrid：用于策略持仓
+
+
+public readonly ObservableCollection<LogicPosition> LogicPositionView = new ObservableCollection<LogicPosition>();
+组合的持仓采用逻辑持仓结构来保存
+逻辑持仓结构，继承自PositionDataSummary, 新增 IsCombo和 IsStrategy 两个逻辑类型的属性
+
+	
+日结初始化过程：
+OrderRef==1， OrderRefPrefix=1，
+读入历史组合持仓（HistoricComboPositions.xml)，将逻辑持仓中的昨仓YdPosition = Position, 读入IsStrategy, IsCombo
+
+维护策略及手工交易持仓：
+在成交回报的回调函数中，维护策略持仓（同时也就维护了手工交易持仓，通过设置IsStrategy），通过报单引用OrderRef，在LogicOrderMappingList查找，
+策略及组合交易（参照OrderRef的前4位字符），然后对照
+LogicOrderMapping 来处理，更新LogicOrderMapping, 对于单腿的情况，则不计入逻辑持仓中的。
+
+历史持仓保存：在退出程序的时候，保存组合持仓数据，数据结构采用LogicPosition。
+历史持仓核心数据解释：
+OriginalOpenCost : 保存原始的开仓成本（以金额计算：OpenVolume*VolumeMultiple*OpenPrice）
+IsStategy： 是否策略持仓
+IsCombo： 是否组合持仓
+YdPosition: 昨日持仓
+Position：当前持仓
+
+报单处理：
+在报单时，对于组合或者策略的报单生成OrderRefPrefix（4位的字符串），生成逻辑报单，
+在TQMain的public static List<LogicOrderMapping> LogicOrderMappingList中保存一份LogicOrderMapping，
+注意的是：对于组合，下单板没有开仓的选项，只有自动的选项
+
+LogicOrderMapping
+ /// <summary>
+    /// 逻辑报单对应关系
+    /// 包含策略或者组合
+    /// 不包含普通报单
+    /// </summary>
+    [Serializable]
+    public class LogicOrderMapping
+    {
+        public OrderParams OrderParams;
+        [XmlIgnore]
+        public List<OrderData> OrderDataList;
+        //public PositionDataSummary Position;
+        /// <summary>
+        /// 接受报单回报
+        /// 计算 OpenVolume 、CloseVolume
+        /// 并设置 position = ydposition + OpenVolume - CloseVolume
+        /// 单腿的则 存入 Model.OrderDataList
+        /// </summary>
+        /// <param name="orderData"></param>
+        public void OnRtnOrder(OrderData orderData)
+        {
+            // 修改或新增到 OrderList
+            OrderData old = OrderDataList.Find(o =>
+                o.OrderRef == orderData.OrderRef &&
+                o.SessionID == orderData.SessionID &&
+                o.FrontID == orderData.FrontID);
+
+            if (old != null)
+            {
+                if (orderData.OrderStatus != old.OrderStatus || orderData.OrderSubmitStatus != old.OrderSubmitStatus)
+                {
+                    old.CancelTime = orderData.CancelTime;
+                    old.OrderStatus = orderData.OrderStatus;
+
+                    old.OrderSysID = orderData.OrderSysID;
+                    old.OrderSubmitStatus = orderData.OrderSubmitStatus;
+                    old.StatusMsg = orderData.StatusMsg;
+                    old.VolumeLeft = orderData.VolumeLeft;
+                    old.VolumeTraded = orderData.VolumeTraded;
+                    old.ZCETotalTradedVolume = orderData.ZCETotalTradedVolume;
+                }
+            }
+            else
+            {
+                OrderDataList.Add(orderData);
+            }
+            // 尝试合成仓位
+        }       
+    }
+}
+public class LogicPosition : PositionDataSummary
+    {
+        /// <summary>
+        /// 是否策略持仓
+        /// </summary>
+        public bool IsStategy { get; set; }
+        /// <summary>
+        /// 是否组合持仓
+        /// </summary>
+        public bool IsCombo { get; set; }
+		
+        public double OriginalOpenCost { get; set;}
+    }	

@@ -1,0 +1,43 @@
+﻿<Window x:Class="CryptoTrading.SettlementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="历史结算单" Height="600" Width="800" MaxWidth="1200" ResizeMode="CanResizeWithGrip"  Icon="../../tdt.ico" WindowStartupLocation="CenterScreen"   
+        Loaded="Window_Loaded" Closed="Window_Closed">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="50" Height="50" MinHeight="20"/>
+            <RowDefinition Height="3" />
+            <RowDefinition Height="647*" MinHeight="600" />
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Grid.RowSpan="1" HorizontalAlignment="Stretch" Name="DockPanelOpr">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition MaxHeight="50" Height="50" MinHeight="20"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Name="GridMenu">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50*"></ColumnDefinition>
+                        <ColumnDefinition Width="50*"></ColumnDefinition>
+                        <ColumnDefinition Width="50*"></ColumnDefinition>
+                        <ColumnDefinition Width="3"></ColumnDefinition>
+                        <ColumnDefinition Width="50*"></ColumnDefinition>
+                        <ColumnDefinition Width="50*"></ColumnDefinition>
+                        <ColumnDefinition Width="50*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <DatePicker Name="SettlementDateDP" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"  VerticalAlignment="Center" ></DatePicker>
+                    <Button Name="TodaySettlementBtn" Content="查日结算单" Grid.Column="1" HorizontalAlignment="Center"  Grid.Row="0" VerticalAlignment="Center" Width="80" Click="DaySettlementBtn_Click"/>
+                    <Button Name="MonthSettlementBtn" Content="查月度结算单" Grid.Column="2" HorizontalAlignment="Center"  Grid.Row="0" VerticalAlignment="Center" Width="80" Click="MonthSettlementBtn_Click"/>
+                    <GridSplitter Name="Splitter" Grid.Row="0" Grid.Column="3"></GridSplitter>
+                    <Button Name="SaveBtn" Content="保存到文件" Grid.Column="4" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="70" Click="SaveBtn_Click"/>
+                    <Button Name="PrintBtn" Content="打印" Grid.Column="5" HorizontalAlignment="Center"  Grid.Row="0" VerticalAlignment="Center" Width="70" Click="PrintBtn_Click"/>
+                    <Button Name="CloseBtn" Content="关闭" Grid.Column="6" HorizontalAlignment="Center"  Grid.Row="0" VerticalAlignment="Center" Width="70" Click="CloseBtn_Click"/>
+                </Grid>
+            </Grid>
+        </DockPanel>
+        <GridSplitter Grid.Row="1" Grid.RowSpan="1" Height="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+        <Grid Grid.Row="2" Name="GridContent" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Margin="0,0,0,0" MaxWidth="1200">
+            <TextBox Name="SettlementTB" FontFamily="宋体" HorizontalAlignment="Left"  TextAlignment="Left" TextWrapping="NoWrap"
+                     HorizontalScrollBarVisibility="Visible"  VerticalScrollBarVisibility="Auto" Margin="0,0,0,0"  />
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,497 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using TickQuant.Model;
+using TickQuant.Properties;
+using TickQuant.TQClass;
+using TickQuant.ViewModel;
+using System.Xml.Serialization;
+using TickQuant.TQLib;
+using System.ComponentModel;
+
+namespace TickQuant.View
+{
+    /// <summary>
+    /// Interaction logic for StrategyWindow.xaml
+    /// </summary>
+    public partial class StrategyWindow : Window, INotifyPropertyChanged
+    {
+        string strategyLibFileName = TQMain.T.Investor + "/Configs/StrategyLib.xml";
+        ObservableCollection<Condition> ocCondition = new ObservableCollection<Condition>();
+        ObservableCollection<stOrder> orderParamsList = new ObservableCollection<stOrder>();
+        private bool isStrategy;//处理的是否是策略
+        private int selectedItemIndex;//策略或者策略模板选中项的索引
+
+        private StrategyLib currentStrategyLib;
+        public StrategyLib CurrentStrategyLib
+        {
+            get { return currentStrategyLib; }
+            set
+            {
+                currentStrategyLib = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("CurrentStrategyLib"));
+            }
+        }        
+        private Strategy currentStrategy;
+        public Strategy CurrentStrategy
+        {
+            get
+            {
+                return currentStrategy;
+            }
+            set
+            {
+                if (value != currentStrategy)
+                {
+                    currentStrategy = value; }
+                PropertyChanged(this, new PropertyChangedEventArgs("CurrentStrategy"));
+            }
+        }
+    
+        private ObservableCollection<StrategyLib> _closeStrategyLibs = new ObservableCollection<StrategyLib>();
+        public ObservableCollection<StrategyLib> CloseStrategyLibs { get { return _closeStrategyLibs; } }
+        public StrategyWindow()
+        {
+            InitializeComponent();
+            if (File.Exists(strategyLibFileName))
+            {
+                try
+                {
+                    StrategyLibConfig conf = StrategyLibConfig.Load(strategyLibFileName);
+                    List<StrategyLib> listlib = conf.StrategyLibs; 
+                    TQMain.ocStrategyLib = new ObservableCollection<StrategyLib>(listlib);
+                }
+                catch(Exception ex)
+                { }
+            }
+            foreach (var item in TQMain.ocStrategyLib)
+            {
+                if(item.StrategyType== StrategyType.平仓策略 || item.StrategyType== StrategyType.服务器平仓策略)
+                    _closeStrategyLibs.Add(item);
+            }
+            CurrentStrategyLib = (TQMain.ocStrategyLib==null || TQMain.ocStrategyLib.Count==0)?null:TQMain.ocStrategyLib[0];
+            StrategyLibGrid.ItemsSource = TQMain.ocStrategyLib;
+            StrategyGrid.ItemsSource = TQMain.ocStrategy;           
+            //OrderParamsGrid.ItemsSource = ocOrderParams;
+            OrderParamsGrid.ItemsSource = orderParamsList;
+            conditionlistGrid.ItemsSource = ocCondition;
+            if (TQMain.ocStrategy.Count > 0)
+            {
+                StrategyGrid.SelectedIndex = 0;
+            }
+            else if (TQMain.ocStrategyLib.Count > 0)
+            {
+                StrategyLibGrid.SelectedIndex = 0;
+            }
+            DataContext = this;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            TQMain.strategyWindow.Hide();
+        }
+
+        #region Strategy Template's Management
+        private void StrategyLibGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //TimeSpan ts = TimeSpan.FromTicks(01000);
+            var strategyLib = StrategyLibGrid.SelectedItem as StrategyLib;
+            if (strategyLib == null)
+                return;
+            isStrategy = false;
+            selectedItemIndex = StrategyLibGrid.SelectedIndex;
+            txtStrategyID.Text = strategyLib.ID.ToString();
+            txtStrategyName.Text = strategyLib.Name;
+            cmbStrategyType.SelectedValue = strategyLib.StrategyType;
+            txtStrategyDescription.Text = strategyLib.Description;
+            orderParamsList.Clear();
+             if (strategyLib.OrderParams != null)
+            {
+                strategyLib.OrderParams.ForEach(item => { orderParamsList.Add(item); });
+            }
+            ocCondition.Clear();
+            strategyLib.OrderCondList.ForEach(item => ocCondition.Add(item));
+
+            cmbStrategyLocation.IsEnabled = false;
+            //chkRepeatable.IsEnabled = false;
+        }
+
+        private void btnStrategyTemplateUse_Click(object sender, RoutedEventArgs e)
+        {
+            var strategyLib = StrategyLibGrid.SelectedItem as StrategyLib;
+            if (strategyLib == null || strategyLib.StrategyType==StrategyType.平仓策略 || strategyLib.StrategyType==StrategyType.服务器平仓策略)
+                return;
+
+            //stStrategyInfo strategyInfo = new stStrategyInfo()
+            //{
+            //    StrategyType = strategyLib.StrategyType,
+            //    close_StrategyName = strategyLib.CloseStrategyName.ToString(),
+            //    listCondition=strategyLib.OrderCondList,
+            //    listOrder=strategyLib.OrderParams,
+            //    Description=strategyLib.Description,                
+            //};
+            Strategy strategy = new Strategy(strategyLib.Name);
+            strategy.Init(strategyLib);
+            strategy.Location = LocationType.本机;
+
+            //TODO:如何衔接策略模板的平仓策略模板和策略的平仓策略?
+            if (strategyLib.CloseStrategyTemplate != null)
+            {               
+                strategy.SetCloseStrategy(strategyLib.CloseStrategyTemplate);
+            }
+            TQMain.ocStrategy.Add(strategy);
+            StrategyGrid.SelectedIndex = TQMain.ocStrategy.Count - 1;
+            txtStrategyName.Focus();
+        }
+
+        private void btnStrategyTemplateDelete_Click(object sender, RoutedEventArgs e)
+        {
+            var strategyLib = StrategyLibGrid.SelectedItem as StrategyLib;
+            if (strategyLib == null)
+                return;
+            TQMain.ocStrategyLib.Remove(strategyLib);
+        }
+        #endregion
+       
+        #region Strategy's Management
+
+        private void StrategyGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var strategy = StrategyGrid.SelectedItem as Strategy;
+            if (strategy == null || strategy.InstanceState != StrategyStateType.未启动)
+                return;
+            isStrategy = true;
+            selectedItemIndex = StrategyGrid.SelectedIndex;
+
+            txtStrategyID.Text = strategy.InstanceId;
+            txtStrategyName.Text = strategy.StrategyName;
+            cmbStrategyType.SelectedValue = strategy.StrategyType;
+            txtStrategyDescription.Text = strategy.Description;
+            cmbStrategyLocation.IsEnabled = true;
+            cmbStrategyLocation.SelectedValue = strategy.Location;
+           
+            orderParamsList.Clear();
+            if (strategy.ListOrder != null || strategy.ListOrder.Count > 0)
+            {
+                strategy.ListOrder.ForEach(item => { orderParamsList.Add(new stOrder() {  cHedge_flag= HedgeType.投机, cLimit_type='1', cOpen_direction= item._cOpen_direction, cOrder_type=item._cOrder_type, dLimit_value=item._dLimit_value, iVolume_total=item._iVolume_total, strExchangeId=item._strExchangeId, strInstrument_id=item._strInstrument_id}); });
+            }
+            ocCondition.Clear();
+            strategy.OpenCondList.ForEach(item => ocCondition.Add(item));
+        }
+        private void btnStrategyStart_Click(object sender, RoutedEventArgs e)
+        {
+            var strategy = StrategyGrid.SelectedItem as Strategy;
+            if (strategy == null || strategy.InstanceState != StrategyStateType.未启动)
+                return;
+            //先检查策略是否已经包含必须的数据？
+            if (strategy.InstanceState != StrategyStateType.未启动)
+            {
+                return;
+            }
+            if (strategy.ListOrder == null || strategy.ListOrder.Count<1)
+            {
+                return;
+            }
+            if(strategy.OpenCondList==null || strategy.OpenCondList.Count<1)
+            {
+                return;
+            }
+
+            strategy.Start();
+        }
+
+        private void btnStrategyStop_Click(object sender, RoutedEventArgs e)
+        {
+            var strategy = StrategyGrid.SelectedItem as Strategy;
+            if (strategy == null || strategy.InstanceState != StrategyStateType.已启动)
+                return;
+            strategy.End();
+            //strategy.InstanceState = StrategyStateType.已终止;
+
+            //查找所有相关的持仓和委托，做平仓或者撤单处理？
+        }
+
+
+        private void btnStrategyDelete_Click(object sender, RoutedEventArgs e)
+        {
+            var strategy = StrategyGrid.SelectedItem as Strategy;
+            if (strategy == null || strategy.InstanceState != StrategyStateType.未启动 || strategy.InstanceState != StrategyStateType.已终止)
+            {
+                return;
+            }
+            //仅对未启动和已终止的进行移除操作？
+            TQMain.ocStrategy.Remove(strategy);
+        }
+        private void btnStrategyExit_Click(object sender, RoutedEventArgs e)
+        {
+            //退出所有的策略：未启动、已终止的策略删除；
+        }
+
+        #endregion
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            //只能添加策略模板
+
+            StrategyLib strategyLib = new StrategyLib();
+            if (orderParamsList.Count == 0)
+            {
+                return;
+            }
+            
+            if (ocCondition.Count == 0)
+            {
+                return;
+            }
+            strategyLib.OrderParams.AddRange(orderParamsList);
+            strategyLib.OrderCondList.AddRange(ocCondition);
+
+            int id = TQMain.ocStrategyLib.Select(x => x.ID).Max() + 1;
+            strategyLib.ID = id;
+            strategyLib.Description = txtStrategyDescription.Text.Trim();
+            strategyLib.Name = txtStrategyName.Text.Trim();
+            strategyLib.StrategyType = (StrategyType)cmbStrategyType.SelectedValue;
+            strategyLib.AverageOrEvery = false;
+
+            TQMain.ocStrategyLib.Add(strategyLib);
+            if(strategyLib.StrategyType== StrategyType.平仓策略 || strategyLib.StrategyType== StrategyType.服务器平仓策略)
+            {
+                CloseStrategyLibs.Add(strategyLib);
+            }
+        }
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            if (isStrategy)
+            {
+                var strategies = TQMain.ocStrategy.Where(x => x.InstanceId == txtStrategyID.Text.Trim());
+                if (strategies != null && strategies.Count() > 0)
+                {
+                    //update strategies[0]
+                    var strategy = strategies.ToList()[0];
+                    strategy.StrategyName = txtStrategyName.Text.Trim();
+                    strategy.StrategyType = (StrategyType)cmbStrategyType.SelectedValue;
+                    strategy.Location = (LocationType)cmbStrategyLocation.SelectedValue;
+                    //strategy.Repeatable = chkRepeatable.IsChecked.Value;
+                    //strategy.AverageOrEvery = chkAvgOrEvery.IsChecked.Value;
+                    strategy.Description = txtStrategyDescription.Text.Trim();
+                    //报单、条件检查
+                    strategy.ListOrder.Clear();
+                    orderParamsList.ToList().ForEach(item =>
+                    {
+                        strategy.ListOrder.Add(new Order()
+                        {
+                            _cHedge_flag = item.cHedge_flag,
+                            _cLimit_type = item.cLimit_type,
+                            _cOpen_direction = item.cOpen_direction,
+                            _cOrder_type = item.cOrder_type,
+                            _dLimit_value = item.dLimit_value,
+                            _iVolume_total = item.iVolume_total,
+                            _strExchangeId = item.strExchangeId,
+                            _strInstrument_id = item.strInstrument_id
+                        });
+                    });                    
+
+                    strategy.OpenCondList.Clear();
+                    strategy.OpenCondList.AddRange(ocCondition);
+
+                    //检查平仓策略
+                    var closeStrategies = TQMain.ocStrategy.Where(x => x.InstanceId == strategy.CloseStrategyName
+                      && x.StrategyType == StrategyType.平仓策略 && x.InstanceState == StrategyStateType.未启动);
+                    if (closeStrategies != null && closeStrategies.Count() == 1)
+                    {
+                        var closeStrategy = closeStrategies.ToList()[0];
+                        strategy.CloseStrategy = closeStrategy;
+                        strategy.CloseStrategy.StrategyName = closeStrategy.StrategyName;
+                    }
+                    else
+                    { strategy.CloseStrategy.StrategyName = string.Empty; }
+                }
+            }
+            else
+            {
+                var strategyLibs = TQMain.ocStrategyLib.Where(x => x.ID == int.Parse(txtStrategyID.Text.Trim()));
+                if (strategyLibs != null && strategyLibs.Count() > 0)
+                {
+                    //update strategies[0]
+                    var strategyLib = strategyLibs.ToList()[0];
+                    strategyLib.Name = txtStrategyName.Text.Trim();
+                    strategyLib.StrategyType = (StrategyType)cmbStrategyType.SelectedValue;
+                    //strategyLib.AverageOrEvery = chkAvgOrEvery.IsChecked.Value;
+                    strategyLib.Description = txtStrategyDescription.Text.Trim();
+                    //报单、条件检查
+                    strategyLib.OrderParams.Clear();
+                    strategyLib.OrderParams.AddRange(orderParamsList);
+
+                    strategyLib.OrderCondList.Clear();
+                    strategyLib.OrderCondList.AddRange(ocCondition);
+                    //平仓模板配置检查
+                    //strategyLib.CloseStrategy = cmbCloseStrategyName.SelectedValue as StrategyLib;
+                }
+            }
+        }
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            orderParamsList.Clear();
+            ocCondition.Clear();
+            txtStrategyName.Text = string.Empty;
+            txtStrategyDescription.Text = string.Empty;
+            cmbStrategyType.SelectedIndex = -1;
+            cmbStrategyLocation.SelectedIndex = -1;
+        }        
+    }
+    public class StrategyLib:TQNotifyPropertyChanged
+    {
+        //策略模板库类，包含条件列表，报单参数类实例和平仓策略名称（策略模板库ID）
+        //条件，包括：条件名称，条件单编号，价格逻辑条件组和时间逻辑条件组，及报单参数组
+        private int _StrategyLibID;
+        /// <summary>
+        /// 策略编号，由数字构成，系统自动编号
+        /// 须确保唯一
+        /// </summary>
+        [XmlAttribute]
+        public int ID
+        {
+            get { return _StrategyLibID; }
+            set
+            {
+                _StrategyLibID = value;
+            }
+        }
+        private string _name;
+        [XmlAttribute]
+        public string Name { get { return _name; } set { _name = value; NotifyPropertyChanged("Name"); } }
+        private StrategyType _StrategyType;
+        /// <summary>
+        /// 策略类型
+        /// </summary>
+        [XmlAttribute]
+        public StrategyType StrategyType
+        {
+            get { return _StrategyType; }
+            set
+            {
+                _StrategyType = value;
+                NotifyPropertyChanged("StrategyType");
+            }
+        }
+        private string _Description = "策略描述:";
+        /// <summary>
+        /// 策略描述，用户输入，存储
+        /// </summary>
+        [XmlAttribute]
+        public string Description
+        {
+            get { return _Description; }
+            set
+            {
+                _Description = value;
+                NotifyPropertyChanged("Description");
+            }
+        }
+        /// <summary>
+        /// 报单参数
+        /// </summary>
+        [XmlArray("OrderParams")]
+        [XmlArrayItem("OrderParam")]
+        public List<stOrder> OrderParams { get; set; }
+        /// <summary>
+        /// 均价或者分笔
+        /// 用于手工仓平仓策略
+        /// </summary>
+        [XmlAttribute]
+        public bool AverageOrEvery { get; set; }
+        /// <summary>
+        /// 条件列表
+        /// </summary>
+        [XmlArray("Conditions")]
+        [XmlArrayItem("Condition")]
+        public List<Condition> OrderCondList { get; set; }
+        /// <summary>
+        /// 平仓策略名称
+        /// </summary>
+        [XmlAttribute]
+        public string CloseStrategyTempName
+        {
+            get { return CloseStrategyTemplate == null ? null : CloseStrategyTemplate.Name; }
+            set { }
+        }
+        private StrategyLib _closeStrategyLib;
+        /// <summary>
+        /// 平仓策略模板
+        /// </summary>
+        [XmlElement]
+        public StrategyLib CloseStrategyTemplate
+        {
+            get { return _closeStrategyLib; }
+            set
+            {
+                _closeStrategyLib = value; NotifyPropertyChanged("CloseStrategy");
+            }
+        }
+        public StrategyLib(List<Condition> condList, List<stOrder> par, StrategyLib closestrategy)
+        {
+            OrderCondList = condList;
+            OrderParams = par;
+            CloseStrategyTemplate = closestrategy;
+            
+        }
+        public StrategyLib()
+        {
+            OrderCondList = new List<Condition>();
+            OrderParams = new List<stOrder>();
+            CloseStrategyTemplate = null;
+        }
+    }
+    public class BoolToValueConverter<T> : IValueConverter
+    {
+        public T FalseValue { get; set; }
+        public T TrueValue { get; set; }
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+                return FalseValue;
+            else
+                return (bool)value ? TrueValue : FalseValue;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value != null ? value.Equals(TrueValue) : false;
+        }
+    }
+    public class RepeatableToStringConverter : BoolToValueConverter<String> { }
+    public class AverageEveryToStringConverter : BoolToValueConverter<String> { }
+    public class ConditionsRelationConverter : BoolToValueConverter<String> { }
+    public class TemplateIDToTemplateConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if(value==null)
+            {
+                return null;
+            }
+            int id = int.Parse(value.ToString());
+           var templates = TQMain.ocStrategyLib.Where(x => x.ID == id);
+            if(templates!=null && templates.Count()>0)
+            {
+                return templates.ToList()[0];
+            }
+            return null;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            StrategyLib template = (StrategyLib)value;
+            
+            return template==null?-1:template.ID;
+        }
+    }
+}

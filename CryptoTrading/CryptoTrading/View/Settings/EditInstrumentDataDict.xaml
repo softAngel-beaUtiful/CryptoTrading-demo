@@ -1,0 +1,59 @@
+﻿<srcTickQuantLib:TQXceedChildWindow xmlns:srcTickQuantLib="clr-namespace:CryptoTrading.TQLib" x:Class="CryptoTrading.View.Settings.EditInstrumentDataDict"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Height="400" Width="620">
+    <Grid Loaded="Grid_Loaded" x:Name="InstrumentEditing">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="299*"/>
+            <ColumnDefinition Width="271*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"></ColumnDefinition>
+                <ColumnDefinition Width="150"></ColumnDefinition>
+                <ColumnDefinition Width="64"></ColumnDefinition>
+                <ColumnDefinition Width="64"/>
+                <ColumnDefinition Width="60"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0">交易标的代码</Label>
+            <Label Grid.Row="0" Grid.Column="1">标的名称</Label>
+            <Label Grid.Column="2">交易所</Label>
+            <Label Grid.Column="3">合约价值</Label>
+            <Label Grid.Column="4">价格变动</Label>
+            <TextBox Grid.Row="1" Grid.Column="0" Name="txtInstrumentID" MinWidth="190" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding tInstrumentID, Mode=TwoWay}" />
+            <TextBox Grid.Row="1" Grid.Column="1" Name="txtInstrumentName"  MinWidth="120" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding tInstrumentName, Mode=TwoWay}" Margin="10,6,0,6" Width="122"/>
+            <TextBox Grid.Row="1" Grid.Column="2" Name="txtExchangeID"  Width="60" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding tExchange, Mode=TwoWay}"/>
+            <TextBox Grid.Row="1" Grid.Column="3" Name="txtContractValue" Width="60" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding tContractValue, Mode=TwoWay}"/>
+            <TextBox Grid.Row="1" Grid.Column="4" Name="txtPriceTick"  Width="60" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding tPriceTick, Mode=TwoWay}"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="AddButton" Content="新增" Grid.Column="0" Width="90" Height="35" Click="AddButton_Click"></Button>
+            <Button x:Name="DeleteButton" Content="删除" Grid.Column="1" Width="90" Height="35" Click="DeleteButton_Click"></Button>
+        </Grid>
+        <DataGrid Name="gridInstrumentDataDict" Grid.Row="2" Grid.ColumnSpan="2" AutoGenerateColumns="False" ItemsSource="{Binding}" HorizontalScrollBarVisibility="Auto"
+                  SelectionMode="Single" SelectionUnit="FullRow" CanUserAddRows="False" CanUserSortColumns="True" RowBackground="Gray" AlternationCount="2" VerticalScrollBarVisibility="Auto" SelectionChanged="gridInstrumentDataDict_SelectionChanged"  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="标的代码" Width="250" IsReadOnly="True" Binding="{Binding InstrumentID,Mode=OneWay}"/>
+                <DataGridTextColumn Header="标的名称" Width="150" IsReadOnly="True" Binding="{Binding Name, Mode=OneWay}" FontSize="14" />
+                <DataGridTextColumn Header="交易所" Width="60" IsReadOnly="True" Binding="{Binding ExchangeID, Mode=OneWay}" FontSize="14"/>
+                <DataGridTextColumn Header="合约价值" Width="60" IsReadOnly="True" Binding="{Binding ContractValue, Mode=OneWay}" FontSize="14"/>
+                <DataGridTextColumn Header="价格变动单元" Width="60" IsReadOnly="True" Binding="{Binding PriceTick, Mode=OneWay}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</srcTickQuantLib:TQXceedChildWindow>

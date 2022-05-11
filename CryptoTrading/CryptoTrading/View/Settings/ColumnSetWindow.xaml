@@ -1,0 +1,45 @@
+﻿<srcTickQuantLib:TQXceedChildWindow x:Class="CryptoTrading.ColumnSetWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:srcTickQuantLib="clr-namespace:CryptoTrading.TQLib"
+        x:Name="ColumnSetWin" Height="400" Width="700">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <ListView Margin="15" Name="EditListview" Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" SelectionChanged="EditListView_SelectionChanged" SelectionMode="Single">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="标题" DisplayMemberBinding="{Binding Title}"></GridViewColumn>
+                    <GridViewColumn Header="显示">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <CheckBox IsChecked="{Binding Display}">
+                                    </CheckBox>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="5"></GridSplitter>
+        <Button x:Name="btnUp" Grid.Column="2" Grid.Row="1" Content="上移"  HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" Width="60" Height="40" Click="btnUp_Click" />
+        <Button x:Name="btnDown" Grid.Column="2" Grid.Row="2" Content="下移"  HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" Width="60" Height="40" Click="btnDown_Click"/>
+        <!--<Button Name="btnSetFontColor" Grid.Column="2" Grid.Row="3" Content="设置表格字体颜色" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Height="40" Margin="5" Click="btnSetFontColor_Click" ></Button>-->
+        <!--<Button Name="btnSave" Grid.Column="2" Grid.Row="4" Content="保存" HorizontalAlignment="Left" VerticalAlignment="Center" Width="60" Height="40" Margin="5" Click="btnSave_Click" ></Button>-->
+
+    </Grid>
+</srcTickQuantLib:TQXceedChildWindow>

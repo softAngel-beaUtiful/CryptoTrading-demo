@@ -1,0 +1,153 @@
+﻿<Lib>
+  <OCOs>
+    <OCO ID="OCO1" Name="name1" Description="螺纹钢套利交易开仓策略" >
+      <Strategy  ID="Arbitrage2"/>
+      <Strategy  ID="Arbitrage3"/>
+    </OCO>
+    <OCO ID="OCO2" Name="name2" Description="螺纹钢套利交易开仓策略" >
+      <Strategy  ID="Arbitrage2"/>
+      <Strategy  ID="Arbitrage3"/>
+    </OCO>
+  </OCOs>
+  <Strategies>
+    <!--名称 ID，描述，数量，状态，OCO_ID-->
+    <Strategy ID="Arbitrage1" Name="name1" Description="螺纹钢套利交易开仓策略" Location="Local" Repeatable="True" ExpiredDate="Infinite">
+      <Conditions>
+        <Condition ConditionType="Price" ConditionRelation="And" InstrumentID="1*rb1610-1*rb1701" ContingentConditionType="8" TriggerPrice="800"></Condition>
+        <Condition ConditionType="Time" ConditionRelation="And" TimeLogics="Before" TriggerTime="14:00:00.000"></Condition>
+      </Conditions>
+      <Orders>
+        <OrderParams InstrumentID="1*rb1610-1*rb1701" OrderType="Open" TradeDirection="Long" PriceType="Market" ></OrderParams>
+      </Orders>
+      <SequentStrategy>
+        <Strategy ID="Arbitrage2"/>  
+      </SequentStrategy>
+    </Strategy>
+    <Strategy  Name="name2" ID="Arbitrage2" Description="螺纹钢套利交易平仓策略" Location="Local" Activated="True" Repeatable="True" ExpiredDate="2016-06-05 11:30">
+      <Conditions>
+        <Condition ConditionType="Price" ConditionRelatindon="And" InstrumentID="1*rb1610-1*rb1701" ContingentCondition="6" TriggerPrice="700"></Condition>
+        <Condition ConditionType="Price" ConditionRelation="Or" InstrumentID="1*rb1610-1*rb1701" ContingentCondition="6" TriggerPrice="900"></Condition>
+        <Condition ConditionType="Time" ConditionRelation="Or" TriggerTime="14:55:00.000"></Condition>
+      </Conditions>
+      <Orders>
+        <OrderParams OrderType="Close" TradeDirection="Short" PriceType="Market"></OrderParams>
+      </Orders>      
+    </Strategy>
+    <Strategy Name="name3" ID="GUID" Description="服务器条件单1" Location="Remote">
+      <Conditions>
+        <Condition ConditionType="Price" ConditionRelatindon="And" InstrumentID="rb1610" ContingentCondition="6" TriggerPrice="2350"></Condition>
+      </Conditions>
+      <Orders>
+        <OrderParams InstrumentID="rb1610" OrderType="Open" TradeDirection="Short" Quant="1" PriceType="Limit" Price="2351"></OrderParams>
+      </Orders>
+    </Strategy>
+    <!--IntellectualOrder Name="name2" ID="TimeTrigger1" Description="内外盘套利抢单交易策略">    
+    <Condition ConditionType="Time" ConditionRelation="And" TriggerTime="09:00:00.000"></Condition>
+    <OrderParams InstrumentID="au1606" TradeDirection="Long" Quant="1" PriceType="LastPrice+2"></OrderParams>
+    <OrderParams InstrumentID="ag1606" TradeDirection="Long" Quant="2" PriceType="LastPrice+1"></OrderParams>
+  </IntellectualOrder-->
+    <!--显示数据：条件类型：时间条件/价格条件、条件关系（与/或）、价格条件（合约、条件类型、触发价格）、
+        时间条件（时间关系、触发时间）。双向绑定-->
+    <!--订单参数管理-->
+    <!--
+  public enum ContingentConditionType
+  {
+  /// <summary>
+    /// 立即
+    ///
+  </summary>
+  [EnumDescription("立即")]
+  Immediately='1',
+  /// <summary>
+    /// 止损
+    ///
+  </summary>
+  [EnumDescription("止损")]
+  Touch='2',
+  /// <summary>
+    /// 止赢
+    ///
+  </summary>
+  [EnumDescription("止赢")]
+  TouchProfit='3',
+  /// <summary>
+    /// 预埋单
+    ///
+  </summary>
+  [EnumDescription("预埋单")]
+  ParkedOrder='4',
+  /// <summary>
+    /// 最新价大于条件价
+    ///
+  </summary>
+  [EnumDescription("最新价大于条件价")]
+  LastPriceGreaterThanStopPrice='5',
+  /// <summary>
+    /// 最新价大于等于条件价
+    ///
+  </summary>
+  [EnumDescription("最新价大于等于条件价")]
+  LastPriceGreaterEqualStopPrice='6',
+  /// <summary>
+    /// 最新价小于条件价
+    ///
+  </summary>
+  [EnumDescription("最新价小于条件价")]
+  LastPriceLesserThanStopPrice='7',
+  /// <summary>
+    /// 最新价小于等于条件价
+    ///
+  </summary>
+  [EnumDescription("最新价小于等于条件价")]
+  LastPriceLesserEqualStopPrice='8',
+  /// <summary>
+    /// 卖一价大于条件价
+    ///
+  </summary>
+  [EnumDescription("卖一价大于条件价")]
+  AskPriceGreaterThanStopPrice='9',
+  /// <summary>
+    /// 卖一价大于等于条件价
+    ///
+  </summary>
+  [EnumDescription("卖一价大于等于条件价")]
+  AskPriceGreaterEqualStopPrice='A',
+  /// <summary>
+    /// 卖一价小于条件价
+    ///
+  </summary>
+  [EnumDescription("卖一价小于条件价")]
+  AskPriceLesserThanStopPrice='B',
+  /// <summary>
+    /// 卖一价小于等于条件价
+    ///
+  </summary>
+  [EnumDescription("卖一价小于等于条件价")]
+  AskPriceLesserEqualStopPrice='C',
+  /// <summary>
+    /// 买一价大于条件价
+    ///
+  </summary>
+  [EnumDescription("买一价大于条件价")]
+  BidPriceGreaterThanStopPrice='D',
+  /// <summary>
+    /// 买一价大于等于条件价
+    ///
+  </summary>
+  [EnumDescription("买一价大于等于条件价")]
+  BidPriceGreaterEqualStopPrice='E',
+  /// <summary>
+    /// 买一价小于条件价
+    ///
+  </summary>
+  [EnumDescription("买一价小于条件价")]
+  BidPriceLesserThanStopPrice='F',
+  /// <summary>
+    /// 买一价小于等于条件价
+    ///
+  </summary>
+  [EnumDescription("买一价小于等于条件价")]
+  BidPriceLesserEqualStopPrice='H'
+  }-->
+  </Strategies>
+</Lib>

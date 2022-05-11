@@ -1,0 +1,1 @@
+TQTerminal3.0, 增加通过Websocket使用Bitcoin交易功能

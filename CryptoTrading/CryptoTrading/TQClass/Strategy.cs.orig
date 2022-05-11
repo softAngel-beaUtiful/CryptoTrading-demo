@@ -1,0 +1,1700 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TickQuant.TQLib;
+using TickQuant.Model;
+using TickQuant.ViewModel;
+using System.Xml.Serialization;
+using TickQuant.View;
+
+namespace TickQuant
+{
+    #region handle order
+
+
+
+    #endregion
+    public class OCO
+    {
+        /// <summary>
+        /// OCO名称
+        /// </summary>
+        [XmlAttribute]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// OCO描述
+        /// </summary>
+        [XmlAttribute]
+        public string Description { get; set; }
+        public List<Strategy> OCOStrategies;
+
+        public void Start(List<Strategy> ListStratege)
+        {
+            OCOStrategies = ListStratege;
+            foreach (var va in OCOStrategies) {
+                va.setOCO(this);
+                va.Start();
+            }
+        }
+
+        public void setTrigger(string strategyName)
+        {
+            foreach (var va in OCOStrategies)
+            {
+                if (va.StrategyName == strategyName)
+                    continue;
+                va.End();
+            }
+        }
+    }    
+    public class stOrder
+    {
+        [XmlAttribute]
+        public string strExchangeId { get; set; }                //交易所代码
+        [XmlAttribute]
+        public string strInstrument_id{ get; set; }                 //合约                                                  
+        [XmlAttribute]
+        public int iVolume_total{ get; set; }                       //下单数(手)                                            
+        [XmlAttribute]
+        public TradeDirection cOpen_direction{ get; set; }          //开仓方向 0 买多  1 卖空  
+        [XmlAttribute]
+        public HedgeType cHedge_flag{ get; set; }                   //投机套保标志 1：投机  2：套利   3：套保	          
+        [XmlAttribute]
+        public LimitMarket cOrder_type{ get; set; }              //下单类型 1 市价单 2 限价单                            
+        [XmlAttribute]
+        public LimitPriceSettingType cLimit_type { get; set; }                        //限价单价格设置标准 1 当前价上调2 当前价下降 3 固定价格
+        [XmlAttribute]
+        public double dLimit_value{ get; set; }                     //限价单价格调整值（点数） 
+    }
+
+    public struct stStrategyInfo
+    {
+        public string StrategyName;
+        public StrategyType StrategyType;
+        public string close_StrategyName;           //平仓策略编号
+        public string up_StrategyName;              //上级关联策略编号
+        public string next_StrategyName;            //下级关联策略编号
+        public List<string> listInstrument_id;      //合约代码 (独立平仓可能是一个列表)
+        public char cInstrument_type;               //合约类型 1：普通合约 2：自定义组合
+        public List<string> listVariety_list;       //种类列表，后面用 
+        public char cRepeatable;                    //重复使用标志 1：重复  0：不重复
+        public string strExpired_date;              //有效期  
+        public string Description;
+        public string strInstrument_id;         //整合的时候，需要删除这个值
+        public List<Condition> listCondition;
+        public List<stOrder> listOrder;
+    }
+
+    public class Strategy : TQNotifyPropertyChanged //条件单，包括：条件单名称，条件单编号，价格逻辑条件组和时间逻辑条件组，及报单参数组
+    {        
+        /// <summary>
+        /// 策略实例编号，系统生成 GUID，存储
+        /// 策略模板没有编号
+        /// </summary>
+        public string InstanceId { get; set; }
+
+        OCO _ocoObj=null;
+        public void setOCO(OCO ocoObj)
+        {
+            _ocoObj = ocoObj;
+        }
+        //public Strategy _nextObj { get; set; }
+        public Strategy _upObj { get; set; }           //上层关联策略
+        public Strategy CloseStrategy { get; set; }
+
+        ////策略类别 1：开仓(主策略） 2：平仓 3: 独立平仓
+        private StrategyType _cStrategy_type;
+
+        public StrategyType StrategyType
+        {
+            get { return _cStrategy_type; }
+            set
+            {
+                _cStrategy_type = value;
+                NotifyPropertyChanged("StrategyType");
+            }
+        }
+        private StrategyStateType state;
+        // enum StrategyStatus{ Started, OpenTriggered, Opened, CloseTriggered, Closed}
+        public StrategyStateType InstanceState
+        {
+            get { return state; }
+            set { state = value;
+                NotifyPropertyChanged("InstanceState");
+            }
+        }        
+        private string _StrategyName;
+        /// <summary>
+        /// 策略名称，用户输入，存储 （同后台的策略编号）
+        /// 须确保唯一
+        /// </summary>
+        /// 
+        public string StrategyName
+        {
+            get { return _StrategyName; }
+            set
+            {
+                _StrategyName = value;
+                NotifyPropertyChanged("StrategyName");
+            }
+        }
+        //平仓策略模板名称
+        public string CloseStrategyName
+        {
+            get { return CloseStrategy==null? null:CloseStrategy.StrategyName; }            
+        }
+        
+        //下级关联策略编号
+        public string next_StrategyName
+        {
+            get; set;
+        }
+        //合约代码 (独立平仓可能是一个列表)
+        public List<string> ListInstrumentID
+        {
+            get; set;
+        }
+        private char _cInstrument_type;             //合约类型 1：普通合约 2：自定义组合
+        private List<string> listVariety_list;            //种类列表，后面用 
+        private bool _cRepeatable;                  //重复使用标志 1：重复  0：不重复
+        private string _strExpired_date;            //有效期  
+        private string _closeStrategyID; //平仓策略ID
+        /// <summary>
+        /// 开仓条件列表
+        /// </summary>
+        public List<Condition> OpenCondList;
+        /// <summary>
+        /// 下单参数列表
+        /// </summary>
+        public List<Order> ListOrder;
+        public Dictionary<string, independOrder> dicInDependOrder = new Dictionary<string, independOrder>();
+
+        /// <summary>
+        /// 均价或者分笔
+        /// 用于手工仓平仓策略
+        /// </summary>
+        public bool AverageOrEvery { get; set; }
+        public LogicPosition CurrentPosition;
+        public int StrategyPosition
+        {
+            get { return CurrentPosition == null ? 0 : CurrentPosition.Position; }
+        }
+        private string _Description;
+        /// <summary>
+        /// 策略描述，用户输入，存储
+        /// </summary>
+        public string Description
+        {
+            get { return _Description; }
+            set
+            {
+                _Description = value;
+                NotifyPropertyChanged("Description");
+            }
+        }
+        private LocationType _Location;
+        /// <summary>
+        /// 策略位置，用户不可输入，由 StrategyType 得出，存储
+        /// </summary>
+        public LocationType Location
+        {
+            get { return _Location; }
+            set
+            {
+                _Location = value;
+                NotifyPropertyChanged("Location");
+            }
+        }
+        private bool _repeatable;
+        public bool Repeatable
+        {
+            get { return _repeatable; }
+            set
+            {
+                _repeatable = value;
+                NotifyPropertyChanged("Repeatable");
+            }
+        }        
+        public Strategy(StrategyLib strategylib)
+        {
+            InstanceId = Guid.NewGuid().ToString();
+            _StrategyName = strategylib.Name;
+            InstanceState = StrategyStateType.未启动;
+            Repeatable = false;  //default
+            AverageOrEvery = false; //default
+            if (strategylib.StrategyType == StrategyType.平仓策略 || strategylib.StrategyType == StrategyType.手工单平仓策略 || strategylib.StrategyType == StrategyType.服务器平仓策略)
+            {                
+                CloseStrategy = null;
+                //
+            }
+            else
+            {
+                CloseStrategy = new Strategy(strategylib.CloseStrategyTemplate);
+                TQMain.ocStrategy.Add(CloseStrategy);
+            }
+           
+            OpenCondList = strategylib.OrderCondList; //new List<Condition>();
+            ListOrder = new List<Order>();
+            ListInstrumentID = new List<string>();
+            listVariety_list = new List<string>();
+        }
+        public Strategy(string strategyName)
+        {
+            InstanceId = Guid.NewGuid().ToString();
+            //_nextObj = null;
+            _upObj = null;       //上层关联策略
+            //CloseStrategy = null;
+            _StrategyName = strategyName;
+            InstanceState = StrategyStateType.未启动;
+            Repeatable = false;
+            AverageOrEvery = false;                      
+            next_StrategyName = null;
+            OpenCondList = new List<Condition>();
+            ListOrder = new List<Order>();
+            ListInstrumentID = new List<string>();
+            listVariety_list = new List<string>();
+        }
+        Condition condition;
+        //Order order;
+        //stStrategyInfo _closeStrategyInfo;
+
+        //public void setUpStrategy(Strategy upStrategy)
+        //{
+        //    _upObj = upStrategy;
+        //}
+        public void Start()
+        {
+            //如果是依赖策略 平仓，需要计算触发价格
+            //（init时还没有 开仓成交数，所以没有成交价，无法计算平仓价格，所以放到start 计算）
+            //暂时会有一个小的设计问题，起始价只能是 第一个成交回报的 价格；
+            if (_cStrategy_type == StrategyType.平仓策略)
+            {
+                for (int i = 0; i < OpenCondList.Count; i++)
+                {
+                    Condition condition = OpenCondList[i];
+                    if (condition.conditionType == ConditionType.本机时间条件)
+                        continue;                    
+                    this.condition.calClosePrice(_upObj.ListOrder[0]);
+                }
+            }
+            InstanceState = StrategyStateType.已启动;
+        }
+        public void End()
+        {
+            //如果已经下单，需要调用撤单
+            foreach (var pa in ListOrder)
+            {
+                pa.CancelOrder();
+            }
+
+            InstanceState = StrategyStateType.已终止;
+            if (_cStrategy_type == StrategyType.平仓策略) {
+                //如果是平仓，同时设置 开仓策略的状态为已终止
+                _upObj.End();
+            }
+        }
+        public int Init(StrategyLib strategyInfo)
+        {
+            //读配置文件，设定策略的值
+            _cStrategy_type = strategyInfo.StrategyType;
+            //close_StrategyName = strategyInfo.close_StrategyName;
+            CloseStrategy = new Strategy(CloseStrategyName);
+            //up_StrategyName = strategyInfo.up_StrategyName;
+            //next_StrategyName = strategyInfo.next_StrategyName;
+
+            //listVariety_list = strategyInfo.listVariety_list;
+            //listInstrument_id = strategyInfo.listInstrument_id; //暂时没有发现有对stStrategyInfo的listInstrument_id赋值的地方
+            _cRepeatable = false;
+            //_strExpired_date = strategyInfo.strExpired_date;
+            //_cInstrument_type = strategyInfo.cInstrument_type;
+            _Description = strategyInfo.Description;
+            //取策略条件的值
+            OpenCondList.AddRange(strategyInfo.OrderCondList);
+            foreach (var cond in strategyInfo.OrderCondList)
+            {
+                if (cond.priceStruct != null && !string.IsNullOrEmpty(cond.priceStruct.InstrumentID) && !ListInstrumentID.Contains(cond.priceStruct.InstrumentID))
+                {
+                    ListInstrumentID.Add(cond.priceStruct.InstrumentID);
+                }
+            }
+            //取order
+            for (int i = 0; i < strategyInfo.OrderParams.Count; i++)
+            {
+                stOrder stOrder = strategyInfo.OrderParams[i];
+                Order order = new Order();
+
+                order._strExchangeId = stOrder.strExchangeId;                  //交易所代码
+                order._strInstrument_id = stOrder.strInstrument_id;             //合约                                                  
+                order._iVolume_total = stOrder.iVolume_total;                   //下单数(手)                                            
+                order._cOpen_direction = stOrder.cOpen_direction;               //开仓方向 0 买多  1 卖空  
+                order._cHedge_flag = stOrder.cHedge_flag;                       //投机套保标志 1：投机  2：套利   3：套保	          
+                order._cOrder_type = stOrder.cOrder_type;                       //下单类型 1 市价单 2 限价单                            
+                order._cLimit_type = stOrder.cLimit_type;                       //限价单价格设置标准 1 当前价上调2 当前价下降 3 固定价格
+                order._dLimit_value = stOrder.dLimit_value;                     //限价单价格调整值（点数） 
+                ListOrder.Add(order);
+            }
+            //手工仓 平仓策略，需要取得对应的手工仓
+            if (_cStrategy_type == StrategyType.手工单平仓策略)
+            {
+                //先循环合约列表
+                foreach (var va in ListInstrumentID)
+                {
+                    independOrder indepandorder = new independOrder();
+
+                    indepandorder.getOrder(va, OpenCondList);
+
+                    dicInDependOrder[va] = indepandorder;
+                }
+                //再循环 产品列表
+                foreach (var va in listVariety_list) {
+                    var posis = TQMain.dicLogicPositions.Values.Where(x => x.InstrumentID.Contains(va) && x.IsStrategy == false).ToList();
+                    for (int i = 0; i < posis.Count; i++) {
+                        //先看列表里是否已经有这个合约了，如果有了，跳过去
+                        independOrder indepandorder = dicInDependOrder[va];
+                        if (indepandorder != null)
+                            continue;
+
+                        indepandorder = new independOrder();
+                        indepandorder.getOrder(posis[i].InstrumentID, OpenCondList);
+                        dicInDependOrder[posis[i].InstrumentID] = indepandorder;
+                    }
+                }
+            }
+            return 0;
+        }
+        public void RefreshIndepend()
+        {
+            if (_cStrategy_type != StrategyType.手工单平仓策略)
+                return;
+            string instrument = "";
+            //找到对应的 对象
+            independOrder indepandorder = dicInDependOrder[instrument];
+            if (indepandorder == null)
+                return;
+            //ture TrueValue="分笔"
+            if (AverageOrEvery == true)
+            {
+                //找到对应的 order，查看是否
+                // 如果找不到 order，说明是新成交单，加入 list
+            }
+            else {
+            }
+        }
+        public void RtnOrder(stRtnOrderInfo rtnOrderInfo)
+        {
+            foreach (var pa in ListOrder)
+            {
+                if ( pa._iOrderRef == rtnOrderInfo.iOrderRef)
+                    pa.RtnOrder(rtnOrderInfo);
+            }
+        }
+        public void SetCloseStrategy(StrategyLib closeStrategyInfo)
+        {
+            CloseStrategy = new Strategy(closeStrategyInfo);          
+        }
+        private bool _IsConditionsMeeted;
+        public bool IsConditionsMeeted
+        {
+            get
+            {
+                if (OpenCondList == null || OpenCondList.Count == 0)
+                {
+                    _IsConditionsMeeted = false;
+                }
+                else
+                {
+                    _IsConditionsMeeted = OpenCondList[0].State;
+
+                    for (int i = 1; i < OpenCondList.Count; i++)
+                    {
+                        if (OpenCondList[i].conditionLogics == ConditionLogicsType.并且)
+                            _IsConditionsMeeted = _IsConditionsMeeted && OpenCondList[i].State;
+                        else
+                            _IsConditionsMeeted = _IsConditionsMeeted || OpenCondList[i].State;
+                    }
+                }
+                return _IsConditionsMeeted;
+            }
+        }
+        public bool Contains(string sInstrumentID)
+        {
+            foreach (var condition in OpenCondList)
+            {
+                if (condition.Contains(sInstrumentID))
+                    return true;
+            }
+            return false;
+        }
+        /// <summary>
+        /// 初始驱动，如果条件满足，立即下单
+        /// </summary>
+        /// <returns></returns>
+        public bool eventTrigger()
+        {
+            if (InstanceState != StrategyStateType.已启动)
+                return false;
+
+            if (RefreshState())
+            {
+                OrderInsert();
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 行情驱动，如果条件满足，立即下单
+        /// </summary>
+        /// <param name="md"></param>
+        /// <returns></returns>
+        public bool eventTrigger(MarketData md)
+        {
+            if (InstanceState != StrategyStateType.已启动)
+                return false;
+
+            if (RefreshState(md))
+            {
+                if (_cStrategy_type == StrategyType.手工单平仓策略)
+                    OrderInsert_independ(md);
+                else
+                    OrderInsert();
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 时间驱动，如果条件满足，立即下单
+        /// </summary>
+        /// <returns></returns>
+        public bool eventTrigger(DateTime dt)
+        {
+            if (InstanceState != StrategyStateType.已启动)
+                return false;
+
+            if (this.RefreshState(dt))
+            {
+                if (_cStrategy_type == StrategyType.手工单平仓策略)
+                    OrderInsert_independ();
+                else
+                    OrderInsert();
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        private bool RefreshState()
+        {
+            foreach (var c in OpenCondList)
+            {
+                c.RefreshState();
+            }
+
+            return IsConditionsMeeted;
+        }
+        private bool RefreshState(MarketData md)
+        {
+            if (StrategyType == StrategyType.手工单平仓策略)
+            {
+                independOrder indepandorder = dicInDependOrder[md.InstrumentID];
+                if (indepandorder == null)
+                    return false;
+                //ture TrueValue="分笔"
+                if (AverageOrEvery == true)
+                {
+                    for (int i = 0; i < indepandorder.listOrderInfo.Count; i++)
+                    {
+                        bool state = false;
+                        stIndependOrderInfo orderInfo = indepandorder.listOrderInfo[i];
+                        if (orderInfo.CloseOrderStatus != IndependOrderStatus.未平仓)
+                            continue;
+                        foreach (var c in OpenCondList)
+                        {
+                            state = c.RefreshState_independ(md, orderInfo.Direction, orderInfo.dStopLess_Price, orderInfo.dTargetProfit_Price);
+
+                            if (state == true)
+                            {
+                                orderInfo.CloseOrderStatus = IndependOrderStatus.等待平仓;
+                                //有一个order 条件触发了，就设置 这个条件的状态为 触发，但是，下完单后，需要重新置为 false
+                                c.State = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var va in indepandorder.dicTotalOrder.Values)
+                    {
+                        bool state = false;
+                        if (va.CloseOrderStatus != IndependOrderStatus.未平仓)
+                            continue;
+                        foreach (var c in OpenCondList)
+                        {
+                            state = c.RefreshState_independ(md, va.Direction, va.dStopLess_Price, va.dTargetProfit_Price);
+
+                            if (state == true)
+                            {
+                                va.CloseOrderStatus = IndependOrderStatus.等待平仓;
+                                //有一个order 条件触发了，就设置 这个条件的状态为 触发，但是，下完单后，需要重新置为 false
+                                c.State = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            if (this.Contains(md.InstrumentID))
+            {
+                foreach (var c in OpenCondList)
+                {
+                    c.RefreshState(md);
+                }
+            }            
+            return IsConditionsMeeted;
+        }
+        private bool RefreshState(DateTime dt)
+        {
+            foreach (var c in OpenCondList)
+            {
+                c.RefreshState(dt);
+            }
+            return IsConditionsMeeted;
+        }
+
+        public void OrderInsert()
+        {
+            //触发的时候，检查是否OCO组合，是的话，需要调用OCO 处理
+            if (_ocoObj != null) {
+                _ocoObj.setTrigger(StrategyName);
+            }
+
+            foreach (var pa in ListOrder)
+            {
+                //如果是平仓 ,需要根据开仓数 下单
+                if (this.StrategyType == StrategyType.平仓策略) {
+                    foreach (var order in _upObj.listOrder)
+                    {
+                        //先撤单
+                        order.CancelOrder();
+                        //再平仓
+                        pa._strExchangeId = order._strExchangeId;
+                        pa._strInstrument_id = order._strInstrument_id;
+
+                        if (order._cOpen_direction == TradeDirection.多)
+                            pa._cOpen_direction = TradeDirection.空;
+                        else if (order._cOpen_direction == TradeDirection.空)
+                            pa._cOpen_direction = TradeDirection.多;
+
+                        pa._cHedge_flag = order._cHedge_flag;
+                        if (AverageOrEvery == true) //分笔平仓
+                        {
+                            //分笔成交信息，平仓单数据（平仓方向、平仓价格、平仓合约....)
+                            foreach (var trade in order.listTrade)
+                            {
+                                pa._iVolume_total = trade.iVolume;
+                                pa._dLimit_value = order._dLimit_value;// trade.dPrice;
+                                pa._cLimit_type = order._cLimit_type;
+                                pa.orderInsert();
+                            }
+                        }
+                        else
+                        {
+                            //均价平仓
+                            pa._dLimit_value = 0; //TODO
+                            pa._iVolume_total = order.getTradeVolume();
+                            pa._cLimit_type = order._cLimit_type;
+                            pa.orderInsert();
+                        }
+                    }
+                }
+                else
+                    pa.orderInsert();
+            }
+            InstanceState = StrategyStateType.开仓触发;
+        }
+
+        public void OrderInsert_independ()
+        {
+            if (dicInDependOrder.Count == 0 )
+                return;
+            foreach ( var vaa in dicInDependOrder.Values) { 
+                //ture TrueValue="分笔"
+                if (AverageOrEvery == true)
+                {
+                    for (int i = 0; i < vaa.listOrderInfo.Count; i++)
+                    {
+                        stIndependOrderInfo orderInfo = vaa.listOrderInfo[i];
+                        //判断价格条件时，已经设置为等待平仓状态的 order 
+                        if (orderInfo.CloseOrderStatus == IndependOrderStatus.等待平仓)
+                        {
+                            Order order = ListOrder[0];
+                            order._strExchangeId = vaa.Exchange_id;
+                            order._strInstrument_id = vaa.Instrumen_id;
+
+                            if (orderInfo.Direction == TradeDirection.多)
+                                order._cOpen_direction = TradeDirection.空;
+                            else if (orderInfo.Direction == TradeDirection.空)
+                                order._cOpen_direction = TradeDirection.多;
+
+                            order._cHedge_flag = orderInfo.Hedge_flag;
+
+                            order._iVolume_total = orderInfo.iVolume;
+                            order.orderInsert();
+                            orderInfo.CloseOrderStatus = IndependOrderStatus.已触发平仓;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var va in vaa.dicTotalOrder.Values)
+                    {
+                        if (va.CloseOrderStatus == IndependOrderStatus.等待平仓)
+                        {
+                            Order order = ListOrder[0];
+                            order._strExchangeId = vaa.Exchange_id;
+                            order._strInstrument_id = vaa.Instrumen_id;
+
+                            if (va.Direction == TradeDirection.多)
+                                order._cOpen_direction = TradeDirection.空;
+                            else if (va.Direction == TradeDirection.空)
+                                order._cOpen_direction = TradeDirection.多;
+
+                            order._cHedge_flag = va.Hedge_flag;
+
+                            order._iVolume_total = va.iTotalVolume;
+                            order.orderInsert();
+                            va.CloseOrderStatus = IndependOrderStatus.已触发平仓;
+                        }
+                    }
+                }
+            }
+        }
+
+        public void OrderInsert_independ(MarketData md)
+        {
+            independOrder indepandorder = dicInDependOrder[md.InstrumentID];
+            if (indepandorder == null)
+                return ;
+            //ture TrueValue="分笔"
+            if (AverageOrEvery == true)
+            {
+                for (int i = 0; i < indepandorder.listOrderInfo.Count; i++)
+                {
+                    stIndependOrderInfo orderInfo = indepandorder.listOrderInfo[i];
+                    //判断价格条件时，已经设置为等待平仓状态的 order 
+                    if (orderInfo.CloseOrderStatus == IndependOrderStatus.等待平仓) {
+                        Order order = ListOrder[0];
+                        order._strExchangeId = md.exchangeID;
+                        order._strInstrument_id = md.instrumentID;
+
+                        if (orderInfo.Direction == TradeDirection.多)
+                            order._cOpen_direction = TradeDirection.空;
+                        else if (orderInfo.Direction == TradeDirection.空)
+                            order._cOpen_direction = TradeDirection.多;
+
+                        order._cHedge_flag = orderInfo.Hedge_flag;
+
+                        order._iVolume_total = orderInfo.iVolume;
+                        order.orderInsert();
+                        orderInfo.CloseOrderStatus = IndependOrderStatus.已触发平仓;
+                    }
+                }
+            }
+            else
+            {
+                foreach (var va in indepandorder.dicTotalOrder.Values)
+                {
+                    if (va.CloseOrderStatus == IndependOrderStatus.等待平仓)
+                    {
+                        Order order = ListOrder[0];
+                        order._strExchangeId = md.exchangeID;
+                        order._strInstrument_id = md.instrumentID;
+
+                        if (va.Direction == TradeDirection.多)
+                            order._cOpen_direction = TradeDirection.空;
+                        else if (va.Direction == TradeDirection.空)
+                            order._cOpen_direction = TradeDirection.多;
+
+                        order._cHedge_flag = va.Hedge_flag;
+
+                        order._iVolume_total = va.iTotalVolume;
+                        order.orderInsert();
+                        va.CloseOrderStatus = IndependOrderStatus.已触发平仓;
+                    }
+                }
+            }
+        }
+
+        bool closeActivateFlag = false;
+        public void rtnTrade(stTradeInfo tradeInfo)
+        {
+            int overFalg = 1;
+            for (int i = 0; i < ListOrder.Count; i++) {
+                if (tradeInfo.iOrderRef == ListOrder[i]._iOrderRef)
+                    ListOrder[i].rtnTrade(tradeInfo);
+                if (ListOrder[i].getStatus() != OrderStatusType.全部成交 && ListOrder[i].getStatus() != OrderStatusType.撤单)
+                    overFalg = 0;
+            }
+            //order 已经结束，更新整个策略的状态, 查看是否有下一个策略，激活
+            if (overFalg == 1) {
+                if (CloseStrategyName == null)
+                    InstanceState = StrategyStateType.已终止;
+                if (next_StrategyName != null) {
+                    //根据 name 从内存里找到对应的对象，调用start
+                }
+            }
+            //有成交回报 就需要激活平仓策略
+            if (CloseStrategyName != null && closeActivateFlag == false) {
+                //根据 name 从内存里找到对应的对象，调用start
+                var strategyLibs = TQMain.ocStrategyLib.Where(x => x.ID.ToString() == CloseStrategyName&& (x.StrategyType== StrategyType.平仓策略 || x.StrategyType== StrategyType.服务器平仓策略)); //是否需要包含服务器平仓策略
+                if (strategyLibs != null && strategyLibs.Count() > 0)
+                {
+                    var strategyLib = strategyLibs.ToList()[0];
+                    //TODO：需要考虑平仓策略的有效性
+                    Strategy closeStrategy = new Strategy(strategyLib.Name);
+
+                    //stStrategyInfo strategyInfo = new stStrategyInfo()
+                    //{
+                    //    StrategyType = strategyLib.StrategyType,
+                    //    close_StrategyName = strategyLib.CloseStrategyName.ToString(),
+                    //    listCondition = strategyLib.OrderCondList,
+                    //    listOrder = strategyLib.OrderParams,
+                    //    Description = strategyLib.Description,
+                    //};
+                    closeStrategy.Init(strategyLib);
+                    closeStrategy.Location = LocationType.本机;
+                    _closeStrategyID = closeStrategy.InstanceId;
+                    closeStrategy._upObj = this;
+                    TQMain.ocStrategy.Add(closeStrategy);
+                    closeStrategy.Start();
+                }             
+
+                closeActivateFlag = true;
+                InstanceState = StrategyStateType.平仓触发;
+            }
+        }
+
+        public class independOrder
+        {
+            public List<stIndependOrderInfo> listOrderInfo;
+           
+            public  Dictionary<string, stIndependTotalOrderInfo> dicTotalOrder = new Dictionary<string, stIndependTotalOrderInfo>();
+
+            public void getOrder(string instrumentId , List<Condition> OpenCondList) {
+                Instrumen_id = instrumentId;
+
+                var posis = TQMain.dicLogicPositions.Values.Where(x => x.InstrumentID == instrumentId && x.IsStrategy == false).ToList();
+                for (int i = 0; i < posis.Count; i++)
+                {
+                    stIndependOrderInfo orderInfo = new stIndependOrderInfo();
+                    //orderInfo.orderDay = posis[i].
+
+                    // ExchangeName 是否是 Exchange_id ，需要确认！！
+                    Exchange_id = posis[i].ExchangeName;
+                    if (posis[i].Direction == PosiDirection.多)
+                        orderInfo.Direction = TradeDirection.多;
+                    else if (posis[i].Direction == PosiDirection.空)
+                        orderInfo.Direction = TradeDirection.空;
+                    orderInfo.Hedge_flag = HedgeType.投机;
+                    orderInfo.iVolume = posis[i].Position; //策略持仓量
+                    orderInfo.dPrice = posis[i].PositionCost;  //策略持仓成本
+                    orderInfo.iCloseVolume = 0;
+
+                    orderInfo.CloseOrderStatus = IndependOrderStatus.未平仓;
+
+                    foreach (var pa in OpenCondList)
+                    {
+                        if (pa.conditionType == ConditionType.本机时间条件)
+                            continue;
+                        if (pa.priceStruct.contingentCondition == TQContingentConditionType.止损)
+                            orderInfo.dStopLess_Price = pa.calPrice(orderInfo.Direction, orderInfo.dPrice);
+                        else if (pa.priceStruct.contingentCondition == TQContingentConditionType.止盈)
+                            orderInfo.dTargetProfit_Price = pa.calPrice(orderInfo.Direction, orderInfo.dPrice);
+                    }
+
+                    listOrderInfo.Add(orderInfo);
+
+                    string listKey = string.Format("%d:%d", orderInfo.Direction, orderInfo.Hedge_flag);
+
+                    stIndependTotalOrderInfo totalOrder = dicTotalOrder[listKey];
+                    if (totalOrder == null)
+                    {
+                        totalOrder = new stIndependTotalOrderInfo();
+
+                        totalOrder.Direction = orderInfo.Direction;
+                        totalOrder.Hedge_flag = orderInfo.Hedge_flag;
+                        totalOrder.dAveragePrice = orderInfo.dPrice;
+                        totalOrder.iTotalVolume = orderInfo.iVolume;
+                        totalOrder.iCloseVolume = orderInfo.iCloseVolume;
+
+                        dicTotalOrder[listKey] = totalOrder;
+                    }
+                    else {
+                        double dTotalCost = totalOrder.dAveragePrice * totalOrder.iTotalVolume;
+                        dTotalCost += (orderInfo.iVolume * orderInfo.dPrice);
+                        totalOrder.iTotalVolume += totalOrder.iTotalVolume + orderInfo.iVolume;
+                        totalOrder.dAveragePrice = dTotalCost / totalOrder.iTotalVolume;
+                    }
+                }
+            }
+            public void clear() {
+                listOrderInfo.Clear();
+                dicTotalOrder.Clear();
+            }
+
+            public string Instrumen_id;
+            public string Exchange_id;
+        }
+
+        public struct stIndependOrderInfo
+        {
+            public string orderDay;
+            public string orderRef;
+
+            public TradeDirection Direction;                    //买卖方向
+            public HedgeType Hedge_flag;
+            public double dPrice;
+            public int iVolume;
+            public int iCloseVolume;                            //已经平仓数
+
+            public double dTargetProfit_Price;                  //根据触发条件及 下单价格计算出的 平仓止盈价格
+            public double dStopLess_Price;                      //止损价
+
+            public IndependOrderStatus CloseOrderStatus;		//单个平仓下单状态
+        }
+
+        //分类统计的 开仓
+        public class stIndependTotalOrderInfo
+        {
+            public string key;
+            public TradeDirection Direction;                         //买卖方向
+            public HedgeType Hedge_flag;
+
+            public double dAveragePrice;
+            public int iTotalVolume;
+            public int iCloseVolume;                            //已经平仓数
+
+            public double dTargetProfit_Price;                  //根据触发条件及 下单价格计算出的 平仓止盈价格
+            public double dStopLess_Price;                      //止损价
+
+            public IndependOrderStatus CloseOrderStatus;		//单个平仓下单状态
+        }
+    }
+
+    public class PriceStruct
+    {
+        [XmlAttribute]
+        public string InstrumentID { get; set; }
+        [XmlAttribute]
+        public char cInstrumentType { get; set; }            ////合约类1：普通合约 2：自定义组合  
+        [XmlAttribute]
+        public PriceType priceType { get; set; }             //价格类型
+        [XmlAttribute]
+        public TQContingentConditionType contingentCondition { get; set; }     //触发条件 1 大于 2 大于等于 3 小于 4 小于等于 6 止盈 7 止损 8 移动止损
+        [XmlAttribute]
+        public PercentPointType rate_point { get; set; }         //百分比/点数 （平仓配置） 1：百分比 2：点数
+        [XmlAttribute]
+        public double TrigerPrice { get; set; }                  //触发值（点数、比例、涨/跌点数）
+        [XmlAttribute]
+        public double orderPrice { get; set; }                   //计算后的 下单价格  设置时不用设置这个值，由策略里面 设置
+    }
+
+    public class TimeStruct
+    {
+        // 开市即成交
+        [XmlAttribute]
+        public bool ExchangeIsOpen { get; set; }
+
+        // 满足特定时间之前或之后
+        [XmlAttribute]
+        public TimeLogicsType timeLogics { get; set; }
+        [XmlAttribute]
+        public DateTime TrigerTime { get; set; }
+    }
+
+    public class Condition
+    {
+        //string InstrumentID;m
+        [XmlAttribute]
+        public ConditionType conditionType { get; set; }                   //条件类型： 1：价格 2：时间      
+        [XmlAttribute]
+        public ConditionLogicsType conditionLogics { get; set; }             //条件关系  
+        [XmlElement]
+        public PriceStruct priceStruct { get; set; }
+        [XmlElement]
+        public TimeStruct timeStruct { get; set; }
+
+
+        public Condition()
+        {
+            _State = false;
+        }
+        public Condition(PriceStruct price)
+        {
+            conditionType = ConditionType.本机价格条件;
+            priceStruct = price;
+            priceStruct.orderPrice = priceStruct.TrigerPrice;
+            _State = false;
+        }
+
+        public Condition(TimeStruct time)
+        {
+            conditionType = ConditionType.本机时间条件;
+            timeStruct = time;
+            _State = false;
+        }
+
+        private bool _State;
+        public bool State
+        {
+            get { return _State; }
+            set { _State = value; }
+        }
+
+        public bool ReverseState()
+        {
+            _State = !_State;
+            return _State;
+        }
+
+        public bool Contains(string sInstrumentID)
+        {
+            if (priceStruct!=null && (conditionType == ConditionType.本机价格条件 || conditionType == ConditionType.服务器条件单))
+            {
+                return (priceStruct.InstrumentID == sInstrumentID);
+            }
+            return false;
+        }
+
+        public void RefreshState()
+        {
+            switch (conditionType)
+            {
+                // 时间条件
+                case ConditionType.本机时间条件:
+                    if (timeStruct.ExchangeIsOpen)
+                        return;
+                    else
+                    {
+                        switch (timeStruct.timeLogics)
+                        {
+                            case TimeLogicsType.之后:
+                                _State = (PreciseTimer.GetPreciseTime(0) >= timeStruct.TrigerTime);
+                                break;
+                            case TimeLogicsType.之前:
+                                _State = (PreciseTimer.GetPreciseTime(0) <= timeStruct.TrigerTime);
+                                break;
+                            case TimeLogicsType.准时:
+                                break;
+                        }
+                        return;
+                    }
+                case ConditionType.服务器条件单:
+                    //TODO:
+                    if (priceStruct.rate_point == PercentPointType.默认 && priceStruct.orderPrice == 0)
+                    {
+                        priceStruct.orderPrice = priceStruct.TrigerPrice;
+                    }
+                    break;
+                
+                    // 价格条件
+                default:
+                    MarketData md;
+                    if (!TQMain.dicMarketData.TryGetValue(priceStruct.InstrumentID, out md))
+                    {
+                        _State = false;
+                        return;
+                    }
+
+                    double dPrice = 0;
+                    switch (priceStruct.priceType)
+                    {
+                        case PriceType.最新价:
+                            dPrice = md.LastPrice;
+                            break;
+                        case PriceType.买一价:
+                            dPrice = md.AskPrice1;
+                            break;
+                        case PriceType.卖一价:
+                            dPrice = md.BidPrice1;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (priceStruct.contingentCondition == TQContingentConditionType.移动止损) {
+                        //如果最高价或最低价变化了，更新最高或最低价，同时 重新计算 触发价格
+                        if (moveFlag == 1)  //最高
+                        {
+                            if (dPrice > moveLimitPrice) {
+                                moveLimitPrice = dPrice;
+                                calPrice_move(moveLimitPrice);
+                                return;
+                            }
+                        }
+                        else {
+                            if (dPrice < moveLimitPrice)
+                            {
+                                moveLimitPrice = dPrice;
+                                calPrice_move(moveLimitPrice);
+                                return;
+                            }
+                        }
+                    }
+                    if (priceStruct.rate_point == PercentPointType.默认 && priceStruct.orderPrice == 0)
+                    {
+                        priceStruct.orderPrice = priceStruct.TrigerPrice;
+                    }
+                    PositionDataSummary ps;
+                    switch (priceStruct.contingentCondition)
+                    {
+                        case TQContingentConditionType.大于:
+                            _State = (dPrice > priceStruct.orderPrice);
+                            break;
+                        case TQContingentConditionType.大于等于:
+                            _State = (dPrice >= priceStruct.orderPrice);
+                            break;
+                        case TQContingentConditionType.小于:
+                            _State = (dPrice < priceStruct.orderPrice);
+                            break;
+                        case TQContingentConditionType.止损:
+                            ////买多 + 止损 or 卖空 + 止盈 ：价格下跌 只要一个达到就触发
+                            if (oldOrderDirection == TradeDirection.多)
+                                _State = (dPrice  <= priceStruct.orderPrice);
+                            else
+                                _State = (dPrice >= priceStruct.orderPrice);
+
+                            break;
+                        case TQContingentConditionType.止盈:
+                            if (oldOrderDirection == TradeDirection.多)
+                                _State = (dPrice >= priceStruct.orderPrice);
+                            else
+                                _State = (dPrice <= priceStruct.orderPrice);
+                            break;
+                        case TQContingentConditionType.移动止损:
+                            //买多 移动止损 是最高价   
+                            if (oldOrderDirection == TradeDirection.多)
+                                _State = (dPrice <= priceStruct.orderPrice);
+                            else
+                                _State = (dPrice >= priceStruct.orderPrice);
+                            break;
+                        default:
+                            _State = false;
+                            break;
+                    }
+
+                    break;
+            }
+        }
+
+        public void RefreshState(MarketData md)
+        {
+            switch (conditionType)
+            {
+                // 时间条件
+                case ConditionType.本机时间条件:
+                    return;
+                // 价格条件
+                default:
+                    if (md.InstrumentID != priceStruct.InstrumentID)
+                        return;
+
+                    double dPrice = 0;
+                    switch (priceStruct.priceType)
+                    {
+                        case PriceType.最新价:
+                            dPrice = md.LastPrice;
+                            break;
+                        case PriceType.买一价:
+                            dPrice = md.AskPrice1;
+                            break;
+                        case PriceType.卖一价:
+                            dPrice = md.BidPrice1;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (priceStruct.contingentCondition == TQContingentConditionType.移动止损)
+                    {
+                        //如果最高价或最低价变化了，更新最高或最低价，同时 重新计算 触发价格
+                        if (moveFlag == 1)  //最高
+                        {
+                            if (dPrice > moveLimitPrice)
+                            {
+                                moveLimitPrice = dPrice;
+                                calPrice_move(moveLimitPrice);
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            if (dPrice < moveLimitPrice)
+                            {
+                                moveLimitPrice = dPrice;
+                                calPrice_move(moveLimitPrice);
+                                return;
+                            }
+                        }
+                    }
+
+                    if (priceStruct.rate_point == PercentPointType.默认 && priceStruct.orderPrice == 0)
+                    {
+                        priceStruct.orderPrice = priceStruct.TrigerPrice;
+                    }
+                    PositionDataSummary ps;
+                    switch (priceStruct.contingentCondition)
+                    {
+                        case TQContingentConditionType.大于:
+                            _State = (dPrice > priceStruct.orderPrice);
+                            break;
+                        case TQContingentConditionType.大于等于:
+                            _State = (dPrice >= priceStruct.orderPrice);
+                            break;
+                        case TQContingentConditionType.小于:
+                            _State = (dPrice < priceStruct.orderPrice);
+                            break;
+                        case TQContingentConditionType.止损:
+                            ////买多 + 止损 or 卖空 + 止盈 ：价格下跌 只要一个达到就触发
+                            if (oldOrderDirection == TradeDirection.多)
+                                _State = (dPrice <= priceStruct.orderPrice);
+                            else
+                                _State = (dPrice >= priceStruct.orderPrice);
+
+                            break;
+                        case TQContingentConditionType.止盈:
+                            if (oldOrderDirection == TradeDirection.多)
+                                _State = (dPrice >= priceStruct.orderPrice);
+                            else
+                                _State = (dPrice <= priceStruct.orderPrice);
+                            break;
+                        case TQContingentConditionType.移动止损:
+                            //买多 移动止损 是最高价   
+                            if (oldOrderDirection == TradeDirection.多)
+                                _State = (dPrice <= priceStruct.orderPrice);
+                            else
+                                _State = (dPrice >= priceStruct.orderPrice);
+                            break;
+                        default:
+                            _State = false;
+                            break;
+                    }
+
+                    break;
+            }
+        }
+        public bool RefreshState_independ(MarketData md, TradeDirection oldOrderDirection, double dStopLess_Price, double dTargetProfit_Price) {
+            switch (conditionType)
+            {
+                default:
+                    double dPrice = 0;
+                    switch (priceStruct.priceType)
+                    {
+                        case PriceType.最新价:
+                            dPrice = md.LastPrice;
+                            break;
+                        case PriceType.买一价:
+                            dPrice = md.AskPrice1;
+                            break;
+                        case PriceType.卖一价:
+                            dPrice = md.BidPrice1;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (priceStruct.contingentCondition == TQContingentConditionType.移动止损)
+                    {
+                        //如果最高价或最低价变化了，更新最高或最低价，同时 重新计算 触发价格
+                        if (moveFlag == 1)  //最高
+                        {
+                            if (dPrice > moveLimitPrice)
+                            {
+                                moveLimitPrice = dPrice;
+                                calPrice_move(moveLimitPrice);
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            if (dPrice < moveLimitPrice)
+                            {
+                                moveLimitPrice = dPrice;
+                                calPrice_move(moveLimitPrice);
+                                return false;
+                            }
+                        }
+                    }
+
+                    bool State =false ;
+                    switch (priceStruct.contingentCondition)
+                    {
+                        case TQContingentConditionType.止损:
+                            ////买多 + 止损 or 卖空 + 止盈 ：价格下跌 只要一个达到就触发
+                            if (oldOrderDirection == TradeDirection.多)
+                                State = (dStopLess_Price <= dPrice);
+                            else
+                                State = (dStopLess_Price >= dPrice);
+
+                            break;
+                        case TQContingentConditionType.止盈:
+                            if (oldOrderDirection == TradeDirection.多)
+                                State = (dTargetProfit_Price >= dPrice);
+                            else
+                                State = (dTargetProfit_Price <= dPrice);
+                            break;
+                        case TQContingentConditionType.移动止损:
+                            //买多 移动止损 是最高价   
+                            if (oldOrderDirection == TradeDirection.多)
+                                State = (priceStruct.orderPrice <= dPrice);
+                            else
+                                State = (priceStruct.orderPrice >= dPrice);
+                            break;
+                        default:
+                            State = false;
+                            break;
+                    }
+
+                    break;
+            }
+            return State;
+        }
+
+        public void RefreshState(DateTime dt)
+        {
+            switch (conditionType)
+            {
+                // 时间条件
+                case ConditionType.本机时间条件:
+                    if (timeStruct.ExchangeIsOpen)
+                        return;
+                    else
+                    {
+                        if (this.timeStruct.TrigerTime.Subtract(dt).TotalSeconds < 1)
+                            _State = this.ReverseState();
+                    }
+                    break;
+                // 价格条件
+                default:
+                    break;
+            }
+        }
+        //
+        TradeDirection oldOrderDirection;
+        public void calClosePrice(Order upOrder)
+        {
+            priceStruct.InstrumentID = upOrder._strInstrument_id;
+            //先计算order 均价
+            int totalVolume = 0;
+            double totalCost = 0;
+            for (int i = 0; i < upOrder.listTrade.Count; i++)
+            {
+                totalVolume += upOrder.listTrade[i].iVolume;
+                totalCost += upOrder.listTrade[i].dPrice * upOrder.listTrade[i].iVolume;
+            }
+            double avePrice = totalCost / totalVolume;
+
+            double endPrice = 0;
+            oldOrderDirection = upOrder._cOpen_direction;
+            switch (priceStruct.contingentCondition)
+            {
+                case TQContingentConditionType.移动止损:
+                    if (upOrder._cOpen_direction == TradeDirection.多)
+                        moveFlag = 1;
+                    else
+                        moveFlag = 2;
+
+                    if (moveLimitPrice == 0)
+                        moveLimitPrice = avePrice;
+
+                    endPrice = calPrice_move(moveLimitPrice);
+                    break;
+                case TQContingentConditionType.止损:
+                case TQContingentConditionType.止盈:
+
+                    endPrice = calPrice(oldOrderDirection, avePrice);
+                    break;
+                default:
+                    break;
+
+            }
+            priceStruct.orderPrice = endPrice;
+        }
+
+        public double calPrice(TradeDirection oriDirection, double oriPrice)
+        {
+            double dClosePrice = 0;
+            //买多 + 止损 or 卖空 + 止盈 ：价格下跌
+            if ((oriDirection == TradeDirection.多 && priceStruct.contingentCondition == TQContingentConditionType.止损) ||
+                 (oriDirection == TradeDirection.空 && priceStruct.contingentCondition == TQContingentConditionType.止盈))
+            {
+                if (priceStruct.rate_point == PercentPointType.百分比)
+                    dClosePrice = oriPrice * (1 - oriPrice * priceStruct.TrigerPrice / 100);
+                else
+                    dClosePrice = oriPrice - priceStruct.TrigerPrice;
+
+            }
+            //买多 + 止赢 or 卖空 + 止损 ：价格上涨
+            else if ((oriDirection == TradeDirection.多 && priceStruct.contingentCondition == TQContingentConditionType.止盈) ||
+                 (oriDirection == TradeDirection.空 && priceStruct.contingentCondition == TQContingentConditionType.止损))
+            {
+                if (priceStruct.rate_point == PercentPointType.百分比)
+                    dClosePrice = oriPrice * (1 + oriPrice * priceStruct.TrigerPrice / 100);
+                else
+                    dClosePrice = oriPrice + priceStruct.TrigerPrice;
+            }
+
+            return dClosePrice;
+        }
+
+        int moveFlag = 0;             //1 最高  2 最低 
+        double moveLimitPrice = 0;    //移动止损/赢最高/低价
+
+        private double calPrice_move(double oriPrice)
+        {
+            double dClosePrice = 0;
+            //买多 移动止损 是最高价 
+            if (moveFlag == 1)
+            {
+                if (priceStruct.rate_point == PercentPointType.百分比)
+                    dClosePrice = oriPrice * (1 - oriPrice * priceStruct.TrigerPrice / 100);
+                else
+                    dClosePrice = oriPrice - priceStruct.TrigerPrice;
+
+            }
+            //卖空  移动止损 是 最低价
+            else if (moveFlag == 2)
+            {
+                if (priceStruct.rate_point == PercentPointType.百分比)
+                    dClosePrice = oriPrice * (1 + oriPrice * priceStruct.TrigerPrice / 100);
+                else
+                    dClosePrice = oriPrice + priceStruct.TrigerPrice;
+            }
+
+            return dClosePrice;
+        }
+    }
+
+    public class Order
+    {
+        public string _strInvestor_id;                 //投资者代码                     
+        public string _strStrategy_ID;                 //策略编号
+
+        public string _strBrokerID;
+        public string _strExchangeId;                  //交易所代码
+
+        public string _strInstrument_id;                //合约                                 _                 
+        public int _iVolume_total;                      //下单数(手)                                            
+        public TradeDirection _cOpen_direction;          //开仓方向 0 买多  1 卖空  
+        public HedgeType _cHedge_flag;                  //投机套保标志 1：投机  2：套利   3：套保	          
+        public LimitMarket _cOrder_type;             //下单类型 1 市价单 2 限价单                            
+        public LimitPriceSettingType _cLimit_type;                       //限价单价格设置标准 1 当前价上调2 当前价下降 3 固定价格
+        public double _dLimit_value;                    //限价单价格调整值（点数） 
+
+        public string _strOrderDate=null;               //下单日期
+        public string _iOrderRef;                          //报单引用（撤销时需要使用)
+
+        public int _iFrontId;
+        public int _iSessionId;
+        public string _strOrderSysId;
+
+        public int getTradeVolume() { return _iTradeVolume; }
+
+
+        private OrderStatusType _cStatus;
+        public OrderStatusType getStatus() { return _cStatus; }
+        private int _iOrderId;
+        private int _iTradeVolume;
+
+        public List<stTradeInfo> listTrade;
+        public Order()
+        {
+            listTrade = new List<stTradeInfo>();
+        }
+        public void orderInsert()
+        {
+            string orderRefPreix = Utility.GetCustOrderRef();
+            Combo custProduct;
+            if (TQMain.dicCustomProduct.TryGetValue(_strInstrument_id, out custProduct))
+            {
+                custProduct.OrderBoardQuant = _iVolume_total;
+                custProduct.OrderBoardQuantMode = QuantMode.Preset;
+
+                string orderRef = orderRefPreix + Trader.OrderNo.ToString().PadLeft(8, '0');
+                TQMain.LogicOrderMappingList.Add(new LogicOrderMapping()
+                {
+                    OrderParams = new OrderParams()
+                    {
+                        ExchangeID = _strExchangeId,
+                        HedgeType = _cHedge_flag,
+                        InstrumentID = _strInstrument_id,
+                        InvestorID = _strInvestor_id,
+                        IsCombo = true,
+                        OrderMode = custProduct.OrderBoardOrderMode,
+                        OrderRefPrefix = orderRefPreix,
+                        FakFok = FakFok.Default,
+                        PriceTick = custProduct.PriceTick,
+                        //priceType
+                        Quant = _iVolume_total,
+                        StrategyId = _strStrategy_ID,
+                        TradeDirection = _cOpen_direction
+                    },
+                    TradeList = new List<TradeField>()
+                });
+                _iOrderRef = orderRef;
+                custProduct.IsCurrent = true;
+                custProduct.OrderBoardPriceString = _dLimit_value.ToString(); //TODO
+                PricingMode pricingMode = _cOrder_type == LimitMarket.限价 ? PricingMode.Preset : PricingMode.Market;
+                TQMain.T.ReqOrderInsert(custProduct, _cOpen_direction, _iVolume_total, orderRefPreix);
+                custProduct.IsCurrent = false;
+                //custProduct.CustomProductOrderInsert((TradeDirection)pa.TradeDirection, (HedgeType)pa.CombHedgeFlag[0],(OffsetType)pa.CombOffsetFlag[0], pa.LimitPrice, pa.VolumeTotalOriginal); //pa.Direction, pa.CombOffsetFlag, pa.VolumeTotalOriginal);
+            }
+            else
+            {
+                MarketData md = TQMain.dicMarketData[_strInstrument_id];
+                md.OrderBoardQuant = _iVolume_total;
+                md.OrderBoardQuantMode = QuantMode.Preset;
+            
+                string orderRef = orderRefPreix + Trader.OrderNo.ToString().PadLeft(8, '0');
+                TQMain.LogicOrderMappingList.Add(new LogicOrderMapping()
+                {
+                    OrderParams = new OrderParams()
+                    {
+                        ExchangeID = _strExchangeId,
+                        HedgeType = _cHedge_flag,
+                        InstrumentID = _strInstrument_id,
+                        InvestorID = _strInvestor_id,
+                        IsCombo = false,
+                        OrderMode = md.OrderBoardOrderMode,
+                        OrderRefPrefix = orderRefPreix,
+                        FakFok = FakFok.Default,
+                        PriceTick = md.PriceTick,
+                        //priceType
+                        Quant = _iVolume_total,
+                        StrategyId = _strStrategy_ID,
+                        TradeDirection = _cOpen_direction
+                    },
+                    TradeList = new List<TradeField>()
+                });
+                _iOrderRef = orderRef;
+                md.IsCurrent = true;
+                md.OrderBoardPriceString = GetLimitPrice(md,TQMain.dicInstrumentData[_strInstrument_id]).ToString();
+                PricingMode pricingMode = _cOrder_type == LimitMarket.限价 ? PricingMode.Preset : PricingMode.Market;
+                TQMain.T.ReqOrderInsert(md, _cOpen_direction, _iVolume_total, pricingMode, orderRefPreix);
+                md.IsCurrent = false;
+            }
+
+            
+            //需要保留报单引用
+            //_iOrderRef
+            _strOrderDate = DateTime.Now.ToString("yyyyMMdd");
+
+
+        }
+
+        public void rtnTrade(stTradeInfo tradeInfo)
+        {
+            listTrade.Add(tradeInfo);
+            _iTradeVolume += tradeInfo.iVolume;
+            if (_iTradeVolume == _iVolume_total)
+                _cStatus = OrderStatusType.全部成交;
+        }
+
+        public void CancelOrder()
+        {
+            //未下单，不需要撤单
+            if (_strOrderDate==null)
+                return;
+            string curDate = DateTime.Now.ToString("yyyyMMdd");
+            //不是当天的交易不需要再撤销
+            if (curDate != _strOrderDate)
+                return;
+            //已经全部成交，不需要再撤销
+            if (_iTradeVolume == _iVolume_total)
+                return;
+            //调用撤单函数
+            InputOrderActionField actionFiled = new InputOrderActionField();
+
+            actionFiled.InstrumentID = _strInstrument_id;
+            actionFiled.OrderRef = string.Format("%d", _iOrderRef);
+            actionFiled.FrontID = _iFrontId;
+            actionFiled.SessionID = _iSessionId;
+            actionFiled.ExchangeID = _strExchangeId;
+            actionFiled.OrderSysID = _strOrderSysId;
+            actionFiled.ActionFlag = (char)ActionFlagType.Delete;
+
+            TQMain.T.ReqOrderAction(actionFiled);
+        }
+
+        public void RtnOrder(stRtnOrderInfo rtnOrderInfo)
+        {
+            _iFrontId = rtnOrderInfo.iFrontId;
+            _iSessionId = rtnOrderInfo.iSessionId;
+            _strOrderSysId = rtnOrderInfo.strOrderSysId;
+        }
+
+        private double GetLimitPrice(MarketData md, InstrumentData instrument)
+        {
+            double limitPrice = 0;
+            switch (_cLimit_type)
+            {
+                case LimitPriceSettingType.固定价格:
+                    limitPrice = _dLimit_value;
+                    break;
+                case LimitPriceSettingType.最新价上调:
+                    limitPrice = md.lastPrice + instrument.PriceTick * _dLimit_value;
+                    break;
+                case LimitPriceSettingType.最新价下调:
+                    limitPrice = md.lastPrice - instrument.PriceTick * _dLimit_value;
+                    break;
+            }
+            return limitPrice;
+        }
+    }
+
+    public struct stRtnOrderInfo
+    {
+        public string iOrderRef;
+        public int iFrontId;
+        public int iSessionId;
+        public string strOrderSysId;
+    }
+   
+
+    public struct stTradeInfo
+    {
+        public string iOrderRef;
+        public int iVolume;
+        public double dPrice;
+    }
+    public enum ConditionLogicsType : sbyte
+    {
+        并且,
+        或者
+    }
+
+    public enum ConditionType : sbyte
+    {
+        本机价格条件,
+        本机时间条件,
+        服务器条件单
+    }
+
+    public enum TimeLogicsType : sbyte
+    {
+        立即,
+        之前,
+        之后,
+        准时
+    }
+    public enum StrategyStateType
+    {
+        未启动,
+        已启动,
+        开仓触发,
+        已开仓,//部分开仓也计为 已开仓
+        平仓触发,
+        已平仓,//必须全部仓位已平仓
+        已终止 //最终状态，没有配置平仓策略
+    }
+
+    public enum StrategyType
+    {
+        主策略,
+        平仓策略,
+        手工单平仓策略,
+        服务器平仓策略,
+        服务器主策略,
+        服务器预埋单,
+        风控策略,
+    }
+
+    public enum LocationType
+    {
+        本机,
+        后台,
+        服务器
+    }
+
+
+    public enum PriceType
+    {
+        [EnumDescription("最新价")]
+        最新价 = '4',
+        [EnumDescription("买一")]
+        买一价 = 'C',
+        [EnumDescription("卖一")]
+        卖一价 = '8'
+    }
+
+    public enum TQContingentConditionType
+    {
+        [EnumDescription("大于")]
+        大于 = '1',
+        [EnumDescription("大于等于")]
+        大于等于 = '2',
+        [EnumDescription("小于")]
+        小于 = '3',
+        [EnumDescription("小于等于")]
+        小于等于 = '4',
+        [EnumDescription("止盈")]
+        止盈 = '6',
+        [EnumDescription("止损")]
+        止损 = '7',
+        [EnumDescription("移动止损")]
+        移动止损 = '8',
+        [EnumDescription("对比现价浮赢")]
+        对比现价浮赢 = '9',
+        [EnumDescription("对比现价浮亏")]
+        对比现价浮亏 = 'a'
+    }
+
+    public enum PercentPointType
+    {
+        //默认 = '0',
+        //百分比 = '1',
+        //点数 = '2'
+        默认,
+        百分比,
+        点数 
+    }
+
+    public enum Open_price_type
+    {
+        按单独开仓价多次平仓 = '1',
+        按开仓均价一次平仓 = '2'
+    }
+
+    public enum IndependOrderStatus
+    {
+        未平仓,
+        等待平仓,
+        已触发平仓
+    }
+    public enum ExitContingentConditionType
+    {
+        止盈,
+        止损,
+        移动止盈止损,
+        大于,
+        大于等于,
+        小于,
+        小于等于
+    }
+    /// <summary>
+    /// 限价单价格设置类型
+    /// </summary>
+    public enum LimitPriceSettingType
+    {
+        最新价上调 = '1',
+        最新价下调 = '2',
+        固定价格 = '3'
+    }
+}

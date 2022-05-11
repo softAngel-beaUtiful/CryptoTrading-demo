@@ -1,0 +1,9 @@
+﻿<Configuration>
+    <ConditionalOrderNo>1</ConditionalOrderNo>
+    <CustomProducts>
+        <item InstrumentID="1*btc_quarter-1*btc_this_week" InstrumentName="比特币季度当周跨" PriceTick="1" />
+        <item InstrumentID="1*eth_quarter-1*eth_this_week" InstrumentName="以太季度当周跨" PriceTick="1" />
+        <item InstrumentID="1*eth_next_week-1*eth_this_week" InstrumentName="以太下周当周跨" PriceTick="1" />
+        <item InstrumentID="1*btc_next_week-1*btc_this_week" InstrumentName="比特币下周当周跨" PriceTick="1" />
+    </CustomProducts>
+</Configuration>

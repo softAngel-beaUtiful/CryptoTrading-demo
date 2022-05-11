@@ -1,0 +1,6 @@
+﻿<Users>
+    <User UserID="majorshi">
+        <Exchange ExchangeID="BitMex" PublicKey="g3LzAakju723bKtVDb7f-jYm" PrivateKey="X859n6RLPmOb4XfHQFO9HNrGtY8O8wMuRsH-JnnC_7wr7I3m" />
+        <Exchange ExchangeID="Okex" PublicKey="ace3a62f-68c3-4516-8287-1e2c92767e0b" PrivateKey="3D3A5183A48C339371F846867BC74ECB" PassPhrase="Edward2012" />
+    </User>
+</Users>

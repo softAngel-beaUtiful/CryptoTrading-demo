@@ -1,0 +1,55 @@
+﻿<srcTickQuantLib:TQXceedChildWindow x:Class="CryptoTrading.TradeShortcutKeyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:assembly="clr-namespace:System;assembly=mscorlib"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:tq="clr-namespace:CryptoTrading"
+        xmlns:srcTickQuantLib="clr-namespace:CryptoTrading.TQLib"
+        mc:Ignorable="d"
+        x:Name="TradeShortcutKeyWin" Height="400" Width="600" Loaded="TradeShortcutKeyWin_Loaded" Closed="TradeShortcutKeyWin_Closed">
+    <xctk:ChildWindow.Resources>
+        <ObjectDataProvider x:Key="keyCmdAction" MethodName="GetValues" ObjectType="{x:Type assembly:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                <x:Type Type="tq:CommandActions"></x:Type>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+    </xctk:ChildWindow.Resources>
+        <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Name="lblTradeShortcutKeyTip" Grid.Row="0" Content="交易快捷键列表" VerticalAlignment="Center" HorizontalAlignment="Left"></Label>
+        <DataGrid Name="dgTradeShortKeys" Grid.Row="1"  AutoGenerateColumns="False" ItemsSource="{Binding}" IsReadOnly="False" GridLinesVisibility="None"
+                Focusable="True" SelectionMode="Single" SelectionUnit="FullRow"  SelectedIndex="0"
+                CanUserSortColumns="False" VerticalAlignment="Stretch" RowBackground="Azure" >
+            <DataGrid.Columns>
+                <DataGridTemplateColumn  Header="快捷键" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <tq:BareTextBox x:Name="txtCmdKey" Text="{Binding CmdKey,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150" ></tq:BareTextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="动作" Width="250">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Action}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox x:Name="cmbCmdAction" ItemsSource="{Binding Source={StaticResource keyCmdAction}}" SelectedItem="{Binding Path=Action}" SelectedIndex="0"></ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                <!--<DataGridComboBoxColumn   Header="动作" SelectedItemBinding="{Binding Action}" ItemsSource="{Binding Source={StaticResouce keyCmdAction}}" Width="200"></DataGridComboBoxColumn>-->
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</srcTickQuantLib:TQXceedChildWindow>

@@ -1,0 +1,27 @@
+﻿<srcTickQuantLib:TQXceedChildWindow x:Class="CryptoTrading.CommonDisplayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:srcTickQuantLib="clr-namespace:CryptoTrading.TQLib"
+        mc:Ignorable="d"
+        x:Name="CommonDisplayWin" Height="400" Width="600" Loaded="CommonDisplayWin_Loaded" Closed="CommonDisplayWin_Closed">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <CheckBox Name="chkBoxUsePreSettlementPrice" Grid.Row="0" Grid.Column="0" Content="是否以昨结价计算涨跌(幅)"  HorizontalAlignment="Left" VerticalAlignment="Center"></CheckBox>
+        <Label Name="lblChangeAlgo" Grid.Row="0" Grid.Column="1" Content="默认以以昨收价计算涨跌(幅)" HorizontalAlignment="Left" VerticalAlignment="Center"></Label>
+    </Grid>
+</srcTickQuantLib:TQXceedChildWindow>

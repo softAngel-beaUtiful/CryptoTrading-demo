@@ -1,0 +1,82 @@
+﻿<Window x:Class="CryptoTrading.MultipleSettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xtk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        Title="用户设置" Height="508" Width="1100" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="400*"></RowDefinition>
+            <RowDefinition Height="2"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180"></ColumnDefinition>
+            <!--<ColumnDefinition Width="2"></ColumnDefinition>-->
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <ScrollViewer Grid.Row="0" Grid.Column="0" Margin="5,10,1,0" BorderBrush="Black" BorderThickness="1">
+            <TreeView BorderThickness="0" IsEnabled="True">
+                <TreeViewItem Header="合约设置" IsExpanded="True">
+                    <TreeViewItem Name="tviEditInstrumentData" Header="增删交易标的" Selected="tviEditInstrumentData_Selected"></TreeViewItem>
+                    <TreeViewItem Name="tviOptionalInstrumentGroup" Header="增删合约组" Selected="ManageInstrumentGroup"></TreeViewItem>
+                    <TreeViewItem Name="tviOptionalInstrument" Header="设置合约组" Selected="InstrumentGroup_Settingd"></TreeViewItem>
+                    <TreeViewItem Name="tviCustomInstrument" Header="设置自定义组合" Selected="CustomInstrument_Setting"></TreeViewItem>
+                </TreeViewItem>
+                <TreeViewItem Header="下单" IsExpanded="True">
+                    <TreeViewItem Header="常规" IsExpanded="True">
+                        <TreeViewItem Name="tviDefaultQuant" Header="默认张数" Selected="DefaultQuantConfig_Selected"></TreeViewItem>
+                        <TreeViewItem Header="自动开平"></TreeViewItem>
+                        <TreeViewItem Header="数量倍率"></TreeViewItem>
+                    </TreeViewItem>
+                    <TreeViewItem Name="tviOrderBoard" Selected="tviOrderBoard_Selected" Header="下单板"></TreeViewItem>
+                    <TreeViewItem Header="键盘快速下单"></TreeViewItem>
+                    <TreeViewItem Header="鼠标快速下单"></TreeViewItem>
+                    <TreeViewItem Header="自动止损"></TreeViewItem>
+                </TreeViewItem>
+                <TreeViewItem Header="交易快捷设置" IsExpanded="True">
+                    <TreeViewItem Name="tviTradeCommon" Header="常规" Selected="tviTradeCommon_Selected"></TreeViewItem>
+                    <TreeViewItem Name="tviTradeShortcutKey" Header="快捷键设置" Selected="tviTradeShortcutKey_Selected"></TreeViewItem>
+                </TreeViewItem>
+                <TreeViewItem Header="显示" IsExpanded="True">
+                    <TreeViewItem Name="tviCommonDispaly" Header="常规" Selected="tviCommonDispaly_Selected"></TreeViewItem>
+                    <TreeViewItem Name="tviColor" Header="颜色" Selected="tviColor_Selected"></TreeViewItem>
+                </TreeViewItem>
+                <TreeViewItem Header="风险管理"></TreeViewItem>
+                <TreeViewItem Name="tviNotices" Header="提示及反馈" Selected="tviNotices_Selected"></TreeViewItem>
+                <TreeViewItem Name="tviLocalDataMaintain" Header="本地数据维护设置" Selected="tviLocalDataMaintain_Selected"></TreeViewItem>
+                <TreeViewItem Header="表格设置" IsExpanded="True">
+                    <TreeViewItem Name="tviTradingAccount" Header="资金账户" Selected="TradingAccountColumn_Selected"></TreeViewItem>
+                    <TreeViewItem Name="tviMarketData" Header="报价表" Selected="OfferPriceColumn_Selected"></TreeViewItem>
+                    <TreeViewItem Name="tviInstrument" Header="合约列表" Selected="InstrumentColumn_Selected"></TreeViewItem>
+                    <TreeViewItem Name="tviTrade" Header="成交明细" Selected="TradeColumn_Selected"></TreeViewItem>
+                    <TreeViewItem Name="tviTradeSummary" Header="成交汇总" Selected="TradeSummaryColumn_Selected"></TreeViewItem>
+                    <TreeViewItem Name="tviManualPosition" Header="人工持仓" Selected="ManualPositionColumn_Selected"></TreeViewItem>
+                    <TreeViewItem Name="tviStrategyPosition" Header="策略持仓" Selected="StrategyPositionColumn_Selected"></TreeViewItem>
+                    <TreeViewItem Name="tviPosition" Header="持仓明细" Selected="PositionColumn_Selected"></TreeViewItem>
+                    <TreeViewItem Name="tviPositionSummary" Header="持仓汇总" Selected="PositionSummary_Selected"></TreeViewItem>
+                    <!--<TreeViewItem Name="tviComboPosition" Header="组合持仓" Selected="ComboPositionColumn_Selected"></TreeViewItem>-->
+                    <TreeViewItem Name="tviOrder" Header="所有委托单" Selected="OrderColumn_Selected"></TreeViewItem>
+                    <TreeViewItem Name="tviUnsettledOrder" Header="未成交单" Selected="UnsettledOrderColumn_Selected"></TreeViewItem>
+                    <TreeViewItem Name="tviCanceledOrder" Header="撤单" Selected="CanceledOrderColumn_Selected"></TreeViewItem>
+                    <TreeViewItem Name="tviParkedOrder" Header="条件单" Selected="ParkedOrderColumn_Selected"></TreeViewItem>
+                    <TreeViewItem Name="tviSettledOrder" Header="已成交单" Selected="SettledOrderColumn_Selected"></TreeViewItem>
+                </TreeViewItem>
+            </TreeView>
+        </ScrollViewer>       
+        <xtk:WindowContainer xtk:Name="childContainer"  Grid.Row="0" Margin="19,0,10,1" Grid.RowSpan="2" Grid.Column="1"  />       
+        <GridSplitter Grid.Row="1" Grid.ColumnSpan="3"></GridSplitter>
+        <Grid Name="gridOper" Grid.Row="2" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*"></ColumnDefinition>
+                <ColumnDefinition Width="20*"></ColumnDefinition>
+                <ColumnDefinition Width="20*"></ColumnDefinition>
+                <ColumnDefinition Width="20*"></ColumnDefinition>
+                <ColumnDefinition Width="20*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnOk" Content="确定" Grid.Column="1" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center" Width="85" Height="30" Click="btnOk_Click"/>
+            <Button x:Name="btnApply" Content="应用" Grid.Column="2" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center" Width="85" Height="30" Click="btnApply_Click"/>
+            <Button x:Name="btnCancel" Content="取消" Grid.Column="3" HorizontalAlignment="Center" Margin="5"  VerticalAlignment="Center" Width="85" Height="30" Click="btnCancel_Click"/>
+        </Grid>
+    </Grid>
+</Window>

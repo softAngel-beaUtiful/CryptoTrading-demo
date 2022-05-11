@@ -1,0 +1,21 @@
+﻿<Window x:Class="CryptoTrading.AboutTickQuant"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        Title="关于泰元集成交易终端" Height="500" Width="500" ResizeMode="NoResize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="40*"/>
+        </Grid.ColumnDefinitions>
+        <Image Grid.Column="0" Source="tdt.ico" HorizontalAlignment="Left" Height="361" VerticalAlignment="Top" Width="125"/>
+        <StackPanel Orientation="Vertical" Grid.Column="1">
+            <TextBlock Name="TxtBk1" Text="泰元集成交易终端" HorizontalAlignment="Left" Margin="0,2,0,0" VerticalAlignment="Top" Grid.Column="3" Width="150"/>
+            <TextBlock Name="TxtBk2" Text="ver1.6" HorizontalAlignment="Left" Margin="0,2,0,0" VerticalAlignment="Top" Grid.Column="3" Width="150"/>
+            <TextBlock Name="TxtBk3" Text="Copyright 2015-2016" HorizontalAlignment="Left" Margin="0,2,0,0" VerticalAlignment="Top" Grid.Column="3" Width="150"/>
+            <TextBox Name="TxtBk4"   IsReadOnly="True" TextWrapping="WrapWithOverflow"  Text="宽客数据技术（深圳）有限公司 Tick Data Technologies Inc." HorizontalAlignment="Left" Margin="0,2,0,0" VerticalAlignment="Top" Grid.Column="3"/>
+            <TextBox Name="RichTxt1" IsReadOnly="True" TextWrapping="WrapWithOverflow" Text="泰元集成交易平台（TickQuant)，新一代颠覆式量化投资交易平台，一站式集成股票软件、期货软件、量化交易平台等交易软件的功能，着眼于量化投资即自动化、智能化、大数据化投资交易方向的突破，以新一代IT技术为基础，在产品上追求专业、专注、极致，追求极致的用户体验，为机构和个人投资者创造价值" />
+        </StackPanel>
+    </Grid>
+</Window>
+

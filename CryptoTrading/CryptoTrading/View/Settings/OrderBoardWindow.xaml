@@ -1,0 +1,49 @@
+﻿<srcTickQuantLib:TQXceedChildWindow x:Class="CryptoTrading.OrderBoardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:xtk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:srcTickQuantLib="clr-namespace:CryptoTrading.TQLib"
+        x:Name="OrderBoardWin"  Height="400" Width="600" Loaded="OrderBoardWin_Loaded" Closed="OrderBoardWin_Closed">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <GroupBox Name="grpBoxCheck" Header="下单板" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="5">
+            <StackPanel Orientation="Vertical">
+                <CheckBox Name="chkBoxOrderConfirm" Content="下单前确认"  Margin="5" Click="chkBoxOrderConfirm_Click"></CheckBox>
+                <CheckBox Name="chkBoxFillDfltQuant" Content="切换合约时自动填入默认手数"  Margin="5" Click="chkBoxFillDfltQuant_Click"></CheckBox>
+                <!--<CheckBox Name="chkBoxOrderPrice" Content="默认下单价格" Margin="5" Click="chkBoxOrderPrice_Click"></CheckBox>-->
+            </StackPanel>
+        </GroupBox>
+        <Grid Name="gridCmbBox" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4">
+            <Grid.RowDefinitions>
+                <RowDefinition ></RowDefinition>
+                <RowDefinition ></RowDefinition>
+                <RowDefinition ></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Name="lblOrderPrice" Grid.Row="0" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center"  Content="默认下单价格"></Label>
+            <ComboBox Name="cmbBoxOrderPrice" Grid.Row="0" Grid.Column="1" Width="80" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                <ComboBoxItem>最新价</ComboBoxItem>
+                <ComboBoxItem>买一价</ComboBoxItem>
+                <ComboBoxItem>卖一价</ComboBoxItem>
+            </ComboBox>
+        </Grid>
+    </Grid>
+</srcTickQuantLib:TQXceedChildWindow>

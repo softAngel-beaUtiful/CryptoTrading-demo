@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="MajorControl.MajorChartControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MajorControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="950" d:DesignWidth="1600">
+    <UserControl.Resources>                
+            <ContextMenu x:Key="MajorContextMenu">
+            <MenuItem Header="Trade"/>
+            <MenuItem Header="ChangeCandlePeriod" Click="ChangeCandlePeriod_Click"/>
+                <Separator/>
+                <MenuItem Header="Indicator"/>
+                <MenuItem Header="DataTimeRange"/>
+            </ContextMenu>
+        <ContextMenu x:Key="TradePair">
+            <MenuItem Header="TradePair" />
+        </ContextMenu>
+    </UserControl.Resources>
+    <Grid>                
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" x:Name="candlestickdata" Text=""/>
+            <Canvas x:Name="chartCanvas" Grid.Row="1" Background="Black" ClipToBounds="True" MouseMove="chartCanvas_MouseMove" MouseRightButtonDown="chartCanvas_MouseRightButtonDown"/>
+            <TextBlock x:Name="volume" Text="" Grid.Row="2"/>
+            <Canvas x:Name="spreadCanvas" Grid.Row="3" ClipToBounds="True" Background="Gray"/>        
+    </Grid>
+</UserControl>

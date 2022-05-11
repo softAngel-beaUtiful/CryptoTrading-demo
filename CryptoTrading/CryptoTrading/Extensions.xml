@@ -1,0 +1,20 @@
+﻿<Configuration>
+    <ConditionalOrderNo>33</ConditionalOrderNo>
+    <CustomProducts>
+        <item InstrumentID="1*btc_quarter-1*btc_this_week" InstrumentName="比特币季度当周跨" PriceTick="1" />
+        <item InstrumentID="1*btc_quarter-1*btc_next_week" InstrumentName="比特币季度下周跨" PriceTick="1" />
+        <item InstrumentID="1*eth_quarter-1*eth_this_week" InstrumentName="以太季度当周跨" PriceTick="1" />
+        <item InstrumentID="1*eth_next_week-1*eth_this_week" InstrumentName="以太下周当周跨" PriceTick="1" />
+        <item InstrumentID="1*btc_next_week-1*btc_this_week" InstrumentName="比特币下周当周跨" PriceTick="1" />
+        <item InstrumentID="1*eos_quarter-1*eos_this_week" InstrumentName="柚子季度当周跨" PriceTick="0.01" />
+        <item InstrumentID="1*eos_next_week-1*eos_this_week" InstrumentName="柚子下周当周跨" PriceTick="0.01" />
+        <item InstrumentID="1*btc_quarter-1*XBTUSD" InstrumentName="Ok-BM季度实时跨" PriceTick="1" />
+        <item InstrumentID="1*btc_quarter-100*XBTU19" InstrumentName="OK-BM928跨市套" PriceTick="1" />
+        <item InstrumentID="1*btc_this_week-100*XBTUSD" InstrumentName="移仓ok-bm" PriceTick="50" />
+        <item InstrumentID="1*btc_quarter-100*XBTUSD" InstrumentName="ok-bmquarter-usd" PriceTick="50" />
+        <item InstrumentID="1*XBTUSD-1*XBTU19" InstrumentName="BM跨期永续-9月28" PriceTick="1" />
+        <item InstrumentID="10*ETHUSD-1*eth_quarter" InstrumentName="eth OK-BM CROSS" PriceTick="0" />
+        <item InstrumentID="1*eos_quarter-1*eos_next_week" InstrumentName="柚子季度下周套" PriceTick="0" />
+        <item InstrumentID="1*btc_biquarter-1*btc_usd_swap" InstrumentName="下季度永续套利" PriceTick="1" />
+    </CustomProducts>
+</Configuration>

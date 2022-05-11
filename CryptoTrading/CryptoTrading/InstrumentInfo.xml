@@ -1,0 +1,42 @@
+﻿<Config>
+    <Instruments>
+        <item InstrumentID="btc_this_week" ExchangeID="OkexFutures" PriceTick="0.01" ContractValue="100" Name="BitCoin" DeliveryPrice="0" />
+        <item InstrumentID="btc_next_week" ExchangeID="OkexFutures" PriceTick="0.01" ContractValue="100" Name="BitCoin" DeliveryPrice="0" />
+        <item InstrumentID="btc_quarter" ExchangeID="OkexFutures" PriceTick="0.01" ContractValue="100" Name="BitCoin" DeliveryPrice="0" />
+        <item InstrumentID="btc_biquarter" ExchangeID="OkexFutures" PriceTick="0.01" ContractValue="100" Name="BitCoin" DeliveryPrice="0" />
+        <item InstrumentID="eth_this_week" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="Ethereum" DeliveryPrice="0" />
+        <item InstrumentID="eth_next_week" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="Ethereum" DeliveryPrice="0" />
+        <item InstrumentID="eth_quarter" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="Ethereum" DeliveryPrice="0" />
+        <item InstrumentID="eth_biquarter" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="Ethereum" DeliveryPrice="0" />
+        <item InstrumentID="ltc_this_week" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="LiteCoin" DeliveryPrice="0" />
+        <item InstrumentID="ltc_next_week" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="LiteCoin" DeliveryPrice="0" />
+        <item InstrumentID="ltc_quarter" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="LiteCoin" DeliveryPrice="0" />
+        <item InstrumentID="bch_this_week" ExchangeID="OkexFutures" PriceTick="0.01" ContractValue="10" Name="Bitcoin Cash" DeliveryPrice="0" />
+        <item InstrumentID="bch_next_week" ExchangeID="OkexFutures" PriceTick="0.01" ContractValue="10" Name="Bitcoin Cash" DeliveryPrice="0" />
+        <item InstrumentID="bch_quarter" ExchangeID="OkexFutures" PriceTick="0.01" ContractValue="10" Name="Bitcoin Cash" DeliveryPrice="0" />
+        <item InstrumentID="etc_this_week" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="Etherum Classic" DeliveryPrice="0" />
+        <item InstrumentID="etc_next_week" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="Etherum Classic" DeliveryPrice="0" />
+        <item InstrumentID="etc_quarter" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="Etherum Classic" DeliveryPrice="0" />
+        <item InstrumentID="eos_this_week" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="EOS" DeliveryPrice="0" />
+        <item InstrumentID="eos_next_week" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="EOS" DeliveryPrice="0" />
+        <item InstrumentID="eos_quarter" ExchangeID="OkexFutures" PriceTick="0.001" ContractValue="10" Name="EOS" DeliveryPrice="0" />
+        <item InstrumentID="bsv_quarter" ExchangeID="OkexFutures" PriceTick="0.01" ContractValue="10" Name="BSV" DeliveryPrice="0" />
+        <item InstrumentID="eos_usd_swap" ExchangeID="OkexSwap" PriceTick="0.001" ContractValue="10" Name="EOS" DeliveryPrice="0" />
+        <item InstrumentID="xrp_this_week" ExchangeID="OkexFutures" PriceTick="0.0001" ContractValue="10" Name="Ripple" DeliveryPrice="0" />
+        <item InstrumentID="xrp_quarter" ExchangeID="OkexFutures" PriceTick="0.0001" ContractValue="10" Name="Ripple" DeliveryPrice="0" />
+        <item InstrumentID="XBTUSD" ExchangeID="BitMex" PriceTick="0.5" ContractValue="1" Name="XBTUSD" DeliveryPrice="0" />
+        <item InstrumentID="XBTH22" ExchangeID="BitMex" PriceTick="0.5" ContractValue="1" Name="XBTH20" DeliveryPrice="0" />
+        <item InstrumentID="XBTZ22" ExchangeID="BitMex" PriceTick="0.5" ContractValue="1" Name="XBTZ19" DeliveryPrice="0" />
+        <item InstrumentID="XBTU22" ExchangeID="BitMex" PriceTick="0.5" ContractValue="1" Name="XBTU19" DeliveryPrice="0" />
+        <item InstrumentID="XBTM22" ExchangeID="BitMex" PriceTick="0.5" ContractValue="1" Name="XBTM19" DeliveryPrice="0" />
+        <item InstrumentID="ETHUSD" ExchangeID="BitMex" PriceTick="0.05" ContractValue="1" Name="ETH 永续" DeliveryPrice="0" />
+        <item InstrumentID="ETHM22" ExchangeID="BitMex" PriceTick="0.05" ContractValue="1" Name="以太币6月28日合约" DeliveryPrice="0" />
+        <item InstrumentID="ETHU22" ExchangeID="BitMex" PriceTick="0.05" ContractValue="1" Name="以太币9月27日合约" DeliveryPrice="0" />
+        <item InstrumentID="ETHZ22" ExchangeID="BitMex" PriceTick="0.05" ContractValue="1" Name="以太币12月27日合约" DeliveryPrice="0" />
+        <item InstrumentID="ETHH22" ExchangeID="BitMex" PriceTick="0.05" ContractValue="1" Name="以太币3月27日合约" DeliveryPrice="0" />
+        <item InstrumentID="btc_usd_swap" ExchangeID="OkexSwap" PriceTick="0.1" ContractValue="100" Name="BitCoin" DeliveryPrice="0" />
+        <item InstrumentID="eth_usd_swap" ExchangeID="OkexSwap" PriceTick="0.01" ContractValue="10" Name="ETH" DeliveryPrice="0" />
+    </Instruments>
+    <CommissionRates />
+    <MarginRates />
+</Config>

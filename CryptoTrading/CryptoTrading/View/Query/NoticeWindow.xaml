@@ -1,0 +1,13 @@
+﻿<Window x:Class="CryptoTrading.NoticeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="通知" Height="600" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Loaded="Window_Loaded" Closed="Window_Closed">
+    <Grid Name="winGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
+        <!--<RichTextBox  Name="richTxtNotice" Grid.Row="0" Margin="5"></RichTextBox>-->
+        <Button Name="btnOK" Grid.Row="1" Content="确认" FontSize="16" Width="80" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Click="btnOK_Click"></Button>
+    </Grid>
+</Window>

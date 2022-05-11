@@ -1,0 +1,26 @@
+﻿<Window x:Class="CryptoTrading.TradeLogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CryptoTrading"
+        mc:Ignorable="d"
+        Title="交易记录" Height="400" Width="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Name="lblDate" Grid.Row="0" Grid.Column="0" Content="交易日期" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left"></Label>
+        <DatePicker Name="dpTrade" Grid.Row="0" Grid.Column="1"  FontSize="18"  VerticalAlignment="Center" HorizontalAlignment="Left" SelectedDateFormat="Short" SelectedDateChanged="dpTrade_SelectedDateChanged"></DatePicker>
+        <Button Name="btnOK" Grid.Row="0" Grid.Column="2" Content="确定" FontSize="18"  Width="80" Height="35" VerticalAlignment="Center" HorizontalAlignment="Left" Click="btnOK_Click"></Button>
+        <TextBox Name="txtTradeLog" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="5" TextWrapping="WrapWithOverflow"
+                 IsReadOnly="False" FontFamily="宋体" HorizontalAlignment="Left"  TextAlignment="Left" 
+                     HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto" ></TextBox>
+    </Grid>
+</Window>

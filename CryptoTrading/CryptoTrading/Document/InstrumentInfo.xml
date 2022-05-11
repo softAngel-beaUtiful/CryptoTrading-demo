@@ -1,0 +1,13 @@
+﻿<Config>
+    <Instruments>
+        <item InstrumentID="btc" Name="BitCoin" PriceTick="1" ExchangeID="Okex" Unit_Amount="100" DeliveryPrice="0" />        
+        <item InstrumentID="eth" Name="Ethereum" PriceTick="0.1" ExchangeID="Okex" Unit_Amount="10" DeliveryPrice="0" />
+		<item InstrumentID="ltc" Name="LiteCoin" PriceTick="0.1" ExchangeID="Okex" Unit_Amount="10" DeliveryPrice="0" />
+        <item InstrumentID="bch" Name="Bitcoin Cash" PriceTick="0.1" ExchangeID="Okex" Unit_Amount="10" DeliveryPrice="0" />
+        <item InstrumentID="etc" Name="Etherum Classic" PriceTick="0.1" ExchangeID="Okex" Unit_Amount="10" DeliveryPrice="0" />
+		<item InstrumentID="eos" Name="EOS" PriceTick="0.01" ExchangeID="Okex" Unit_Amount="10" DeliveryPrice="0" />
+		<item InstrumentID="xrp" Name="Ripple" PriceTick="0.001" ExchangeID="Okex" Unit_Amount="10" DeliveryPrice="0" />		
+    </Instruments>
+    <CommissionRates />
+    <MarginRates />
+</Config>

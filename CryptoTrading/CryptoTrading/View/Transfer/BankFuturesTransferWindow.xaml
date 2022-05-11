@@ -1,0 +1,96 @@
+﻿<Window x:Class="CryptoTrading.BankFuturesTransferWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="银期转账" Height="450" Width="700" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Loaded="Window_Loaded" Closed="Window_Closed">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="200" Height="200" MinHeight="150"/>
+            <RowDefinition Height="5" />
+            <RowDefinition Height="245" MinHeight="245" />
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Grid.RowSpan="1" HorizontalAlignment="Stretch" Name="DockPanelOpr">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition MaxHeight="200" Height="200" MinHeight="150"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Name="GridMenu">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="400*"></ColumnDefinition>
+                        <ColumnDefinition Width="400*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
+                        <DataGrid  Foreground="Black" x:Name="AccountDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding}" IsReadOnly="True" GridLinesVisibility="None"
+                                   Focusable="True" SelectionMode="Single" SelectionUnit="FullRow" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" 
+                                   SelectionChanged="AccountDataGrid_SelectionChanged" SelectedIndex="0" CanUserSortColumns="False" VerticalAlignment="Stretch" RowBackground="Azure" >
+                        </DataGrid>
+                    </DockPanel>
+                    <Grid Grid.Row="0" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Name="AssertPwdLbl" Text="资金密码" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Name="BankPwdLbl" Text="银行密码" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Name="TransferAmountLbl" Text="转账资金" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        
+                        <TextBox Grid.Row="1" Grid.Column="2" Name="TransferAmountTxt" Text="" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBox>
+                        <PasswordBox Grid.Row="1" Grid.Column="0" Name="AssertPwdTxt"  Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"></PasswordBox>
+                        <PasswordBox Grid.Row="1" Grid.Column="1" Name="BankPwdTxt"    Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"></PasswordBox>
+                        
+                        <TextBlock Grid.Row="2" Grid.Column="0" Name="ErrorInfoTxtBlock" Width="115" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Name="FuturesAvaiableAssertLbl" Text="期货可转资金"  HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="2" Name="BankAvaiableAssertLbl" Text="银行可转资金" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+
+                        <Button Grid.Row="3" Grid.Column="0" Name="QueryFetchAmountBtn" Content="查可转资金"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Click="QueryFetchAmountBtn_Click"></Button>
+                        <TextBox Grid.Row="3" Grid.Column="1" Name="FuturesAvaiableAssertTxt" Text=""   Width="100" IsReadOnly="True" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBox>
+                        <TextBox Grid.Row="3" Grid.Column="2" Name="BankAvaiableAssertTxt" Text=""   Width="100" IsReadOnly="True" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBox>
+                        
+                        <Button Grid.Row="4" Grid.Column="0" Name="TransferSerialBtn" Content="转账流水"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Click="TransferSerialBtn_Click"/>
+                        <Button Grid.Row="4" Grid.Column="1" Name="BankToFuturesBtn" Content="银行转期货"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Click="BankToFuturesBtn_Click"/>
+                        <Button Grid.Row="4" Grid.Column="2" Name="FuturesToBankBtn" Content="期货转银行"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Click="FuturesToBankBtn_Click"/>
+                        <!--<TextBlock Grid.Row="0" Grid.Column="0" Name="FuturesAvaiableAssertLbl" Text="期货可转资金"  HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Name="BankAvaiableAssertLbl" Text="银行可转资金" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="3" Name="BankShortNameLbl" Text="银行简称" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        
+                        <TextBox Grid.Row="1" Grid.Column="0" Name="FuturesAvaiableAssertTxt" Text=""   Width="100" IsReadOnly="True" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBox>
+                        <TextBox Grid.Row="1" Grid.Column="1" Name="BankAvaiableAssertTxt" Text=""   Width="100" IsReadOnly="True" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBox>
+                        <Button Grid.Row="1" Grid.Column="2" Name="QueryFetchAmountBtn" Content="查可转资金"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Click="QueryFetchAmountBtn_Click"></Button>
+                        <TextBox Grid.Row="1" Grid.Column="3" Name="BankShortNameTxt" Text=""   Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBox>
+                        
+                        <TextBlock Grid.Row="2" Grid.Column="0" Name="CurrencyLbl" Text="币种" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Name="TransferAmountLbl" Text="转账资金" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="2" Name="AssertPwdLbl" Text="资金密码" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="3" Name="BankPwdLbl" Text="银行密码" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        <ComboBox  Grid.Row="3" Grid.Column="0" Name="CurrencyLst"   Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"   >
+                            <ListBoxItem>人民币</ListBoxItem>
+                            <ListBoxItem>美元</ListBoxItem>
+                            <ListBoxItem>港币</ListBoxItem>
+                        </ComboBox>
+                        <TextBox Grid.Row="3" Grid.Column="1" Name="TransferAmountTxt" Text="" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBox>
+                        <PasswordBox Grid.Row="3" Grid.Column="2" Name="AssertPwdTxt"  Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"></PasswordBox>
+                        <PasswordBox Grid.Row="3" Grid.Column="3" Name="BankPwdTxt"    Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"></PasswordBox>
+                        <Button Grid.Row="4" Grid.Column="1" Name="TransferSerialBtn" Content="转账流水"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Click="TransferSerialBtn_Click"/>
+                        <Button Grid.Row="4" Grid.Column="2" Name="BankToFuturesBtn" Content="银行转期货"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Click="BankToFuturesBtn_Click"/>
+                        <Button Grid.Row="4" Grid.Column="3" Name="FuturesToBankBtn" Content="期货转银行"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Click="FuturesToBankBtn_Click"/>-->
+                    </Grid>                    
+                </Grid>
+            </Grid>
+        </DockPanel>
+        <GridSplitter Grid.Row="1" Grid.RowSpan="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        
+        <DockPanel Grid.Row="2" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
+            <DataGrid  Foreground="Black" x:Name="TransferSerialDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding}" IsReadOnly="True" GridLinesVisibility="None"
+                       Focusable="True" SelectionMode="Single" SelectionUnit="FullRow"  HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" 
+                       SelectedIndex="0" CanUserSortColumns="True" VerticalAlignment="Stretch" RowBackground="Azure" >
+            </DataGrid>
+        </DockPanel>
+    </Grid>
+</Window>

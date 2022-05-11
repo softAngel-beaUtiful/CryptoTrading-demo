@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICMP", "ICMP.csproj", "{BA7453EE-7FFC-4796-B2AD-5A1AC752D9EC}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{BA7453EE-7FFC-4796-B2AD-5A1AC752D9EC}.Debug.ActiveCfg = Debug|.NET
+		{BA7453EE-7FFC-4796-B2AD-5A1AC752D9EC}.Debug.Build.0 = Debug|.NET
+		{BA7453EE-7FFC-4796-B2AD-5A1AC752D9EC}.Release.ActiveCfg = Release|.NET
+		{BA7453EE-7FFC-4796-B2AD-5A1AC752D9EC}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

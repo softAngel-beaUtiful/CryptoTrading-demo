@@ -1,0 +1,657 @@
+﻿<Config>
+    <Investor ID="81332957" BrokerName="瑞龙期货" BrokerConfig="rlqh_real.xml" BrokerServer="电信网络" LastLoginTime="20160620164343" />
+    <Mail Name="TickQuantService@163.com" Password="2016@SZ" />
+    <DefaultQuant>1</DefaultQuant>
+    <DefaultOrderOption>1</DefaultOrderOption>
+    <DefaultUILayout>Professional</DefaultUILayout>
+    <DefaultInstrumentIDGroup>自定义合约组</DefaultInstrumentIDGroup>
+    <ConfirmOrder>false</ConfirmOrder>
+    <TradingDay>20180124</TradingDay>
+    <RequestID>0</RequestID>
+    <UsePreSettlementPrice>true</UsePreSettlementPrice>
+    <AccountDataGridColumns>
+        <item Title="经纪商" Display="False" Name="BrokerName" Sort="1" />
+        <item Title="投资者帐号" Display="True" Name="InvestorID" Sort="2" />
+        <item Title="昨结权益" Display="True" Name="PreBalance" Sort="3" />
+        <item Title="当前权益" Display="True" Name="Balance" Sort="4" />
+        <item Title="当前保证金" Display="True" Name="CurrMargin" Sort="5" />
+        <item Title="持仓盈亏" Display="True" Name="PositionProfit" Sort="6" />
+        <item Title="冻结保证金" Display="False" Name="FrozenMargin" Sort="7" />
+        <item Title="平仓盈亏" Display="True" Name="CloseProfit" Sort="8" />
+        <item Title="手续费" Display="True" Name="Commission" Sort="9" />
+        <item Title="冻结资金" Display="False" Name="FrozenCash" Sort="10" />
+        <item Title="可用资金" Display="True" Name="Available" Sort="11" />
+        <item Title="可取资金" Display="False" Name="WithdrawQuota" Sort="12" />
+        <item Title="入金金额" Display="False" Name="Deposit" Sort="13" />
+        <item Title="出金金额" Display="False" Name="Withdraw" Sort="14" />
+        <item Title="风险率" Display="True" Name="Risk" Sort="15" />
+        <item Title="上次质押金额" Display="False" Name="PreMortgage" Sort="16" />
+        <item Title="上次信用额度" Display="False" Name="PreCredit" Sort="17" />
+        <item Title="上次存款额" Display="False" Name="PreDeposit" Sort="18" />
+        <item Title="上次占用保证金" Display="False" Name="PreMargin" Sort="19" />
+        <item Title="交易日" Display="False" Name="TradingDay" Sort="20" />
+        <item Title="利息收入" Display="False" Name="Interest" Sort="21" />
+        <item Title="利息基数" Display="False" Name="InterestBase" Sort="22" />
+        <item Title="冻结手续费" Display="False" Name="FrozenCommission" Sort="23" />
+        <item Title="交易所保证金" Display="False" Name="ExchangeMargin" Sort="24" />
+        <item Title="出入金" Display="False" Name="CashIn" Sort="25" />
+        <item Title="基本准备金" Display="False" Name="Reserve" Sort="26" />
+        <item Title="结算编号" Display="False" Name="SettlementID" Sort="27" />
+        <item Title="信用额度" Display="False" Name="Credit" Sort="28" />
+        <item Title="质押金额" Display="False" Name="Mortgage" Sort="29" />
+        <item Title="投资者交割保证金" Display="False" Name="DeliveryMargin" Sort="30" />
+        <item Title="交易所交割保证金" Display="False" Name="ExchangeDeliveryMargin" Sort="31" />
+        <item Title="保底期货结算准备金" Display="False" Name="ReserveBalance" Sort="32" />
+        <item Title="币种代码" Display="False" Name="CurrencyID" Sort="33" />
+        <item Title="上次货币质入金额" Display="False" Name="PreFundMortgageIn" Sort="34" />
+        <item Title="上次货币质出金额" Display="False" Name="PreFundMortgageOut" Sort="35" />
+        <item Title="货币质入金额" Display="False" Name="FundMortgageIn" Sort="36" />
+        <item Title="货币质出金额" Display="False" Name="FundMortgageOut" Sort="37" />
+        <item Title="可质押货币金额" Display="False" Name="MortgageableFund" Sort="38" />
+        <item Title="特殊产品占用保证金" Display="False" Name="SpecProductMargin" Sort="39" />
+        <item Title="特殊产品冻结保证金" Display="False" Name="SpecProductFrozenMargin" Sort="40" />
+        <item Title="特殊产品手续费" Display="False" Name="SpecProductCommission" Sort="41" />
+        <item Title="特殊产品冻结手续费" Display="False" Name="SpecProductFrozenCommission" Sort="42" />
+        <item Title="特殊产品持仓盈亏" Display="False" Name="SpecProductPositionProfit" Sort="43" />
+        <item Title="特殊产品平仓盈亏" Display="False" Name="SpecProductCloseProfit" Sort="44" />
+        <item Title="根据持仓盈亏算法计算的特殊产品持仓盈亏" Display="False" Name="SpecProductPositionProfitByAlg" Sort="45" />
+        <item Title="特殊产品交易所保证金" Display="False" Name="SpecProductExchangeMargin" Sort="46" />
+        <item Title="期权平仓盈亏" Display="False" Name="OptionCloseProfit" Sort="47" />
+        <item Title="期权市值" Display="False" Name="OptionValue" Sort="48" />
+    </AccountDataGridColumns>
+    <InstrumentDataGridColumns>
+        <item Title="合约名称" Display="True" Name="Name" Sort="1" />
+        <item Title="合约代码" Display="True" Name="ContractId" Sort="2" />
+        <item Title="交易合约" Display="True" Name="InstrumentID" Sort="3" />
+        <item Title="交易所" Display="True" Name="ExchangeID" Sort="4" />
+        <item Title="最小变动价位" Display="True" Name="PriceTick" Sort="5" />
+        <item Title="标的类别" Display="True" Name="ProductClass" Sort="6" />
+        <item Title="交割日期" Display="False" Name="DeliveryDate" Sort="7" />
+        <item Title="合约阶段" Display="True" Name="InstLifePhase" Sort="8" />
+        <item Title="是否交易" Display="True" Name="IsTrading" Sort="9" />
+        <item Title="合约价值" Display="True" Name="Unit_Amount" Sort="10" />
+        <item Title="交割价格" Display="True" Name="DeliveryPrice" Sort="11" />
+        <item Title="组合类型" Display="True" Name="CombinationType" Sort="12" />
+    </InstrumentDataGridColumns>
+    <MarketDataGridColumns>
+        <item Title="交易所" Display="True" Name="ExchangeID" Sort="1" />
+        <item Title="标的编码" Display="True" Name="InstrumentID" Sort="2" />
+        <item Title="名称" Display="True" Name="BaseName" Sort="3" />
+        <item Title="最新价" Display="True" Name="LastPrice" Sort="4" />
+        <item Title="涨跌" Display="True" Name="Change" Sort="5" />
+        <item Title="买量五" Display="False" Name="BidSize5" Sort="6" />
+        <item Title="买价五" Display="False" Name="BidPrice5" Sort="7" />
+        <item Title="买量四" Display="False" Name="BidSize4" Sort="8" />
+        <item Title="买价四" Display="False" Name="BidPrice4" Sort="9" />
+        <item Title="买量三" Display="False" Name="BidSize3" Sort="10" />
+        <item Title="买价三" Display="False" Name="BidPrice3" Sort="11" />
+        <item Title="买量二" Display="False" Name="BidSize2" Sort="12" />
+        <item Title="买价二" Display="False" Name="BidPrice2" Sort="13" />
+        <item Title="买量一" Display="True" Name="BidSize1" Sort="14" />
+        <item Title="买价一" Display="True" Name="BidPrice1" Sort="15" />
+        <item Title="卖价一" Display="True" Name="AskPrice1" Sort="16" />
+        <item Title="卖量一" Display="True" Name="AskSize1" Sort="17" />
+        <item Title="合约编号" Display="True" Name="ContractId" Sort="18" />
+        <item Title="卖价二" Display="False" Name="AskPrice2" Sort="19" />
+        <item Title="卖量二" Display="False" Name="AskSize2" Sort="20" />
+        <item Title="卖价三" Display="False" Name="AskPrice3" Sort="21" />
+        <item Title="卖量三" Display="False" Name="AskSize3" Sort="22" />
+        <item Title="卖价四" Display="False" Name="AskPrice4" Sort="23" />
+        <item Title="卖量四" Display="False" Name="AskSize4" Sort="24" />
+        <item Title="卖价五" Display="False" Name="AskPrice5" Sort="25" />
+        <item Title="卖量五" Display="False" Name="AskSize5" Sort="26" />
+        <item Title="最高价" Display="False" Name="HighestPrice" Sort="27" />
+        <item Title="最低价" Display="False" Name="LowestPrice" Sort="28" />
+        <item Title="成交量" Display="False" Name="Volume" Sort="29" />
+        <item Title="持仓量" Display="False" Name="OpenInterest" Sort="30" />
+        <item Title="更新时间" Display="True" Name="UpdateTime" Sort="31" />
+        <item Title="涨停价" Display="False" Name="LimitHigh" Sort="32" />
+        <item Title="跌停价" Display="False" Name="LimitLow" Sort="33" />
+        <item Title="自定义品种" Display="False" Name="IsCombo" Sort="34" />
+    </MarketDataGridColumns>
+    <TodayOrdersGridColumns>
+        <item Title="合约" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="多空" Display="True" Name="Direction" Sort="2" />
+        <item Title="投保" Display="False" Name="Hedge" Sort="3" />
+        <item Title="开平" Display="True" Name="Offset" Sort="4" />
+        <item Title="交易所" Display="False" Name="ExchangeName" Sort="5" />
+        <item Title="用户代码" Display="False" Name="UserID" Sort="6" />
+        <item Title="经纪公司" Display="False" Name="BrokerID" Sort="7" />
+        <item Title="投资者" Display="False" Name="InvestorID" Sort="8" />
+        <item Title="报单引用" Display="True" Name="OrderRef" Sort="9" />
+        <item Title="报单价格条件" Display="True" Name="OrderPriceType" Sort="10" />
+        <item Title="组合开平标志" Display="False" Name="CombOffsetFlag" Sort="11" />
+        <item Title="组合投机套保标志" Display="False" Name="CombHedgeFlag" Sort="12" />
+        <item Title="价格" Display="True" Name="LimitPrice" Sort="13" />
+        <item Title="数量" Display="True" Name="VolumeTotalOriginal" Sort="14" />
+        <item Title="有效期类型" Display="False" Name="TimeCondition" Sort="15" />
+        <item Title="成交量类型" Display="False" Name="VolumeCondition" Sort="16" />
+        <item Title="最小成交量" Display="False" Name="MinVolume" Sort="17" />
+        <item Title="触发条件" Display="False" Name="ContingentCondition" Sort="18" />
+        <item Title="触发价" Display="False" Name="StopPrice" Sort="19" />
+        <item Title="强平原因" Display="False" Name="ForceCloseReason" Sort="20" />
+        <item Title="自动挂起标志" Display="False" Name="IsAutoSuspend" Sort="21" />
+        <item Title="业务单元" Display="False" Name="BusinessUnit" Sort="22" />
+        <item Title="请求编号" Display="False" Name="RequestID" Sort="23" />
+        <item Title="本地报单编号" Display="False" Name="OrderLocalID" Sort="24" />
+        <item Title="交易所" Display="False" Name="ExchangeName" Sort="25" />
+        <item Title="客户代码" Display="False" Name="ClientID" Sort="26" />
+        <item Title="交易所合约代码" Display="False" Name="ExchangeInstID" Sort="27" />
+        <item Title="交易所交易员代码" Display="False" Name="TraderID" Sort="28" />
+        <item Title="报单提交状态" Display="True" Name="OrderSubmitStatus" Sort="29" />
+        <item Title="交易日" Display="False" Name="TradingDay" Sort="30" />
+        <item Title="结算编号" Display="False" Name="SettlementID" Sort="31" />
+        <item Title="报单编号" Display="False" Name="OrderSysID" Sort="32" />
+        <item Title="报单来源" Display="False" Name="OrderSource" Sort="33" />
+        <item Title="报单状态" Display="True" Name="OrderStatus" Sort="34" />
+        <item Title="报单类型" Display="False" Name="OrderType" Sort="35" />
+        <item Title="报单日期" Display="True" Name="InsertDate" Sort="36" />
+        <item Title="委托时间" Display="True" Name="InsertTime" Sort="37" />
+        <item Title="最后修改交易所交易员代码" Display="False" Name="ActiveTraderID" Sort="38" />
+        <item Title="结算会员编号" Display="False" Name="ClearingPartID" Sort="39" />
+        <item Title="序号" Display="False" Name="SequenceNo" Sort="40" />
+        <item Title="前置编号" Display="False" Name="FrontID" Sort="41" />
+        <item Title="会话编号" Display="False" Name="SessionID" Sort="42" />
+        <item Title="用户端产品信息" Display="False" Name="UserProductInfo" Sort="43" />
+        <item Title="状态信息" Display="False" Name="StatusMsg" Sort="44" />
+        <item Title="用户强平标志" Display="False" Name="UserForceClose" Sort="45" />
+        <item Title="操作用户代码" Display="False" Name="ActiveUserID" Sort="46" />
+        <item Title="经纪公司报单编号" Display="False" Name="BrokerOrderSeq" Sort="47" />
+        <item Title="本次成交量" Display="True" Name="VolumeTraded" Sort="48" />
+        <item Title="未成交数量" Display="True" Name="QuantUnfilled" Sort="49" />
+        <item Title="自身委托" Display="False" Name="IsLocal" Sort="50" />
+        <item Title="客户自定义字段" Display="False" Name="Custom" Sort="51" />
+    </TodayOrdersGridColumns>
+    <SettledOrdersGridColumns>
+        <item Title="合约" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="多空" Display="True" Name="Direction" Sort="2" />
+        <item Title="投保" Display="True" Name="Hedge" Sort="3" />
+        <item Title="开平" Display="True" Name="Offset" Sort="4" />
+        <item Title="交易所" Display="True" Name="ExchangeName" Sort="5" />
+        <item Title="用户代码" Display="False" Name="UserID" Sort="6" />
+        <item Title="经纪公司" Display="False" Name="BrokerID" Sort="7" />
+        <item Title="投资者" Display="False" Name="InvestorID" Sort="8" />
+        <item Title="报单引用" Display="True" Name="OrderRef" Sort="9" />
+        <item Title="报单价格条件" Display="True" Name="OrderPriceType" Sort="10" />
+        <item Title="组合开平标志" Display="False" Name="CombOffsetFlag" Sort="11" />
+        <item Title="组合投机套保标志" Display="False" Name="CombHedgeFlag" Sort="12" />
+        <item Title="价格" Display="True" Name="LimitPrice" Sort="13" />
+        <item Title="报单数量" Display="True" Name="VolumeTotalOriginal" Sort="14" />
+        <item Title="有效期类型" Display="False" Name="TimeCondition" Sort="15" />
+        <item Title="成交量类型" Display="False" Name="VolumeCondition" Sort="16" />
+        <item Title="最小成交量" Display="False" Name="MinVolume" Sort="17" />
+        <item Title="触发条件" Display="False" Name="ContingentCondition" Sort="18" />
+        <item Title="触发价" Display="False" Name="StopPrice" Sort="19" />
+        <item Title="强平原因" Display="False" Name="ForceCloseReason" Sort="20" />
+        <item Title="自动挂起标志" Display="False" Name="IsAutoSuspend" Sort="21" />
+        <item Title="业务单元" Display="False" Name="BusinessUnit" Sort="22" />
+        <item Title="请求编号" Display="False" Name="RequestID" Sort="23" />
+        <item Title="本地报单编号" Display="False" Name="OrderLocalID" Sort="24" />
+        <item Title="交易所" Display="False" Name="ExchangeName" Sort="25" />
+        <item Title="会员代码" Display="False" Name="ParticipantID" Sort="26" />
+        <item Title="客户代码" Display="False" Name="ClientID" Sort="27" />
+        <item Title="交易所合约代码" Display="False" Name="ExchangeInstID" Sort="28" />
+        <item Title="交易所交易员代码" Display="False" Name="TraderID" Sort="29" />
+        <item Title="报单提交状态" Display="True" Name="OrderSubmitStatus" Sort="30" />
+        <item Title="交易日" Display="False" Name="TradingDay" Sort="31" />
+        <item Title="结算编号" Display="False" Name="SettlementID" Sort="32" />
+        <item Title="报单编号" Display="False" Name="OrderSysID" Sort="33" />
+        <item Title="报单来源" Display="False" Name="OrderSource" Sort="34" />
+        <item Title="报单状态" Display="True" Name="OrderStatus" Sort="35" />
+        <item Title="报单类型" Display="False" Name="OrderType" Sort="36" />
+        <item Title="报单日期" Display="True" Name="InsertDate" Sort="37" />
+        <item Title="委托时间" Display="True" Name="InsertTime" Sort="38" />
+        <item Title="最后修改交易所交易员代码" Display="False" Name="ActiveTraderID" Sort="39" />
+        <item Title="前置编号" Display="False" Name="FrontID" Sort="40" />
+        <item Title="会话编号" Display="False" Name="SessionID" Sort="41" />
+        <item Title="用户端产品信息" Display="False" Name="UserProductInfo" Sort="42" />
+        <item Title="状态信息" Display="False" Name="StatusMsg" Sort="43" />
+        <item Title="用户强平标志" Display="False" Name="UserForceClose" Sort="44" />
+        <item Title="操作用户代码" Display="False" Name="ActiveUserID" Sort="45" />
+        <item Title="经纪公司报单编号" Display="False" Name="BrokerOrderSeq" Sort="46" />
+        <item Title="成交均价" Display="False" Name="AvgPrice" Sort="47" />
+        <item Title="本次成交量" Display="True" Name="VolumeTraded" Sort="48" />
+        <item Title="未成交数量" Display="False" Name="QuantUnfilled" Sort="49" />
+        <item Title="本机委托" Display="True" Name="IsLocal" Sort="50" />
+        <item Title="客户自定义字段" Display="True" Name="Custom" Sort="51" />
+    </SettledOrdersGridColumns>
+    <ComplexOrdersGridColumns>
+        <item Title="合约" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="多空" Display="True" Name="Direction" Sort="2" />
+        <item Title="投保" Display="True" Name="Hedge" Sort="3" />
+        <item Title="开平" Display="True" Name="Offset" Sort="4" />
+        <item Title="交易所" Display="False" Name="ExchangeName" Sort="5" />
+        <item Title="用户代码" Display="False" Name="UserID" Sort="6" />
+        <item Title="经纪公司" Display="False" Name="BrokerID" Sort="7" />
+        <item Title="投资者" Display="False" Name="InvestorID" Sort="8" />
+        <item Title="报单引用" Display="True" Name="OrderRef" Sort="9" />
+        <item Title="报单价格条件" Display="True" Name="OrderPriceType" Sort="10" />
+        <item Title="组合开平标志" Display="False" Name="CombOffsetFlag" Sort="11" />
+        <item Title="组合投机套保标志" Display="False" Name="CombHedgeFlag" Sort="12" />
+        <item Title="价格" Display="True" Name="LimitPrice" Sort="13" />
+        <item Title="数量" Display="True" Name="VolumeTotalOriginal" Sort="14" />
+        <item Title="有效期类型" Display="False" Name="TimeCondition" Sort="15" />
+        <item Title="成交量类型" Display="False" Name="VolumeCondition" Sort="16" />
+        <item Title="最小成交量" Display="False" Name="MinVolume" Sort="17" />
+        <item Title="触发条件" Display="True" Name="ContingentCondition" Sort="18" />
+        <item Title="触发价" Display="True" Name="StopPrice" Sort="19" />
+        <item Title="强平原因" Display="False" Name="ForceCloseReason" Sort="20" />
+        <item Title="自动挂起标志" Display="False" Name="IsAutoSuspend" Sort="21" />
+        <item Title="业务单元" Display="False" Name="BusinessUnit" Sort="22" />
+        <item Title="请求编号" Display="False" Name="RequestID" Sort="23" />
+        <item Title="本地报单编号" Display="True" Name="OrderLocalID" Sort="24" />
+        <item Title="客户代码" Display="False" Name="ClientID" Sort="25" />
+        <item Title="交易所合约代码" Display="False" Name="ExchangeInstID" Sort="26" />
+        <item Title="交易所交易员代码" Display="False" Name="TraderID" Sort="27" />
+        <item Title="报单提交状态" Display="True" Name="OrderSubmitStatus" Sort="28" />
+        <item Title="交易日" Display="False" Name="TradingDay" Sort="29" />
+        <item Title="结算编号" Display="False" Name="SettlementID" Sort="30" />
+        <item Title="报单编号" Display="True" Name="OrderSysID" Sort="31" />
+        <item Title="报单来源" Display="True" Name="OrderSource" Sort="32" />
+        <item Title="报单状态" Display="True" Name="OrderStatus" Sort="33" />
+        <item Title="报单类型" Display="False" Name="OrderType" Sort="34" />
+        <item Title="报单日期" Display="True" Name="InsertDate" Sort="35" />
+        <item Title="委托时间" Display="True" Name="InsertTime" Sort="36" />
+        <item Title="最后修改交易所交易员代码" Display="False" Name="ActiveTraderID" Sort="37" />
+        <item Title="结算会员编号" Display="False" Name="ClearingPartID" Sort="38" />
+        <item Title="序号" Display="False" Name="SequenceNo" Sort="39" />
+        <item Title="前置编号" Display="True" Name="FrontID" Sort="40" />
+        <item Title="会话编号" Display="True" Name="SessionID" Sort="41" />
+        <item Title="用户端产品信息" Display="True" Name="UserProductInfo" Sort="42" />
+        <item Title="状态信息" Display="True" Name="StatusMsg" Sort="43" />
+        <item Title="用户强平标志" Display="False" Name="UserForceClose" Sort="44" />
+        <item Title="操作用户代码" Display="False" Name="ActiveUserID" Sort="45" />
+        <item Title="经纪公司报单编号" Display="True" Name="BrokerOrderSeq" Sort="46" />
+        <item Title="本次成交量" Display="True" Name="VolumeTraded" Sort="47" />
+        <item Title="未成交数量" Display="True" Name="QuantUnfilled" Sort="48" />
+        <item Title="自身委托" Display="True" Name="IsLocal" Sort="49" />
+        <item Title="客户自定义字段" Display="True" Name="Custom" Sort="50" />
+    </ComplexOrdersGridColumns>
+    <UnsettledOrdersGridColumns>
+        <item Title="合约" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="多空" Display="True" Name="Direction" Sort="2" />
+        <item Title="投保" Display="True" Name="Hedge" Sort="3" />
+        <item Title="开平" Display="True" Name="Offset" Sort="4" />
+        <item Title="报单状态" Display="True" Name="OrderStatus" Sort="5" />
+        <item Title="交易所" Display="True" Name="ExchangeName" Sort="6" />
+        <item Title="用户代码" Display="False" Name="UserID" Sort="7" />
+        <item Title="经纪公司" Display="False" Name="BrokerID" Sort="8" />
+        <item Title="报单数量" Display="True" Name="VolumeTotalOriginal" Sort="9" />
+        <item Title="未成交数量" Display="True" Name="QuantUnfilled" Sort="10" />
+        <item Title="投资者" Display="False" Name="InvestorID" Sort="11" />
+        <item Title="报单引用" Display="True" Name="OrderRef" Sort="12" />
+        <item Title="报单价格条件" Display="False" Name="OrderPriceType" Sort="13" />
+        <item Title="组合开平标志" Display="True" Name="CombOffsetFlag" Sort="14" />
+        <item Title="组合投机套保标志" Display="False" Name="CombHedgeFlag" Sort="15" />
+        <item Title="价格" Display="True" Name="LimitPrice" Sort="16" />
+        <item Title="有效期类型" Display="False" Name="TimeCondition" Sort="17" />
+        <item Title="成交量类型" Display="False" Name="VolumeCondition" Sort="18" />
+        <item Title="最小成交量" Display="False" Name="MinVolume" Sort="19" />
+        <item Title="触发条件" Display="False" Name="ContingentCondition" Sort="20" />
+        <item Title="触发价" Display="False" Name="StopPrice" Sort="21" />
+        <item Title="强平原因" Display="False" Name="ForceCloseReason" Sort="22" />
+        <item Title="自动挂起标志" Display="False" Name="IsAutoSuspend" Sort="23" />
+        <item Title="业务单元" Display="False" Name="BusinessUnit" Sort="24" />
+        <item Title="请求编号" Display="False" Name="RequestID" Sort="25" />
+        <item Title="本地报单编号" Display="False" Name="OrderLocalID" Sort="26" />
+        <item Title="交易所" Display="False" Name="ExchangeName" Sort="27" />
+        <item Title="客户代码" Display="False" Name="ClientID" Sort="28" />
+        <item Title="交易所合约代码" Display="False" Name="ExchangeInstID" Sort="29" />
+        <item Title="交易所交易员代码" Display="False" Name="TraderID" Sort="30" />
+        <item Title="报单提交状态" Display="False" Name="OrderSubmitStatus" Sort="31" />
+        <item Title="报单提示序号" Display="False" Name="NotifySequence" Sort="32" />
+        <item Title="交易日" Display="True" Name="TradingDay" Sort="33" />
+        <item Title="报单编号" Display="True" Name="OrderSysID" Sort="34" />
+        <item Title="报单来源" Display="True" Name="OrderSource" Sort="35" />
+        <item Title="报单类型" Display="False" Name="OrderType" Sort="36" />
+        <item Title="报单日期" Display="True" Name="InsertDate" Sort="37" />
+        <item Title="委托时间" Display="True" Name="InsertTime" Sort="38" />
+        <item Title="最后修改交易所交易员代码" Display="False" Name="ActiveTraderID" Sort="39" />
+        <item Title="前置编号" Display="True" Name="FrontID" Sort="40" />
+        <item Title="会话编号" Display="True" Name="SessionID" Sort="41" />
+        <item Title="用户端产品信息" Display="True" Name="UserProductInfo" Sort="42" />
+        <item Title="状态信息" Display="False" Name="StatusMsg" Sort="43" />
+        <item Title="用户强平标志" Display="False" Name="UserForceClose" Sort="44" />
+        <item Title="操作用户代码" Display="False" Name="ActiveUserID" Sort="45" />
+        <item Title="投保标志" Display="False" Name="Hedge" Sort="46" />
+        <item Title="本机委托" Display="False" Name="IsLocal" Sort="47" />
+        <item Title="客户自定义字段" Display="False" Name="Custom" Sort="48" />
+        <item Title="经纪公司报单编号" Display="False" Name="BrokerOrderSeq" Sort="49" />
+    </UnsettledOrdersGridColumns>
+    <CanceledOrdersGridColumns>
+        <item Title="合约" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="多空" Display="True" Name="Direction" Sort="2" />
+        <item Title="投保" Display="True" Name="Hedge" Sort="3" />
+        <item Title="开平" Display="True" Name="Offset" Sort="4" />
+        <item Title="交易所" Display="True" Name="ExchangeName" Sort="5" />
+        <item Title="用户代码" Display="False" Name="UserID" Sort="6" />
+        <item Title="经纪公司" Display="False" Name="BrokerID" Sort="7" />
+        <item Title="投资者" Display="False" Name="InvestorID" Sort="8" />
+        <item Title="报单引用" Display="True" Name="OrderRef" Sort="9" />
+        <item Title="报单价格条件" Display="True" Name="OrderPriceType" Sort="10" />
+        <item Title="组合开平标志" Display="False" Name="CombOffsetFlag" Sort="11" />
+        <item Title="组合投机套保标志" Display="False" Name="CombHedgeFlag" Sort="12" />
+        <item Title="价格" Display="True" Name="LimitPrice" Sort="13" />
+        <item Title="报单数量" Display="True" Name="VolumeTotalOriginal" Sort="14" />
+        <item Title="有效期类型" Display="False" Name="TimeCondition" Sort="15" />
+        <item Title="成交量类型" Display="False" Name="VolumeCondition" Sort="16" />
+        <item Title="最小成交量" Display="False" Name="MinVolume" Sort="17" />
+        <item Title="触发条件" Display="False" Name="ContingentCondition" Sort="18" />
+        <item Title="触发价" Display="False" Name="StopPrice" Sort="19" />
+        <item Title="强平原因" Display="False" Name="ForceCloseReason" Sort="20" />
+        <item Title="自动挂起标志" Display="False" Name="IsAutoSuspend" Sort="21" />
+        <item Title="业务单元" Display="False" Name="BusinessUnit" Sort="22" />
+        <item Title="请求编号" Display="False" Name="RequestID" Sort="23" />
+        <item Title="本地报单编号" Display="False" Name="OrderLocalID" Sort="24" />
+        <item Title="交易所" Display="False" Name="ExchangeName" Sort="25" />
+        <item Title="会员代码" Display="False" Name="ParticipantID" Sort="26" />
+        <item Title="客户代码" Display="False" Name="ClientID" Sort="27" />
+        <item Title="交易所合约代码" Display="False" Name="ExchangeInstID" Sort="28" />
+        <item Title="交易所交易员代码" Display="False" Name="TraderID" Sort="29" />
+        <item Title="报单提交状态" Display="True" Name="OrderSubmitStatus" Sort="30" />
+        <item Title="交易日" Display="False" Name="TradingDay" Sort="31" />
+        <item Title="结算编号" Display="False" Name="SettlementID" Sort="32" />
+        <item Title="报单编号" Display="False" Name="OrderSysID" Sort="33" />
+        <item Title="报单来源" Display="False" Name="OrderSource" Sort="34" />
+        <item Title="报单状态" Display="True" Name="OrderStatus" Sort="35" />
+        <item Title="报单类型" Display="False" Name="OrderType" Sort="36" />
+        <item Title="报单日期" Display="True" Name="InsertDate" Sort="37" />
+        <item Title="委托时间" Display="True" Name="InsertTime" Sort="38" />
+        <item Title="最后修改交易所交易员代码" Display="False" Name="ActiveTraderID" Sort="39" />
+        <item Title="前置编号" Display="False" Name="FrontID" Sort="40" />
+        <item Title="会话编号" Display="False" Name="SessionID" Sort="41" />
+        <item Title="用户端产品信息" Display="False" Name="UserProductInfo" Sort="42" />
+        <item Title="状态信息" Display="False" Name="StatusMsg" Sort="43" />
+        <item Title="用户强平标志" Display="False" Name="UserForceClose" Sort="44" />
+        <item Title="操作用户代码" Display="False" Name="ActiveUserID" Sort="45" />
+        <item Title="经纪公司报单编号" Display="False" Name="BrokerOrderSeq" Sort="46" />
+        <item Title="成交均价" Display="False" Name="AvgPrice" Sort="47" />
+        <item Title="本次成交量" Display="True" Name="VolumeTraded" Sort="48" />
+        <item Title="未成交数量" Display="False" Name="QuantUnfilled" Sort="49" />
+        <item Title="本机委托" Display="True" Name="IsLocal" Sort="50" />
+        <item Title="客户自定义字段" Display="True" Name="Custom" Sort="51" />
+    </CanceledOrdersGridColumns>
+    <ManualPositionGridColumns>
+        <item Title="合约" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="交易所" Display="True" Name="ExchangeName" Sort="2" />
+        <item Title="持仓类别" Display="True" Name="Direction" Sort="3" />
+        <item Title="昨仓" Display="True" Name="YdPosition" Sort="4" />
+        <item Title="今仓" Display="True" Name="TodayPosition" Sort="5" />
+        <item Title="浮动盈亏" Display="True" Name="PositionProfit" Sort="6" />
+        <item Title="开仓量" Display="True" Name="OpenVolume" Sort="7" />
+        <item Title="平仓量" Display="True" Name="CloseVolume" Sort="8" />
+        <item Title="当前持仓" Display="True" Name="Position" Sort="9" />
+        <item Title="开仓均价" Display="True" Name="AvgPrice" Sort="10" />
+        <item Title="经纪商代码" Display="False" Name="BrokerID" Sort="11" />
+        <item Title="投资者代码" Display="False" Name="InvestorID" Sort="12" />
+        <item Title="是否策略持仓" Display="False" Name="IsStrategy" Sort="13" />
+        <item Title="是否组合持仓" Display="False" Name="IsCombo" Sort="14" />
+    </ManualPositionGridColumns>
+    <StrategyPositionGridColumns>
+        <item Title="合约" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="交易所" Display="True" Name="ExchangeName" Sort="2" />
+        <item Title="持仓类别" Display="True" Name="Direction" Sort="3" />
+        <item Title="昨仓" Display="True" Name="YdPosition" Sort="4" />
+        <item Title="今仓" Display="True" Name="TodayPosition" Sort="5" />
+        <item Title="浮动盈亏" Display="True" Name="PositionProfit" Sort="6" />
+        <item Title="开仓量" Display="True" Name="OpenVolume" Sort="7" />
+        <item Title="平仓量" Display="True" Name="CloseVolume" Sort="8" />
+        <item Title="当前持仓" Display="True" Name="Position" Sort="9" />
+        <item Title="开仓均价" Display="True" Name="AvgPrice" Sort="10" />
+        <item Title="经纪商代码" Display="False" Name="BrokerID" Sort="11" />
+        <item Title="投资者代码" Display="False" Name="InvestorID" Sort="12" />
+        <item Title="是否策略持仓" Display="False" Name="IsStrategy" Sort="13" />
+        <item Title="是否组合持仓" Display="False" Name="IsCombo" Sort="14" />
+    </StrategyPositionGridColumns>
+    <PositionSummaryGridColumns>
+        <item Title="合约" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="交易所" Display="True" Name="ExchangeName" Sort="2" />
+        <item Title="持仓类别" Display="True" Name="Direction" Sort="3" />
+        <item Title="昨仓" Display="True" Name="YdPosition" Sort="4" />
+        <item Title="今仓" Display="True" Name="TodayPosition" Sort="5" />
+        <item Title="浮动盈亏" Display="True" Name="PositionProfit" Sort="6" />
+        <item Title="开仓量" Display="True" Name="OpenVolume" Sort="7" />
+        <item Title="平仓量" Display="True" Name="CloseVolume" Sort="8" />
+        <item Title="持仓成本" Display="True" Name="PositionCost" Sort="9" />
+        <item Title="当前持仓" Display="True" Name="Position" Sort="10" />
+        <item Title="持仓均价" Display="True" Name="AvgPrice" Sort="11" />
+        <item Title="经纪商代码" Display="False" Name="BrokerID" Sort="12" />
+        <item Title="投资者代码" Display="False" Name="InvestorID" Sort="13" />
+    </PositionSummaryGridColumns>
+    <PositionDetailsGridColumns>
+        <item Title="合约" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="经纪商代码" Display="False" Name="BrokerID" Sort="2" />
+        <item Title="投资者代码" Display="False" Name="InvestorID" Sort="3" />
+        <item Title="持仓类别" Display="True" Name="Direction" Sort="4" />
+        <item Title="投保类别" Display="False" Name="HedgeFlag" Sort="5" />
+        <item Title="保证金率(按手数)" Display="False" Name="MarginRateByVolume" Sort="6" />
+        <item Title="开仓日期" Display="True" Name="OpenDate" Sort="7" />
+        <item Title="成交编号" Display="True" Name="TradeID" Sort="8" />
+        <item Title="开仓价" Display="True" Name="OpenPrice" Sort="9" />
+        <item Title="数量" Display="True" Name="Volume" Sort="10" />
+        <item Title="交易日" Display="True" Name="TradingDay" Sort="11" />
+        <item Title="结算编号" Display="False" Name="SettlementID" Sort="12" />
+        <item Title="成交类型" Display="False" Name="TradeType" Sort="13" />
+        <item Title="组合合约代码" Display="False" Name="CombInstrumentID" Sort="14" />
+        <item Title="交易所代码" Display="False" Name="ExchangeID" Sort="15" />
+        <item Title="投资者保证金" Display="True" Name="Margin" Sort="16" />
+        <item Title="交易所保证金" Display="False" Name="ExchMargin" Sort="17" />
+        <item Title="昨结算价" Display="False" Name="LastSettlementPrice" Sort="18" />
+        <item Title="平仓量" Display="True" Name="CloseVolume" Sort="19" />
+        <item Title="平仓金额" Display="True" Name="CloseAmount" Sort="20" />
+        <item Title="持仓类型" Display="True" Name="PositionType" Sort="21" />
+        <item Title="保证金率" Display="True" Name="MarginRateByMoney" Sort="22" />
+        <item Title="结算价" Display="False" Name="SettlementPrice" Sort="23" />
+        <item Title="逐日盯市平仓盈亏" Display="False" Name="CloseProfitByDate" Sort="24" />
+        <item Title="逐笔对冲平仓盈亏" Display="False" Name="CloseProfitByTrade" Sort="25" />
+        <item Title="逐日盯市持仓盈亏" Display="False" Name="PositionProfitByDate" Sort="26" />
+        <item Title="逐笔盯市持仓盈亏" Display="False" Name="PositionProfitByTrade" Sort="27" />
+    </PositionDetailsGridColumns>
+    <ComboPositionGridColumns>
+        <item Title="合约" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="持仓类别" Display="True" Name="Direction" Sort="2" />
+        <item Title="投保" Display="True" Name="Hedge" Sort="3" />
+        <item Title="开平" Display="True" Name="Offset" Sort="4" />
+        <item Title="交易所" Display="True" Name="ExchangeID" Sort="5" />
+        <item Title="用户代码" Display="True" Name="UserID" Sort="6" />
+    </ComboPositionGridColumns>
+    <TradeDetailsGridColumns>
+        <item Title="合约" Display="True" Name="InstrumentID" Sort="1" />
+        <item Title="投资者" Display="True" Name="InvestorID" Sort="2" />
+        <item Title="开平类别" Display="True" Name="Offset" Sort="3" />
+        <item Title="多空方向" Display="True" Name="Direction" Sort="4" />
+        <item Title="成交价" Display="True" Name="Price" Sort="5" />
+        <item Title="成交数量" Display="True" Name="Volume" Sort="6" />
+        <item Title="手续费" Display="True" Name="Commission" Sort="7" />
+        <item Title="成交日期" Display="True" Name="TradeDate" Sort="8" />
+        <item Title="成交时间" Display="True" Name="TradeTime" Sort="9" />
+        <item Title="交易所" Display="False" Name="ExchangeName" Sort="10" />
+        <item Title="经纪公司" Display="False" Name="BrokerID" Sort="11" />
+        <item Title="会员代码" Display="False" Name="ParticipantID" Sort="12" />
+        <item Title="客户代码" Display="False" Name="ClientID" Sort="13" />
+        <item Title="交易角色" Display="False" Name="TradingRole" Sort="14" />
+        <item Title="报单引用" Display="False" Name="OrderRef" Sort="15" />
+        <item Title="成交类型" Display="False" Name="TradeType" Sort="16" />
+        <item Title="成交价来源" Display="False" Name="PriceSource" Sort="17" />
+        <item Title="交易所交易员代码" Display="False" Name="TraderID" Sort="18" />
+        <item Title="报单编号" Display="True" Name="OrderSysID" Sort="19" />
+        <item Title="本地报单编号" Display="False" Name="OrderLocalID" Sort="20" />
+        <item Title="结算会员编号" Display="False" Name="ClearingPartID" Sort="21" />
+        <item Title="业务单元" Display="False" Name="BusinessUnit" Sort="22" />
+        <item Title="序号" Display="False" Name="SequenceNo" Sort="23" />
+        <item Title="交易日" Display="False" Name="TradingDay" Sort="24" />
+        <item Title="用户代码" Display="False" Name="UserID" Sort="25" />
+        <item Title="结算编号" Display="False" Name="SettlementID" Sort="26" />
+        <item Title="经纪公司报单编号" Display="False" Name="BrokerOrderSeq" Sort="27" />
+        <item Title="成交来源" Display="False" Name="TradeSource" Sort="28" />
+        <item Title="成交编号" Display="False" Name="TradeID" Sort="29" />
+        <item Title="投保标志" Display="False" Name="Hedge" Sort="30" />
+        <item Title="成交金额" Display="False" Name="VolumeTraded" Sort="31" />
+        <item Title="原总委托数" Display="False" Name="VolumeTotalOriginal" Sort="32" />
+        <item Title="未成交数量" Display="False" Name="QuantUnfilled" Sort="33" />
+        <item Title="总成交量" Display="False" Name="VolumeTotal" Sort="34" />
+        <item Title="是否本机委托" Display="False" Name="IsLocal" Sort="35" />
+        <item Title="委托价" Display="False" Name="OrderPrice" Sort="36" />
+    </TradeDetailsGridColumns>
+    <TradeSummaryGridColumns>
+        <item Title="合约名称" Display="True" Name="InstrumentName" Sort="1" />
+        <item Title="合约代码" Display="True" Name="InstrumentID" Sort="2" />
+        <item Title="多空" Display="True" Name="Direction" Sort="3" />
+        <item Title="数量" Display="True" Name="Volume" Sort="4" />
+        <item Title="开平类别" Display="True" Name="Offset" Sort="5" />
+        <item Title="经纪公司代码" Display="False" Name="BrokerID" Sort="6" />
+        <item Title="投资者代码" Display="True" Name="InvestorID" Sort="7" />
+        <item Title="成交均价" Display="False" Name="AvgPrice" Sort="8" />
+        <item Title="交易日" Display="True" Name="TradingDay" Sort="9" />
+        <item Title="手续费" Display="True" Name="Commission" Sort="10" />
+        <item Title="用户代码" Display="False" Name="UserID" Sort="11" />
+        <item Title="交易所" Display="True" Name="ExchangeName" Sort="12" />
+        <item Title="客户代码" Display="True" Name="ClientID" Sort="13" />
+        <item Title="合约在交易所代码" Display="False" Name="ExchangeInstID" Sort="14" />
+    </TradeSummaryGridColumns>
+    <AccountregisterDataGridColumns>
+        <item Title="交易日期" Display="False" Name="TradeDay" Sort="0" />
+        <item Title="银行编码" Display="True" Name="BankID" Sort="0" />
+        <item Title="银行简称" Display="True" Name="BankName" Sort="0" />
+        <item Title="银行分支机构编码" Display="False" Name="BankBranchID" Sort="0" />
+        <item Title="银行帐号" Display="True" Name="BankAccount" Sort="0" />
+        <item Title="期货公司编码" Display="False" Name="BrokerID" Sort="0" />
+        <item Title="期货公司分支机构编码" Display="False" Name="BrokerBranchID" Sort="0" />
+        <item Title="投资者帐号" Display="False" Name="AccountID" Sort="0" />
+        <item Title="证件类型" Display="False" Name="IdCardType" Sort="0" />
+        <item Title="证件号码" Display="False" Name="IdentifiedCardNo" Sort="0" />
+        <item Title="客户姓名" Display="False" Name="CustomerName" Sort="0" />
+        <item Title="币种名称" Display="True" Name="CurrencyName" Sort="0" />
+        <item Title="开销户类别" Display="False" Name="OpenOrDestroy" Sort="0" />
+        <item Title="签约日期" Display="False" Name="RegDate" Sort="0" />
+        <item Title="解约日期" Display="False" Name="OutDate" Sort="0" />
+        <item Title="交易ID" Display="False" Name="TID" Sort="0" />
+    </AccountregisterDataGridColumns>
+    <TransferSerialDataGridColumns>
+        <item Title="期货公司流水号" Display="True" Name="FutureSerial" Sort="0" />
+        <item Title="平台流水号" Display="False" Name="PlateSerial" Sort="0" />
+        <item Title="交易发起方日期" Display="False" Name="TradeDate" Sort="0" />
+        <item Title="交易日期" Display="True" Name="TradingDay" Sort="0" />
+        <item Title="交易时间" Display="True" Name="TradeTime" Sort="0" />
+        <item Title="交易描述" Display="True" Name="TradeDesc" Sort="0" />
+        <item Title="会话编号" Display="False" Name="SessionID" Sort="0" />
+        <item Title="银行编码" Display="False" Name="BankID" Sort="0" />
+        <item Title="银行分支机构编码" Display="False" Name="BankBranchID" Sort="0" />
+        <item Title="银行帐号类型" Display="False" Name="BankAccType" Sort="0" />
+        <item Title="银行帐号" Display="True" Name="BankAccount" Sort="0" />
+        <item Title="银行流水号" Display="False" Name="BankSerial" Sort="0" />
+        <item Title="期货公司编码" Display="False" Name="BrokerID" Sort="0" />
+        <item Title="期商分支机构代码" Display="False" Name="BrokerBranchID" Sort="0" />
+        <item Title="期货公司帐号类型" Display="False" Name="FutureAccType" Sort="0" />
+        <item Title="投资者帐号" Display="False" Name="AccountID" Sort="0" />
+        <item Title="投资者代码" Display="False" Name="InvestorID" Sort="0" />
+        <item Title="证件类型" Display="False" Name="IdCardType" Sort="0" />
+        <item Title="证件号码" Display="False" Name="IdentifiedCardNo" Sort="0" />
+        <item Title="币种代码" Display="True" Name="CurrencyID" Sort="0" />
+        <item Title="交易金额" Display="True" Name="TradeAmount" Sort="0" />
+        <item Title="应收客户费用" Display="False" Name="CustFee" Sort="0" />
+        <item Title="应收期货公司费用" Display="False" Name="BrokerFee" Sort="0" />
+        <item Title="有效标志" Display="True" Name="AvailabilityFlag" Sort="0" />
+        <item Title="操作员" Display="False" Name="OperatorCode" Sort="0" />
+        <item Title="新银行帐号" Display="False" Name="BankNewAccount" Sort="0" />
+        <item Title="错误代码" Display="False" Name="ErrorID" Sort="0" />
+        <item Title="备注" Display="True" Name="ErrorMsg" Sort="0" />
+    </TransferSerialDataGridColumns>
+    <DefaultQuant>
+        <item ID="3" InstrumentID="a1701" Quant="5" CmdKey="Control+Z" />
+        <item ID="4" InstrumentID="rb1610" Quant="2" CmdKey="Control+A" />
+    </DefaultQuant>
+    <SelectedInstrumentIDGroup>
+        <Group ID="1" Name="贵金属" CmdKey="Control+F">
+            <item InstrumentID="au1608" PriceTick="0" Unit_Amount="0" DeliveryPrice="0" />
+            <item InstrumentID="ag1608" PriceTick="0" Unit_Amount="0" DeliveryPrice="0" />
+            <item InstrumentID="IF1612" PriceTick="0" Unit_Amount="0" DeliveryPrice="0" />
+        </Group>
+        <Group ID="2" Name="黑金" CmdKey="Control+H">
+            <item InstrumentID="rb1610" PriceTick="0" Unit_Amount="0" DeliveryPrice="0" />
+            <item InstrumentID="j1610" PriceTick="0" Unit_Amount="0" DeliveryPrice="0" />
+        </Group>
+        <Group ID="3" Name="自定义合约组">
+            <item InstrumentID="btc_this_week" PriceTick="0.01" Unit_Amount="100" DeliveryPrice="0" />
+            <item InstrumentID="btc_next_week" PriceTick="0.01" Unit_Amount="100" DeliveryPrice="0" />
+            <item InstrumentID="btc_quarter" PriceTick="0.01" Unit_Amount="100" DeliveryPrice="0" />
+            <item InstrumentID="1*btc_quarter-1*btc_this_week" PriceTick="0.01" Unit_Amount="100" DeliveryPrice="0" />
+            <item InstrumentID="1*btc_next_week-1*btc_this_week" PriceTick="0.01" Unit_Amount="100" DeliveryPrice="0" />
+            <item InstrumentID="eth_this_week" PriceTick="0.1" Unit_Amount="10" />
+            <item InstrumentID="eth_next_week" PriceTick="0.01" Unit_Amount="0.1" DeliveryPrice="0" />
+		      	<item InstrumentID="eth_quarter" PriceTick="0.01" Unit_Amount="0.1" DeliveryPrice="0" />
+		      	<item InstrumentID="1*eth_quarter-1*eth_this_week" PriceTick="0.01" Unit_Amount="100" DeliveryPrice="0" />
+		      	<item InstrumentID="1*eth_quarter-1*eth_next_week" PriceTick="0.01" Unit_Amount="100" DeliveryPrice="0" />
+            <item InstrumentID="1*eth_next_week-1*eth_this_week" PriceTick="0.1" Unit_Amount="100" DeliveryPrice="0" />
+            
+        </Group>
+    </SelectedInstrumentIDGroup>
+    <InstrumentNameDict>
+        <item ProductID="btc" ProductName="比特币" />
+        <item ProductID="eth" ProductName="以太币"/>
+        <item ProductID="eos" ProductName="柚子" />
+        <item ProductID="cu" ProductName="铜" />
+        <item ProductID="al" ProductName="铝" />
+        <item ProductID="zn" ProductName="锌" />
+        <item ProductID="pb" ProductName="铅" />
+        <item ProductID="ni" ProductName="镍" />
+        <item ProductID="sn" ProductName="锡" />
+        <item ProductID="ru" ProductName="橡胶" />
+        <item ProductID="fu" ProductName="燃料油" />
+        <item ProductID="au" ProductName="黄金" />
+        <item ProductID="bu" ProductName="石油沥青" />
+        <item ProductID="ag" ProductName="白银" />
+        <item ProductID="rb" ProductName="螺纹钢" />
+        <item ProductID="wr" ProductName="线材" />
+        <item ProductID="hc" ProductName="热轧板" />
+        <item ProductID="a" ProductName="黄大豆" />
+        <item ProductID="b" ProductName="黄豆二" />
+        <item ProductID="m" ProductName="豆粕" />
+        <item ProductID="bb" ProductName="胶合板" />
+        <item ProductID="c" ProductName="玉米" />
+        <item ProductID="cs" ProductName="玉米淀粉" />
+        <item ProductID="fb" ProductName="纤维板" />
+        <item ProductID="jd" ProductName="鲜鸡蛋" />
+        <item ProductID="jm" ProductName="焦煤" />
+        <item ProductID="i" ProductName="铁矿石" />
+        <item ProductID="j" ProductName="焦炭" />
+        <item ProductID="l" ProductName="聚乙烯" />
+        <item ProductID="p" ProductName="棕榈油" />
+        <item ProductID="pp" ProductName="聚丙烯" />
+        <item ProductID="v" ProductName="聚氯乙烯" />
+        <item ProductID="y" ProductName="豆油" />
+        <item ProductID="CF" ProductName="棉花" />
+        <item ProductID="FG" ProductName="玻璃" />
+        <item ProductID="JR" ProductName="粳稻" />
+        <item ProductID="LR" ProductName="晚籼稻" />
+        <item ProductID="MA" ProductName="甲醇" />
+        <item ProductID="OI" ProductName="菜籽油" />
+        <item ProductID="PM" ProductName="普麦" />
+        <item ProductID="RI" ProductName="早籼稻" />
+        <item ProductID="SR" ProductName="白糖" />
+        <item ProductID="SM" ProductName="锰硅" />
+        <item ProductID="SF" ProductName="硅铁" />
+        <item ProductID="RS" ProductName="油菜籽" />
+        <item ProductID="RM" ProductName="菜籽粕" />
+        <item ProductID="TA" ProductName="精对苯二甲酸" />
+        <item ProductID="ZC" ProductName="动力煤" />
+        <item ProductID="WH" ProductName="强麦" />
+        <item ProductID="IC" ProductName="中证500指数" />
+        <item ProductID="IF" ProductName="股指沪深300" />
+        <item ProductID="TF" ProductName="5年期国债" />
+        <item ProductID="IH" ProductName="上证50指数" />
+        <item ProductID="T" ProductName="10年期国债" />
+    </InstrumentNameDict>
+    <Color>
+        <GridBackground A="255" R="234" G="234" B="234" />
+        <GridForeground A="255" R="49" G="49" B="49" />
+        <ChangeUpForeground A="255" R="246" G="1" B="0" />
+        <ChangeDownForeground A="255" R="0" G="153" B="1" />
+        <ChangeStableForeground A="255" R="255" G="0" B="255" />
+    </Color>
+    <TradeCmdActions>
+        <item ID="1" CmdKey="Control+Shift+C" Action="撤单" />
+        <item ID="2" CmdKey="Control+Shift+A" Action="全撤" />
+    </TradeCmdActions>
+    <LocalMaintainSet IsInitQryProduct="false" IsInitQryInstrument="false" IsInitQryMargin="false" IsInitQryCommission="false" />
+</Config>

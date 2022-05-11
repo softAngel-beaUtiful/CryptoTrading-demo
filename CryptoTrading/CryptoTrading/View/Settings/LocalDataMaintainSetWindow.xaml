@@ -1,0 +1,31 @@
+﻿<srcTickQuantLib:TQXceedChildWindow x:Class="CryptoTrading.LocalDataMaintainSetWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CryptoTrading"
+        xmlns:srcTickQuantLib="clr-namespace:CryptoTrading.TQLib"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        x:Name="LocalDataMaintainSetWind"   Height="400" Width="600"  Loaded="LocalDataMaintainSetWind_Loaded" Closed="LocalDataMaintainSetWind_Closed">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="7*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <GroupBox Name="gbOrderInsertRsp" Header="初始化查询" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="4">
+            <StackPanel Name="wpOrderInsertRsp" Orientation="Vertical">
+                <CheckBox Name="chkBoxInitProducts" Content="登录成功后查询品种信息" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5"></CheckBox>
+                <CheckBox Name="chkBoxInitInstruments" Content="登录成功后查询合约信息" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5"></CheckBox>
+                <CheckBox Name="chkBoxInitMargins" Content="登录成功后查询保证金率信息" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5"></CheckBox>
+                <CheckBox Name="chkBoxInitCommissions" Content="登录成功后查询手续费率信息" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5"></CheckBox>
+            </StackPanel>
+        </GroupBox>
+      </Grid>
+</srcTickQuantLib:TQXceedChildWindow>

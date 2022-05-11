@@ -1,0 +1,104 @@
+﻿<srcTickQuantLib:TQXceedChildWindow x:Class="CryptoTrading.ColorSetWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:srcTickQuantLib="clr-namespace:CryptoTrading.TQLib"
+
+        mc:Ignorable="d"
+        x:Name="ColorSetWin" Height="400" Width="600" Loaded="CommonDisplayWin_Loaded" Closed="CommonDisplayWin_Closed">
+
+    <srcTickQuantLib:TQXceedChildWindow.Resources>
+        <Style TargetType="xctk:ColorPicker" ><!--x:Key="CPStyle"-->
+            <Setter Property="Height" Value="23"/>
+            <Setter Property="Width" Value="50"/>
+            <!--<Setter Property="BorderThickness" Value="0"/> 无效-->
+            <Setter Property="ShowAdvancedButton" Value="True"/>
+            <Setter Property="ShowDropDownButton" Value="False"/>
+            <Setter Property="AvailableColorsHeader" Value="请选择颜色"/>
+            <Setter Property="StandardColorsHeader" Value="标准色"/>
+            <Setter Property="StandardButtonHeader" Value="普通设置"/>
+            <Setter Property="AdvancedButtonHeader" Value="高级设置"/>
+            <Setter Property="RecentColorsHeader" Value="最近所选的颜色"/>
+        </Style>
+
+        <!--<srcTickQuantLib:TQColorToColorConverter x:Key="TQColorToColorConverter"></srcTickQuantLib:TQColorToColorConverter>-->
+        <!--<ObjectDataProvider
+            ObjectInstance="{x:Type Colors}"
+            MethodName="GetProperties"
+            x:Key="colorPropertiesOdp" />-->
+
+
+        <!--<ObjectDataProvider MethodName="GetType"
+                ObjectType="{x:Type sys:Type}" x:Key="colorsTypeOdp">
+            <ObjectDataProvider.MethodParameters>
+                <sys:String>System.Windows.Media.Colors, PresentationCore,
+            Version=3.0.0.0, Culture=neutral,
+            PublicKeyToken=31bf3856ad364e35</sys:String>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider ObjectInstance="{StaticResource colorsTypeOdp}"
+                MethodName="GetProperties" x:Key="colorPropertiesOdp">
+        </ObjectDataProvider>-->
+    </srcTickQuantLib:TQXceedChildWindow.Resources>
+
+    <Grid>
+        <!--<ComboBox Name="comboBox1"
+                    ItemsSource="{Binding Source={StaticResource colorPropertiesOdp}}"
+                     >
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Fill="{Binding Name}" Width="40" Height="10"></Rectangle>
+                        <TextBlock Text="{Binding Name}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="87*"></ColumnDefinition>
+            <ColumnDefinition Width="145*"></ColumnDefinition>
+            <ColumnDefinition Width="145*"></ColumnDefinition>
+            <ColumnDefinition Width="169*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Name="lblGeneral" Grid.Row="0" Grid.Column="0" Content="通用：" HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Margin="6,12,0,11.6" Width="46"></Label>
+        <Label x:Name="lblBaoJia" Grid.Row="1" Grid.Column="0" Content="报价：" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6,19.4,0,19.6" Height="25" Width="46"/>
+        <Label x:Name="lblGridBackground" HorizontalContentAlignment="Right" Grid.Row="0" Content="窗格背景色" HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Margin="94,14,0,9.6" Width="77" Grid.ColumnSpan="2"/>
+        <xctk:ColorPicker x:Name="cpGridBackground" SelectedColor="{Binding ColorSetModelObj.GridBackground.Color}" BorderBrush="{Binding GridBackgroundBrush}" Grid.Column="1" HorizontalAlignment="Left" Margin="80.6,16,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblGridForeground" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="2" Content="窗格前景色" HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Margin="0,13,0,10.6" Width="77"/>
+        <xctk:ColorPicker x:Name="cpGridForeground" SelectedColor="{Binding ColorSetModelObj.GridForeground.Color}" BorderBrush="{Binding GridForegroundBrush}" Grid.Column="2" HorizontalAlignment="Left" Margin="82,15,0,0" VerticalAlignment="Top"/>
+        <!--Style="{DynamicResource CPStyle}"-->
+
+        <!--<xctk:ColorPicker IsOpen="{Binding CPColorPanelIsOpen}" Name="CPColorPanel" ShowAdvancedButton="False" ShowDropDownButton="False" AvailableColorsHeader="请选择颜色" StandardColorsHeader="标准色" StandardButtonHeader="标准" AdvancedButtonHeader="高级" RecentColorsHeader="最近选用的颜色"  Margin="0,0,0,0">
+            <xctk:ColorPicker.ButtonStyle>
+                <Style TargetType="ToggleButton">
+                    <Setter Property="Width" Value="1"/>
+                    <Setter Property="Height" Value="1"/>
+                </Style>
+            </xctk:ColorPicker.ButtonStyle>
+        </xctk:ColorPicker>-->
+
+        <Label x:Name="lblChangeUpForeground" HorizontalContentAlignment="Right" Grid.Row="1" Grid.Column="1" Content="上涨" HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Margin="0,18.4,0,19.6" Width="77"/>
+        <xctk:ColorPicker x:Name="cpChangeUpForeground" SelectedColor="{Binding ColorSetModelObj.ChangeUpForeground.Color}" BorderBrush="{Binding ChangeUpForegroundBrush}" Grid.Column="1" HorizontalAlignment="Left" Height="23" Grid.Row="1" Margin="80.6,20.4,0,20.6" Width="50">
+            <!--<xctk:ColorPicker.ButtonStyle>
+                <Style TargetType="ToggleButton">
+                    <Setter Property="Width" Value="30"/>
+                    <Setter Property="Height" Value="20"/>
+                </Style>
+            </xctk:ColorPicker.ButtonStyle>-->
+        </xctk:ColorPicker>
+        <Label x:Name="lblChangeDownForeground" HorizontalContentAlignment="Right" Grid.Row="1" Grid.Column="2" Content="下跌" HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Margin="0,18.4,0,19.6" Width="77"/>
+        <xctk:ColorPicker x:Name="cpChangeDownForeground" SelectedColor="{Binding ColorSetModelObj.ChangeDownForeground.Color}" BorderBrush="{Binding ChangeDownForegroundBrush}" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="82,20.4,0,0" VerticalAlignment="Top" Width="50" Grid.Row="1"/>
+        <Label x:Name="lblChangeStableForeground" HorizontalContentAlignment="Right" Grid.Row="1" Grid.Column="3" Content="平稳" HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Margin="0,19.4,0,18.6" Width="77"/>
+        <xctk:ColorPicker x:Name="cpChangeStableForeground" SelectedColor="{Binding ColorSetModelObj.ChangeStableForeground.Color}" BorderBrush="{Binding ChangeStableForegroundBrush}" Grid.Column="3" HorizontalAlignment="Left" Height="23" Margin="80.4,21.4,0,0" VerticalAlignment="Top" Width="50" Grid.Row="1"/>
+    </Grid>
+</srcTickQuantLib:TQXceedChildWindow>

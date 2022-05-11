@@ -1,0 +1,30 @@
+﻿<Window x:Class="CryptoTrading.ExchangePositionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CryptoTrading"
+        mc:Ignorable="d"
+        Title="移仓" Height="150" Width="350" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Name="lblSrcInstrument" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Width="175" Height="30" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right"></Label>
+        <ComboBox Name="cmbBoxInstruments" Grid.Row="0" Grid.Column="2"  Grid.ColumnSpan="2"  Width="100" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></ComboBox>
+        <Button Name="btnOK" Grid.Row="1" Grid.Column="1" Width="60" Height="30" Content="确定" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Click="btnOK_Click"></Button>
+        <Button Name="btnCancle" Grid.Row="1" Grid.Column="2" Width="60" Height="30" Content="取消" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Click="btnCancle_Click"></Button>
+        <Label Name="lblTip" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Top" HorizontalAlignment="Center"
+                FontSize="14"  >
+            <TextBlock TextWrapping="WrapWithOverflow" Text="(将当前合约市价平仓,再对所选合约同方向市价开仓)" VerticalAlignment="Top"></TextBlock>
+        </Label>
+    </Grid>
+</Window>
